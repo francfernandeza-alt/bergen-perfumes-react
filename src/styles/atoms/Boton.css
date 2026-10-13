@@ -1,0 +1,21 @@
+.btn.btn-blanco {
+    background-color: white;
+    color: #222;
+    border: 1px solid #ccc;
+}
+
+.btn.btn-blanco:hover {
+    background-color: #f0f0f0;
+    color: #222;
+}
+
+.btn.btn-marca {
+    background-color: #234b3a;
+    color: white;
+    border: 1px solid #234b3a;
+}
+
+.btn.btn-marca:hover {
+    background-color: #19392c;
+    color: white;
+}

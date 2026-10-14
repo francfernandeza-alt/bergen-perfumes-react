@@ -5,6 +5,7 @@ import Input from "./components/atoms/Input";
 import Etiqueta from "./components/atoms/Etiqueta";
 import Icono from "./components/atoms/Icono";
 import Enlace from "./components/atoms/Enlace";
+import Mensaje from "./components/atoms/Mensaje";
 
 function App() {
   return (
@@ -271,6 +272,47 @@ function App() {
             texto="Contáctanos por correo"
             href="mailto:contacto@ejemplo.com"
             className="link-primary"
+          />
+
+        </div>
+      </section>
+
+      <hr />
+
+      {/* PRUEBA DEL ÁTOMO MENSAJE */}
+      <section className="mt-5 mb-5">
+        <h2>Prueba de mensajes</h2>
+
+        <div className="d-flex flex-column gap-3 mt-3">
+
+          <Mensaje
+            texto="Bienvenido a Bergen Perfumes."
+            variante="primary"
+          />
+
+          <Mensaje
+            texto="Producto agregado al carrito correctamente."
+            variante="success"
+          />
+
+          <Mensaje
+            texto="No se pudo iniciar sesión. Verifique sus datos."
+            variante="danger"
+          />
+
+          <Mensaje
+            texto="Quedan pocas unidades disponibles."
+            variante="warning"
+          />
+
+          <Mensaje
+            texto="Realizamos envíos a todo Chile."
+            variante="info"
+          />
+
+          <Mensaje
+            texto="Este producto no tiene descuentos disponibles."
+            variante="secondary"
           />
 
         </div>

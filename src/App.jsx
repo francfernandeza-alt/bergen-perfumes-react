@@ -203,35 +203,33 @@ function App() {
 
         <div className="d-flex flex-wrap gap-4 mt-3">
 
-          <Icono
-            nombre="cart3"
-            className="fs-1"
-          />
+          <Icono nombre="cart3" className="fs-1" />
 
-          <Icono
-            nombre="person-circle"
-            className="fs-1 text-primary"
-          />
+          <Icono nombre="person-circle" className="fs-1 text-primary" />
 
-          <Icono
-            nombre="search"
-            className="fs-1 text-secondary"
-          />
+          <Icono nombre="search" className="fs-1 text-secondary" />
 
-          <Icono
-            nombre="heart"
-            className="fs-1 text-danger"
-          />
+          <Icono nombre="heart" className="fs-1 text-danger" />
 
-          <Icono
-            nombre="trash"
-            className="fs-1 text-danger"
-          />
+          <Icono nombre="trash" className="fs-1 text-danger" />
 
-          <Icono
-            nombre="check-circle"
-            className="fs-1 text-success"
-          />
+          <Icono nombre="check-circle" className="fs-1 text-success"/>
+
+          <Icono nombre="link-45deg" className="fs-1" />
+
+          <Icono nombre="chat-dots" className="fs-1 text-primary" />
+
+          <Icono nombre="envelope" className="fs-1" />
+
+          <Icono nombre="telephone" className="fs-1" />
+
+          <Icono nombre="instagram" className="fs-1 text-danger" />
+
+          <Icono nombre="facebook" className="fs-1 text-primary" />
+
+          <Icono nombre="whatsapp" className="fs-1 text-success" />
+
+          <Icono nombre="geo-alt" className="fs-1" />
 
         </div>
       </section>

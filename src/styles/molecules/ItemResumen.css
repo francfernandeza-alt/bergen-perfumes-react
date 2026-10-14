@@ -1,0 +1,58 @@
+.item-resumen {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--bergen-border);
+}
+
+.item-resumen-informacion {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    min-width: 0;
+}
+
+.item-resumen-nombre {
+    color: var(--bergen-dark);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.item-resumen-precio {
+    color: #777777;
+    font-size: 13px;
+}
+
+.item-resumen-cantidad {
+    color: var(--bergen-text);
+    font-size: 13px;
+    text-align: center;
+    flex: 1;
+}
+
+.item-resumen-subtotal {
+    color: var(--bergen-primary);
+    font-size: 15px;
+    font-weight: 700;
+    text-align: right;
+    flex: 1;
+}
+
+@media (max-width: 576px) {
+    .item-resumen {
+        gap: 8px;
+    }
+
+    .item-resumen-nombre,
+    .item-resumen-subtotal {
+        font-size: 13px;
+    }
+
+    .item-resumen-precio,
+    .item-resumen-cantidad {
+        font-size: 12px;
+    }
+}

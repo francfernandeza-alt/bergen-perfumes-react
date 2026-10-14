@@ -12,8 +12,12 @@ import AccionesProducto from "./components/molecules/AccionesProducto";
 import ProductoDestacado from "./components/molecules/ProductoDestacado";
 import ItemResumen from "./components/molecules/ItemResumen";
 import EnlaceIcono from "./components/molecules/EnlaceIcono";
+import Suscripcion from "./components/molecules/Subscripcion";
+import { useState } from "react";
+import ControlCantidad from "./components/molecules/ControlCantidad";
 
 function App() {
+  const [cantidadPrueba, setCantidadPrueba] = useState(1);
   return (
     <div className="container mt-5">
 
@@ -204,6 +208,36 @@ function App() {
           />
 
         </div>
+
+      </div>
+
+      {/* PRUEBA DE SUSCRIPCION */}
+      <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+        <h3 className="mb-4">Suscripcion</h3>
+
+        <div style={{ maxWidth: "550px" }}>
+
+          <Suscripcion
+            onSuscribir={(correo) =>
+              alert(`Correo registrado: ${correo}`)
+            }
+          />
+
+        </div>
+
+      </div>
+
+      {/* PRUEBA DE CONTROL CANTIDAD */}
+      <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+        <h3 className="mb-4">ControlCantidad</h3>
+
+        <ControlCantidad
+          cantidad={cantidadPrueba}
+          onAumentar={() => setCantidadPrueba(cantidadPrueba + 1)}
+          onDisminuir={() => setCantidadPrueba(cantidadPrueba - 1)}
+        />
 
       </div>
 

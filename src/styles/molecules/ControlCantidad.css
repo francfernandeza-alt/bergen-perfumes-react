@@ -1,0 +1,41 @@
+.control-cantidad {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px;
+    border: 1px solid var(--bergen-border);
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.control-cantidad .btn {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 6px;
+    border: 1px solid var(--bergen-border);
+    background-color: #ffffff;
+    color: var(--bergen-dark);
+    font-size: 20px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.control-cantidad .btn:hover:not(:disabled) {
+    background-color: var(--bergen-primary);
+    border-color: var(--bergen-primary);
+    color: #ffffff;
+}
+
+.control-cantidad .btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.control-cantidad-valor {
+    min-width: 25px;
+    text-align: center;
+    color: var(--bergen-dark);
+    font-size: 16px;
+    font-weight: 600;
+}

@@ -1,0 +1,46 @@
+.subscripcion {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.subscripcion .form-control {
+    flex: 1;
+    min-width: 0;
+    padding: 11px 14px;
+    border: 1px solid var(--bergen-border);
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.subscripcion .form-control:focus {
+    border-color: var(--bergen-primary);
+    box-shadow: 0 0 0 3px rgba(0, 140, 140, 0.15);
+}
+
+.subscripcion .btn {
+    background-color: var(--bergen-gold);
+    color: var(--bergen-dark);
+    border: 1px solid var(--bergen-gold);
+    border-radius: 8px;
+    padding: 11px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.subscripcion .btn:hover {
+    background-color: #c5a363;
+    border-color: #c5a363;
+    color: var(--bergen-dark);
+}
+
+@media (max-width: 576px) {
+    .subscripcion {
+        flex-direction: column;
+    }
+
+    .subscripcion .btn {
+        width: 100%;
+    }
+}

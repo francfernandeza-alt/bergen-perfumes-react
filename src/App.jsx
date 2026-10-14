@@ -7,6 +7,7 @@ import Icono from "./components/atoms/Icono";
 import Enlace from "./components/atoms/Enlace";
 import Mensaje from "./components/atoms/Mensaje";
 import CampoFormulario from "./components/molecules/CampoFormulario";
+import PrecioProducto from "./components/molecules/PrecioProducto";
 
 function App() {
   return (
@@ -55,6 +56,42 @@ function App() {
         </section>
 
         <hr />
+
+        {/* PRUEBA DE LA MOLÉCULA PRECIO PRODUCTO */}
+        <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+          <h3 className="mb-4">PrecioProducto</h3>
+
+          <div className="d-flex flex-wrap gap-5">
+
+            <div>
+              <h5>Perfume sin descuento</h5>
+
+              <PrecioProducto
+                precio={64}
+              />
+            </div>
+
+            <div>
+              <h5>Perfume con descuento</h5>
+
+              <PrecioProducto
+                precio={45}
+                precioAnterior={64}
+                />
+            </div>
+
+            <div>
+              <h5>Perfume de mayor valor</h5>
+
+              <PrecioProducto
+                precio={120}
+              />
+            </div>
+
+          </div>
+
+        </div>
 
       {/* PRUEBA DEL ÁTOMO BOTON */}
       <section className="mb-5">

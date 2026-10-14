@@ -2,6 +2,7 @@ import Boton from "./components/atoms/Boton";
 import Texto from "./components/atoms/Texto";
 import Imagen from "./components/atoms/Imagen";
 import Input from "./components/atoms/Input";
+import Etiqueta from "./components/atoms/Etiqueta";
 
 function App() {
   return (
@@ -77,83 +78,121 @@ function App() {
 
       <hr />
 
-    {/* PRUEBA DEL ÁTOMO IMAGEN */}
-    <section className="mt-5 mb-5">
+      {/* PRUEBA DEL ÁTOMO IMAGEN */}
+      <section className="mt-5 mb-5">
         <h2>Prueba de imágenes</h2>
 
         <div className="d-flex flex-wrap gap-4 mt-3">
 
-            <Imagen
-                src="/imagenes/263-Polo-Blue.webp"
-                alt="Perfume Polo Blue"
-                ancho={200}
-                className="img-fluid"
-            />
+          <Imagen
+            src="/imagenes/263-Polo-Blue.webp"
+            alt="Perfume Polo Blue"
+            ancho={200}
+            className="img-fluid"
+          />
 
-            <Imagen
-                src="/imagenes/263-Polo-Blue.webp"
-                alt="Perfume Polo Blue con bordes redondeados"
-                ancho={200}
-                className="img-fluid rounded"
-            />
+          <Imagen
+            src="/imagenes/263-Polo-Blue.webp"
+            alt="Perfume Polo Blue con bordes redondeados"
+            ancho={200}
+            className="img-fluid rounded"
+          />
 
-            <Imagen
-                src="/imagenes/263-Polo-Blue.webp"
-                alt="Perfume Polo Blue con miniatura"
-                ancho={200}
-                className="img-fluid img-thumbnail"
-            />
+          <Imagen
+            src="/imagenes/263-Polo-Blue.webp"
+            alt="Perfume Polo Blue con miniatura"
+            ancho={200}
+            className="img-fluid img-thumbnail"
+          />
 
         </div>
-    </section>
+      </section>
 
-    <hr />
+      <hr />
 
-    {/* PRUEBA DEL ÁTOMO INPUT */}
-    <section className="mt-5 mb-5">
-        <h2>Prueba de inputs</h2>
+      {/* PRUEBA DE LOS ÁTOMOS INPUT Y ETIQUETA */}
+      <section className="mt-5 mb-5">
+        <h2>Prueba de inputs y etiquetas</h2>
 
         <div className="d-flex flex-column gap-3 mt-3">
 
-            <Input
-                tipo="text"
-                nombre="nombre"
-                id="nombre"
-                placeholder="Ingrese su nombre"
+          <div>
+            <Etiqueta
+              texto="Nombre"
+              htmlFor="nombre"
             />
 
             <Input
-                tipo="email"
-                nombre="correo"
-                id="correo"
-                placeholder="Ingrese su correo electrónico"
-                requerido={true}
+              tipo="text"
+              nombre="nombre"
+              id="nombre"
+              placeholder="Ingrese su nombre"
+            />
+          </div>
+
+          <div>
+            <Etiqueta
+              texto="Correo electrónico"
+              htmlFor="correo"
+              className="fw-bold"
             />
 
             <Input
-                tipo="password"
-                nombre="contrasena"
-                id="contrasena"
-                placeholder="Ingrese su contraseña"
+              tipo="email"
+              nombre="correo"
+              id="correo"
+              placeholder="Ingrese su correo electrónico"
+              requerido={true}
+            />
+          </div>
+
+          <div>
+            <Etiqueta
+              texto="Contraseña"
+              htmlFor="contrasena"
+              className="fw-semibold"
             />
 
             <Input
-                tipo="number"
-                nombre="cantidad"
-                id="cantidad"
-                placeholder="Ingrese una cantidad"
+              tipo="password"
+              nombre="contrasena"
+              id="contrasena"
+              placeholder="Ingrese su contraseña"
+            />
+          </div>
+
+          <div>
+            <Etiqueta
+              texto="Cantidad"
+              htmlFor="cantidad"
+              className="text-secondary"
             />
 
             <Input
-                tipo="text"
-                nombre="deshabilitado"
-                id="deshabilitado"
-                placeholder="Campo deshabilitado"
-                deshabilitado={true}
+              tipo="number"
+              nombre="cantidad"
+              id="cantidad"
+              placeholder="Ingrese una cantidad"
             />
+          </div>
+
+          <div>
+            <Etiqueta
+              texto="Campo deshabilitado"
+              htmlFor="deshabilitado"
+            />
+
+            <Input
+              tipo="text"
+              nombre="deshabilitado"
+              id="deshabilitado"
+              placeholder="Campo deshabilitado"
+              deshabilitado={true}
+            />
+          </div>
 
         </div>
-    </section>
+      </section>
 
     </div>
   );

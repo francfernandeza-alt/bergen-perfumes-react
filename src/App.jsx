@@ -1,5 +1,6 @@
 import Boton from "./components/atoms/Boton";
 import Texto from "./components/atoms/Texto";
+import Imagen from "./components/atoms/Imagen";
 
 function App() {
   return (
@@ -72,6 +73,38 @@ function App() {
           className="fw-bold text-success"
         />
       </section>
+
+      <hr />
+
+{/* PRUEBA DEL ÁTOMO IMAGEN */}
+<section className="mt-5 mb-5">
+    <h2>Prueba de imágenes</h2>
+
+    <div className="d-flex flex-wrap gap-4 mt-3">
+
+        <Imagen
+            src="/imagenes/263-Polo-Blue.webp"
+            alt="Perfume Polo Blue"
+            ancho={200}
+            className="img-fluid"
+        />
+
+        <Imagen
+            src="/imagenes/263-Polo-Blue.webp"
+            alt="Perfume Polo Blue con bordes redondeados"
+            ancho={200}
+            className="img-fluid rounded"
+        />
+
+        <Imagen
+            src="/imagenes/263-Polo-Blue.webp"
+            alt="Perfume Polo Blue con miniatura"
+            ancho={200}
+            className="img-fluid img-thumbnail"
+        />
+
+    </div>
+</section>
 
     </div>
   );

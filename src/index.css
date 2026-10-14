@@ -1,35 +1,29 @@
 
-/* COLORES PRINCIPALES DE BERGEN PERFUMES */
-
 :root {
-    --bergen-primary: #008c8c;
-    --bergen-dark: #073b3b;
-    --bergen-gold: #d4b477;
-    --bergen-background: #f8f6f1;
-    --bergen-text: #242424;
-    --bergen-border: #d9dedb;
+  --bergen-primary: #008c8c;
+  --bergen-dark: #073b3b;
+  --bergen-gold: #d4b477;
+  --bergen-background: #f8f6f1;
+  --bergen-text: #242424;
+  --bergen-border: #d9dedb;
 
-    font-family: Arial, Helvetica, sans-serif;
-    color: var(--bergen-text);
-    background-color: var(--bergen-background);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--bergen-text);
+  background-color: var(--bergen-background);
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
-/* CONFIGURACIÓN GENERAL */
 
 body {
-    margin: 0;
-    min-width: 320px;
-    min-height: 100vh;
-    background-color: var(--bergen-background);
-    color: var(--bergen-text);
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--bergen-background);
+  color: var(--bergen-text);
 }
-
-/* TÍTULOS */
 
 h1,
 h2,
@@ -37,17 +31,13 @@ h3,
 h4,
 h5,
 h6 {
-    color: var(--bergen-dark);
+  color: var(--bergen-dark);
 }
-
-/* ENLACES */
 
 a {
-    transition: color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
-/* IMÁGENES */
-
 img {
-    max-width: 100%;
+  max-width: 100%;
 }

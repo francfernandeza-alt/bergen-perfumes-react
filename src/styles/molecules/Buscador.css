@@ -1,0 +1,53 @@
+.buscador {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+}
+
+.buscador .form-control {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 15px;
+    border: 1px solid var(--bergen-border);
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: var(--bergen-text);
+    font-size: 14px;
+}
+
+.buscador .form-control:focus {
+    border-color: var(--bergen-primary);
+    box-shadow: 0 0 0 3px rgba(0, 140, 140, 0.15);
+}
+
+.buscador .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background-color: var(--bergen-dark);
+    border: 1px solid var(--bergen-dark);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.buscador .btn:hover {
+    background-color: var(--bergen-primary);
+    border-color: var(--bergen-primary);
+    color: #ffffff;
+}
+
+@media (max-width: 576px) {
+    .buscador .btn {
+        padding: 12px 14px;
+    }
+
+    .buscador .btn span {
+        display: none;
+    }
+}

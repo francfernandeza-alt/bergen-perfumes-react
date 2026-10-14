@@ -15,6 +15,7 @@ import EnlaceIcono from "./components/molecules/EnlaceIcono";
 import Suscripcion from "./components/molecules/Subscripcion";
 import { useState } from "react";
 import ControlCantidad from "./components/molecules/ControlCantidad";
+import Buscador from "./components/molecules/Buscador";
 
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
@@ -238,6 +239,23 @@ function App() {
           onAumentar={() => setCantidadPrueba(cantidadPrueba + 1)}
           onDisminuir={() => setCantidadPrueba(cantidadPrueba - 1)}
         />
+
+      </div>
+
+      {/* PRUEBA DE BUSCADOR */}
+      <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+        <h3 className="mb-4">Buscador</h3>
+
+        <div style={{ maxWidth: "600px" }}>
+
+          <Buscador
+            onBuscar={(texto) =>
+              alert(`Buscando perfume: ${texto}`)
+            }
+          />
+
+        </div>
 
       </div>
 

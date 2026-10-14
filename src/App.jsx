@@ -8,90 +8,108 @@ import Enlace from "./components/atoms/Enlace";
 import Mensaje from "./components/atoms/Mensaje";
 import CampoFormulario from "./components/molecules/CampoFormulario";
 import PrecioProducto from "./components/molecules/PrecioProducto";
+import AccionesProducto from "./components/molecules/AccionesProducto";
 
 function App() {
   return (
     <div className="container mt-5">
 
       {/* PRUEBA DE MOLÉCULAS */}
-        <section className="mb-5">
+      <section className="mb-5">
 
-          <h2>Prueba de moléculas</h2>
+        <h2>Prueba de moléculas</h2>
 
-          {/* CAMPO FORMULARIO */}
-          <div className="p-4 bg-white rounded shadow-sm mt-3">
+        {/* CAMPO FORMULARIO */}
+        <div className="p-4 bg-white rounded shadow-sm mt-3">
 
-            <h3 className="mb-4">CampoFormulario</h3>
+          <h3 className="mb-4">CampoFormulario</h3>
 
-            <CampoFormulario
-              etiqueta="Nombre completo"
-              nombre="molecula-nombre"
-              placeholder="Ingrese su nombre completo"
+          <CampoFormulario
+            etiqueta="Nombre completo"
+            nombre="molecula-nombre"
+            placeholder="Ingrese su nombre completo"
+          />
+
+          <CampoFormulario
+            etiqueta="Correo electrónico"
+            tipo="email"
+            nombre="molecula-correo"
+            placeholder="ejemplo@correo.com"
+            requerido={true}
+          />
+
+          <CampoFormulario
+            etiqueta="Contraseña"
+            tipo="password"
+            nombre="molecula-contrasena"
+            placeholder="Ingrese su contraseña"
+          />
+
+          <CampoFormulario
+            etiqueta="Campo deshabilitado"
+            nombre="molecula-deshabilitado"
+            placeholder="No disponible"
+            deshabilitado={true}
+          />
+
+        </div>
+
+      </section>
+
+      <hr />
+
+      {/* PRUEBA DE LA MOLÉCULA PRECIO PRODUCTO */}
+      <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+        <h3 className="mb-4">PrecioProducto</h3>
+
+        <div className="d-flex flex-wrap gap-5">
+
+          <div>
+            <h5>Perfume sin descuento</h5>
+
+            <PrecioProducto
+              precio={64}
             />
-
-            <CampoFormulario
-              etiqueta="Correo electrónico"
-              tipo="email"
-              nombre="molecula-correo"
-              placeholder="ejemplo@correo.com"
-              requerido={true}
-            />
-
-            <CampoFormulario
-              etiqueta="Contraseña"
-              tipo="password"
-              nombre="molecula-contrasena"
-              placeholder="Ingrese su contraseña"
-            />
-
-            <CampoFormulario
-              etiqueta="Campo deshabilitado"
-              nombre="molecula-deshabilitado"
-              placeholder="No disponible"
-              deshabilitado={true}
-            />
-
           </div>
 
-        </section>
+          <div>
+            <h5>Perfume con descuento</h5>
 
-        <hr />
-
-        {/* PRUEBA DE LA MOLÉCULA PRECIO PRODUCTO */}
-        <div className="p-4 bg-white rounded shadow-sm mt-4">
-
-          <h3 className="mb-4">PrecioProducto</h3>
-
-          <div className="d-flex flex-wrap gap-5">
-
-            <div>
-              <h5>Perfume sin descuento</h5>
-
-              <PrecioProducto
-                precio={64}
+            <PrecioProducto
+              precio={45}
+              precioAnterior={64}
               />
-            </div>
+          </div>
 
-            <div>
-              <h5>Perfume con descuento</h5>
+          <div>
+            <h5>Perfume de mayor valor</h5>
 
-              <PrecioProducto
-                precio={45}
-                precioAnterior={64}
-                />
-            </div>
-
-            <div>
-              <h5>Perfume de mayor valor</h5>
-
-              <PrecioProducto
-                precio={120}
-              />
-            </div>
-
+            <PrecioProducto
+              precio={120}
+            />
           </div>
 
         </div>
+
+      </div>
+
+      {/* PRUEBA DE LA MOLÉCULA ACCIONES PRODUCTO */}
+      <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+        <h3 className="mb-4">AccionesProducto</h3>
+
+        <div style={{ maxWidth: "320px" }}>
+
+          <AccionesProducto
+            onDetalle={() => alert("Ver detalle de Polo Blue")}
+            onAgregar={() => alert("Polo Blue agregado al carro")}
+          />
+
+        </div>
+
+      </div>
+
 
       {/* PRUEBA DEL ÁTOMO BOTON */}
       <section className="mb-5">

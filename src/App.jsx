@@ -11,6 +11,7 @@ import PrecioProducto from "./components/molecules/PrecioProducto";
 import AccionesProducto from "./components/molecules/AccionesProducto";
 import ProductoDestacado from "./components/molecules/ProductoDestacado";
 import ItemResumen from "./components/molecules/ItemResumen";
+import EnlaceIcono from "./components/molecules/EnlaceIcono";
 
 function App() {
   return (
@@ -176,6 +177,35 @@ function App() {
 
       </div>
 
+      {/* PRUEBA DE ENLACE ICONO */}
+      <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+        <h3 className="mb-4">EnlaceIcono</h3>
+
+        <div className="d-flex flex-column align-items-start gap-3">
+
+          <EnlaceIcono
+            texto="Instagram"
+            icono="instagram"
+            href="https://www.instagram.com/"
+            target="_blank"
+          />
+
+          <EnlaceIcono
+            texto="Contacto"
+            icono="envelope"
+            href="mailto:contacto@bergenperfumes.cl"
+          />
+
+          <EnlaceIcono
+            texto="Teléfono"
+            icono="telephone"
+            href="tel:+56912345678"
+          />
+
+        </div>
+
+      </div>
 
       {/* PRUEBA DEL ÁTOMO BOTON */}
       <section className="mb-5">

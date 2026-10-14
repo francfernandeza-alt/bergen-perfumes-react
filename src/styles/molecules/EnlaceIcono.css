@@ -1,0 +1,20 @@
+.enlace-icono {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--bergen-dark);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.enlace-icono i {
+    font-size: 18px;
+    color: var(--bergen-primary);
+}
+
+.enlace-icono:hover,
+.enlace-icono:hover i {
+    color: var(--bergen-gold);
+}

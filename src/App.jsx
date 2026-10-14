@@ -6,10 +6,55 @@ import Etiqueta from "./components/atoms/Etiqueta";
 import Icono from "./components/atoms/Icono";
 import Enlace from "./components/atoms/Enlace";
 import Mensaje from "./components/atoms/Mensaje";
+import CampoFormulario from "./components/molecules/CampoFormulario";
 
 function App() {
   return (
     <div className="container mt-5">
+
+      {/* PRUEBA DE MOLÉCULAS */}
+        <section className="mb-5">
+
+          <h2>Prueba de moléculas</h2>
+
+          {/* CAMPO FORMULARIO */}
+          <div className="p-4 bg-white rounded shadow-sm mt-3">
+
+            <h3 className="mb-4">CampoFormulario</h3>
+
+            <CampoFormulario
+              etiqueta="Nombre completo"
+              nombre="molecula-nombre"
+              placeholder="Ingrese su nombre completo"
+            />
+
+            <CampoFormulario
+              etiqueta="Correo electrónico"
+              tipo="email"
+              nombre="molecula-correo"
+              placeholder="ejemplo@correo.com"
+              requerido={true}
+            />
+
+            <CampoFormulario
+              etiqueta="Contraseña"
+              tipo="password"
+              nombre="molecula-contrasena"
+              placeholder="Ingrese su contraseña"
+            />
+
+            <CampoFormulario
+              etiqueta="Campo deshabilitado"
+              nombre="molecula-deshabilitado"
+              placeholder="No disponible"
+              deshabilitado={true}
+            />
+
+          </div>
+
+        </section>
+
+        <hr />
 
       {/* PRUEBA DEL ÁTOMO BOTON */}
       <section className="mb-5">

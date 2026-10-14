@@ -10,6 +10,7 @@ import CampoFormulario from "./components/molecules/CampoFormulario";
 import PrecioProducto from "./components/molecules/PrecioProducto";
 import AccionesProducto from "./components/molecules/AccionesProducto";
 import ProductoDestacado from "./components/molecules/ProductoDestacado";
+import ItemResumen from "./components/molecules/ItemResumen";
 
 function App() {
   return (
@@ -141,6 +142,35 @@ function App() {
                 enlace="#detalle-one-million"
               />
           </div>
+
+        </div>
+
+      </div>
+
+      {/* PRUEBA DE LA MOLÉCULA ITEM RESUMEN */}
+      <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+        <h3 className="mb-4">ItemResumen</h3>
+
+        <div style={{ maxWidth: "500px" }}>
+
+          <ItemResumen
+            nombre="Polo Blue"
+            cantidad={2}
+            precio={64}
+          />
+
+          <ItemResumen
+            nombre="Sauvage"
+            cantidad={1}
+            precio={85}
+          />
+
+          <ItemResumen
+            nombre="One Million"
+            cantidad={3}
+            precio={50}
+          />
 
         </div>
 

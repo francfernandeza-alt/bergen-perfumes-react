@@ -9,6 +9,7 @@ import Mensaje from "./components/atoms/Mensaje";
 import CampoFormulario from "./components/molecules/CampoFormulario";
 import PrecioProducto from "./components/molecules/PrecioProducto";
 import AccionesProducto from "./components/molecules/AccionesProducto";
+import ProductoDestacado from "./components/molecules/ProductoDestacado";
 
 function App() {
   return (
@@ -105,6 +106,41 @@ function App() {
             onDetalle={() => alert("Ver detalle de Polo Blue")}
             onAgregar={() => alert("Polo Blue agregado al carro")}
           />
+
+        </div>
+
+      </div>
+
+      {/* PRUEBA DE LA MOLÉCULA PRODUCTO DESTACADO */}
+      <div className="p-4 bg-white rounded shadow-sm mt-4">
+
+        <h3 className="mb-4">ProductoDestacado</h3>
+
+        <div className="row g-4">
+
+          <div className="col-6 col-md-4 col-lg-2">
+            <ProductoDestacado
+              nombre="Polo Blue"
+              imagen="/imagenes/263-Polo-Blue.webp"
+              enlace="#detalle-polo-blue"
+            />
+          </div>
+
+          <div className="col-6 col-md-4 col-lg-2">
+            <ProductoDestacado
+              nombre="Big Pony"
+              imagen="/imagenes/274-Big-Pony.webp"
+              enlace="#detalle-sauvage"
+            />
+          </div>
+
+          <div className="col-6 col-md-4 col-lg-2">
+            <ProductoDestacado
+              nombre="Libre"
+                imagen="/imagenes/275-Libre.webp"
+                enlace="#detalle-one-million"
+              />
+          </div>
 
         </div>
 

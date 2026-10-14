@@ -1,0 +1,72 @@
+.producto-destacado {
+    width: 100%;
+    text-align: center;
+}
+
+.producto-destacado-enlace {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--bergen-dark);
+}
+
+/* CONTENEDOR DE LA IMAGEN */
+
+.producto-destacado-imagen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 180px;
+    height: 190px;
+    padding: 15px;
+    background-color: #ffffff;
+    border: 1px solid var(--bergen-border);
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* IMAGEN DEL PERFUME */
+
+.producto-destacado-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* NOMBRE DEL PERFUME */
+
+.producto-destacado-nombre {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: color 0.3s ease;
+}
+
+/* EFECTOS AL PASAR EL MOUSE */
+
+.producto-destacado-enlace:hover .producto-destacado-imagen {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(7, 59, 59, 0.12);
+}
+
+.producto-destacado-enlace:hover .producto-destacado-nombre {
+    color: var(--bergen-primary);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 576px) {
+    .producto-destacado-imagen {
+        max-width: 150px;
+        height: 160px;
+    }
+
+    .producto-destacado-nombre {
+        font-size: 14px;
+    }
+}

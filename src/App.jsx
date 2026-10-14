@@ -3,6 +3,7 @@ import Texto from "./components/atoms/Texto";
 import Imagen from "./components/atoms/Imagen";
 import Input from "./components/atoms/Input";
 import Etiqueta from "./components/atoms/Etiqueta";
+import Icono from "./components/atoms/Icono";
 
 function App() {
   return (
@@ -190,6 +191,47 @@ function App() {
               deshabilitado={true}
             />
           </div>
+
+        </div>
+      </section>
+
+      <hr />
+
+      {/* PRUEBA DEL ÁTOMO ICONO */}
+      <section className="mt-5 mb-5">
+        <h2>Prueba de iconos</h2>
+
+        <div className="d-flex flex-wrap gap-4 mt-3">
+
+          <Icono
+            nombre="cart3"
+            className="fs-1"
+          />
+
+          <Icono
+            nombre="person-circle"
+            className="fs-1 text-primary"
+          />
+
+          <Icono
+            nombre="search"
+            className="fs-1 text-secondary"
+          />
+
+          <Icono
+            nombre="heart"
+            className="fs-1 text-danger"
+          />
+
+          <Icono
+            nombre="trash"
+            className="fs-1 text-danger"
+          />
+
+          <Icono
+            nombre="check-circle"
+            className="fs-1 text-success"
+          />
 
         </div>
       </section>

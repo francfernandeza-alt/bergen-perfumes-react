@@ -1,0 +1,56 @@
+.acciones-producto {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+/* ESTILOS COMPARTIDOS */
+
+.acciones-producto .btn {
+    width: 100%;
+    padding: 11px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+/* BOTÓN DETALLE */
+
+.acciones-producto .accion-detalle {
+    background-color: transparent;
+    color: var(--bergen-dark);
+    border: 1px solid var(--bergen-dark);
+}
+
+.acciones-producto .accion-detalle:hover {
+    background-color: var(--bergen-dark);
+    color: #ffffff;
+    border-color: var(--bergen-dark);
+}
+
+/* BOTÓN AGREGAR AL CARRO */
+
+.acciones-producto .accion-agregar {
+    background-color: var(--bergen-gold);
+    color: var(--bergen-dark);
+    border: 1px solid var(--bergen-gold);
+}
+
+.acciones-producto .accion-agregar:hover {
+    background-color: #c5a363;
+    border-color: #c5a363;
+    color: var(--bergen-dark);
+}
+
+/* ADAPTACIÓN A PANTALLAS PEQUEÑAS */
+
+@media (max-width: 576px) {
+    .acciones-producto .btn {
+        font-size: 12px;
+        padding: 10px 12px;
+    }
+}

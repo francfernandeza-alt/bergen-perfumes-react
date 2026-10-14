@@ -4,6 +4,7 @@ import Imagen from "./components/atoms/Imagen";
 import Input from "./components/atoms/Input";
 import Etiqueta from "./components/atoms/Etiqueta";
 import Icono from "./components/atoms/Icono";
+import Enlace from "./components/atoms/Enlace";
 
 function App() {
   return (
@@ -230,6 +231,47 @@ function App() {
           <Icono nombre="whatsapp" className="fs-1 text-success" />
 
           <Icono nombre="geo-alt" className="fs-1" />
+
+        </div>
+      </section>
+
+      <hr />
+
+      {/* PRUEBA DEL ÁTOMO ENLACE */}
+      <section className="mt-5 mb-5">
+        <h2>Prueba de enlaces</h2>
+
+        <div className="d-flex flex-column align-items-start gap-3 mt-3">
+
+          <Enlace
+            texto="Ir al inicio"
+            href="/"
+          />
+
+          <Enlace
+            texto="Ver catálogo"
+            href="/catalogo"
+            className="link-success fw-bold"
+          />
+
+          <Enlace
+            texto="¿Olvidaste tu contraseña?"
+            href="#recuperar"
+            className="text-decoration-none"
+          />
+
+          <Enlace
+            texto="Visitar Instagram"
+            href="https://www.instagram.com/"
+            target="_blank"
+            className="link-danger"
+          />
+
+          <Enlace
+            texto="Contáctanos por correo"
+            href="mailto:contacto@ejemplo.com"
+            className="link-primary"
+          />
 
         </div>
       </section>

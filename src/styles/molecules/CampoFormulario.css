@@ -1,0 +1,34 @@
+.campo-formulario {
+    margin-bottom: 20px;
+}
+
+.campo-formulario .form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #073b3b;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: left;
+}
+
+.campo-formulario .form-control {
+    padding: 12px 14px;
+    border: 1px solid #d9dedb;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #242424;
+}
+
+.campo-formulario .form-control:focus {
+    border-color: #008c8c;
+    box-shadow: 0 0 0 3px rgba(0, 140, 140, 0.15);
+}
+
+.campo-formulario .form-control::placeholder {
+    color: #929a98;
+}
+
+.campo-formulario .form-control:disabled {
+    background-color: #f0f1ef;
+    cursor: not-allowed;
+}

@@ -1,0 +1,116 @@
+.formulario-registro {
+    width: 100%;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 35px;
+    background-color: #fffdfa;
+    border: 1px solid #e9e4db;
+    border-radius: 22px;
+    box-shadow: 0 8px 25px rgba(7, 59, 59, 0.12);
+}
+
+.formulario-registro-encabezado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.formulario-registro-icono {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65px;
+    height: 65px;
+    margin-bottom: 8px;
+    background-color: #f1e7d4;
+    border-radius: 50%;
+}
+
+.formulario-registro-icono i {
+    color: var(--bergen-dark);
+    font-size: 32px;
+}
+
+.formulario-registro-titulo {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-size: 27px;
+    font-weight: 700;
+}
+
+.formulario-registro-descripcion {
+    margin: 0;
+    color: #666666;
+    font-size: 14px;
+}
+
+.formulario-registro .campo-formulario {
+    text-align: left;
+}
+
+.formulario-registro .campo-formulario .form-label {
+    color: var(--bergen-dark);
+}
+
+.formulario-registro .alert {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.formulario-registro .formulario-registro-boton {
+    width: 100%;
+    margin-top: 10px;
+    padding: 13px;
+    background-color: var(--bergen-gold);
+    border: 1px solid var(--bergen-gold);
+    border-radius: 10px;
+    color: var(--bergen-dark);
+    font-weight: 700;
+}
+
+.formulario-registro .formulario-registro-boton:hover {
+    background-color: #c3a064;
+    border-color: #c3a064;
+    color: var(--bergen-dark);
+}
+
+.formulario-registro-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 25px;
+}
+
+.formulario-registro-login p {
+    margin: 0;
+    color: #666666;
+    font-size: 14px;
+}
+
+.formulario-registro-login a {
+    color: var(--bergen-dark);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.formulario-registro-login a:hover {
+    color: #b78d49;
+    text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+    .formulario-registro {
+        padding: 25px 18px;
+        border-radius: 16px;
+    }
+
+    .formulario-registro-titulo {
+        font-size: 23px;
+    }
+}

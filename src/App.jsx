@@ -115,6 +115,10 @@ function App() {
                   />
                 </div>
 
+                <h3 className="mb-3">Lista sin productos</h3>
+
+                <ListaProductos productos={[]} />
+
                 {/* PRODUCTO SIN OFERTA */}
                 <div className="col-12 col-xl-6">
                   <TarjetaProducto

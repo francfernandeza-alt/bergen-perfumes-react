@@ -33,6 +33,50 @@ function Header({ onBuscar }) {
                     }
                 />
 
+                <nav
+                    className={
+                        `header-navegacion ${
+                            menuAbierto ? "header-navegacion-abierta" : ""
+                        }`
+                    }
+                >
+                    <Enlace
+                        texto="Inicio"
+                        href="/"
+                        className="header-enlace"
+                    />
+
+                    <Enlace
+                        texto="Catálogo"
+                        href="/catalogo"
+                        className="header-enlace"
+                    />
+                </nav>
+
+                <div className="header-buscador">
+                    <Buscador onBuscar={onBuscar} />
+                </div>
+
+                <div
+                    className={
+                        `header-acciones ${
+                            menuAbierto ? "header-acciones-abiertas" : ""
+                        }`
+                    }
+                >
+                    <EnlaceIcono
+                        texto="Cuenta"
+                        icono="person"
+                        href="/login"
+                    />
+
+                    <EnlaceIcono
+                        texto="Carrito"
+                        icono="cart3"
+                        href="/carrito"
+                    />
+                </div>
+
                 <Boton
                     variante="menu"
                     className="header-boton-menu"
@@ -42,51 +86,13 @@ function Header({ onBuscar }) {
                             <Icono
                                 nombre={menuAbierto ? "x-lg" : "list"}
                             />
+
                             <span className="header-texto-menu">
                                 Menú
                             </span>
                         </>
                     }
                 />
-
-                <div
-                    className={
-                        `header-menu ${menuAbierto ? "header-menu-abierto" : ""}`
-                    }
-                >
-                    <nav className="header-navegacion">
-                        <Enlace
-                            texto="Inicio"
-                            href="/"
-                            className="header-enlace"
-                        />
-
-                        <Enlace
-                            texto="Catálogo"
-                            href="/catalogo"
-                            className="header-enlace"
-                        />
-                    </nav>
-
-                    <div className="header-buscador">
-                        <Buscador onBuscar={onBuscar} />
-                    </div>
-
-                    <div className="header-acciones">
-                        <EnlaceIcono
-                            texto="Cuenta"
-                            icono="person"
-                            href="/login"
-                        />
-
-                        <EnlaceIcono
-                            texto="Carrito"
-                            icono="cart3"
-                            href="/carrito"
-                        />
-                    </div>
-
-                </div>
 
             </div>
         </header>

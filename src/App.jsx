@@ -22,6 +22,7 @@ import TarjetaProducto from "./components/organisms/TarjetaProducto";
 import ListaProductos from "./components/organisms/ListaProductos";
 import ResumenCompra from "./components/organisms/ResumenCompra";
 import FormularioLogin from "./components/organisms/FormularioLogin";
+import FormularioRegistro from "./components/organisms/FormularioRegistro";
 
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
@@ -39,6 +40,32 @@ function App() {
         {/* PRUEBA DE MOLÉCULAS */}
         <section className="mb-5">
           <h2>Prueba de moléculas</h2>
+
+          
+          {/* PRUEBA ORGANISMO FORMULARIO REGISTRO */}
+          <section className="mb-5">
+
+            <h2 className="mb-4">Prueba FormularioRegistro</h2>
+
+            <div className="py-4">
+
+              <FormularioRegistro
+                onRegistrar={(datos) => {
+                  alert(
+                    `Registro de prueba: ${datos.nombre} ${datos.apellidos}`
+                  );
+                  console.log("Datos de registro:", {
+                  ...datos,
+                  contrasena: "[OCULTA]"
+                  });
+                }}
+              />
+
+            </div>
+
+          </section>
+
+          <hr />
 
           
           {/* PRUEBA ORGANISMO FORMULARIO LOGIN */}

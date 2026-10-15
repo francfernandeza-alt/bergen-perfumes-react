@@ -23,6 +23,68 @@ import ListaProductos from "./components/organisms/ListaProductos";
 import ResumenCompra from "./components/organisms/ResumenCompra";
 import FormularioLogin from "./components/organisms/FormularioLogin";
 import FormularioRegistro from "./components/organisms/FormularioRegistro";
+import ItemCarrito from "./components/organisms/ItemCarrito";
+
+
+function PruebaItemCarrito() {
+
+  const [producto, setProducto] = useState({
+    id: 1,
+    nombre: "Polo Blue",
+    precio: 64,
+    cantidad: 2,
+    imagen: "/imagenes/263-Polo-Blue.webp"
+  });
+
+  const cambiarCantidad = (id, nuevaCantidad) => {
+    setProducto((anterior) => {
+      if (!anterior || anterior.id !== id) {
+        return anterior;
+      }
+
+      return {
+        ...anterior,
+        cantidad: nuevaCantidad
+      };
+    });
+  };
+
+  const eliminarProducto = (id) => {
+    setProducto((anterior) =>
+      anterior?.id === id ? null : anterior
+    );
+  };
+
+  return (
+    <section className="mb-5">
+
+      <h2 className="mb-4">Prueba ItemCarrito</h2>
+
+      <div className="row">
+
+        <div className="col-12 col-lg-8">
+
+          {producto ? (
+
+            <ItemCarrito
+              producto={producto}
+              onCambiarCantidad={cambiarCantidad}
+              onEliminar={eliminarProducto}
+            />
+
+          ) : (
+
+            <p>El producto fue eliminado del carrito.</p>
+
+          )}
+
+        </div>
+
+      </div>
+
+    </section>
+  );
+}
 
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
@@ -41,7 +103,10 @@ function App() {
         <section className="mb-5">
           <h2>Prueba de moléculas</h2>
 
-          
+          <PruebaItemCarrito />
+
+          <hr />
+
           {/* PRUEBA ORGANISMO FORMULARIO REGISTRO */}
           <section className="mb-5">
 

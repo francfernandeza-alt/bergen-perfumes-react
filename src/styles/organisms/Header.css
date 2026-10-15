@@ -1,0 +1,150 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    width: 100%;
+    background-color: var(--bergen-dark);
+    border-bottom: 1px solid var(--bergen-gold);
+}
+
+.header-contenido {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 10px 24px;
+
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.header-logo-imagen {
+    width: 58px;
+    height: 58px;
+    object-fit: cover;
+}
+
+.header-menu {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.header-navegacion {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.header-enlace {
+    color: var(--bergen-background);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.header-enlace:hover {
+    color: var(--bergen-gold);
+}
+
+.header-buscador {
+    flex: 1;
+    max-width: 520px;
+    margin-left: auto;
+}
+
+.header-acciones {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.header-acciones .enlace-icono {
+    color: var(--bergen-background);
+    text-decoration: none;
+}
+
+.header-acciones .enlace-icono:hover {
+    color: var(--bergen-gold);
+}
+
+.header-boton-menu {
+    display: none;
+}
+
+.header-texto-menu {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+
+/* =========================
+   VERSIÓN MÓVIL
+   ========================= */
+
+@media (max-width: 768px) {
+
+    .header-contenido {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 8px 16px;
+        gap: 10px;
+    }
+
+    .header-logo-imagen {
+        width: 50px;
+        height: 50px;
+    }
+
+    .header-boton-menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-menu {
+        display: none;
+        width: 100%;
+
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+
+        padding: 16px 0 8px;
+    }
+
+    .header-menu-abierto {
+        display: flex;
+    }
+
+    .header-navegacion {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .header-buscador {
+        width: 100%;
+        max-width: none;
+        margin-left: 0;
+    }
+
+    .header-acciones {
+        justify-content: flex-start;
+        gap: 24px;
+    }
+}

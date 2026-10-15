@@ -19,6 +19,7 @@ import Buscador from "./components/molecules/Buscador";
 import Footer from "./components/organisms/Footer";
 import Header from "./components/organisms/Header";
 import TarjetaProducto from "./components/organisms/TarjetaProducto";
+import ListaProductos from "./components/organisms/ListaProductos";
 
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
@@ -36,6 +37,56 @@ function App() {
       {/* PRUEBA DE MOLÉCULAS */}
         <section className="mb-5">
           <h2>Prueba de moléculas</h2>
+          
+          {/* PRUEBA ORGANISMO LISTA PRODUCTOS */}
+          <section className="mb-5">
+
+            <h2 className="mb-4">Prueba ListaProductos</h2>
+
+            <ListaProductos
+              productos={[
+              {
+                id: 1,
+                nombre: "Polo Blue",
+                descripcion: "Fragancia masculina fresca y elegante.",
+                precio: 64,
+                precioAnterior: 80,
+                imagen: "/imagenes/263-Polo-Blue.webp"
+              },
+              {
+                id: 2,
+                nombre: "Sauvage",
+                descripcion: "Fragancia intensa y sofisticada.",
+                precio: 85,
+                imagen: "/imagenes/sauvage.webp"
+              },
+              {
+                id: 3,
+                nombre: "Acqua di Gio",
+                descripcion: "Fragancia fresca inspirada en el mar.",
+                precio: 72,
+                precioAnterior: 90,
+                imagen: "/imagenes/acqua-di-gio.webp"
+              },
+              {
+                id: 4,
+                nombre: "One Million",
+                descripcion: "Fragancia masculina cálida y elegante.",
+                precio: 95,
+                imagen: "/imagenes/one-million.webp"
+              }
+              ]}
+              onDetalle={(id) =>
+                alert(`Ver detalle del producto ${id}`)
+              }
+              onAgregar={(id) =>
+                alert(`Agregar producto ${id} al carrito`)
+              }
+            />
+
+          </section>
+
+          <hr />
 
           {/* PRUEBA ORGANISMO TARJETA PRODUCTO */}
           <section className="mb-5">

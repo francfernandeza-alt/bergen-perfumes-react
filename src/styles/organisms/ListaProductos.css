@@ -1,0 +1,29 @@
+
+/* CONTENEDOR DE PRODUCTOS */
+
+.lista-productos {
+    width: 100%;
+}
+
+/* ESPACIADO ENTRE TARJETAS */
+
+.lista-productos .row {
+    align-items: stretch;
+}
+
+/* TARJETAS CON ALTURA UNIFORME */
+
+.lista-productos .tarjeta-producto {
+    height: 100%;
+}
+
+/* MENSAJE SIN RESULTADOS */
+
+.lista-productos .alert {
+    padding: 20px;
+    text-align: center;
+    background-color: #fffdfa;
+    border: 1px solid #e9e4db;
+    border-radius: 12px;
+    color: var(--bergen-dark);
+}

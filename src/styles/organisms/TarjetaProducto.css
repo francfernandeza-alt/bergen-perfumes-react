@@ -1,0 +1,200 @@
+
+/* TARJETA PRINCIPAL */
+
+.tarjeta-producto {
+    display: flex;
+    align-items: stretch;
+    gap: 22px;
+    width: 100%;
+    min-height: 310px;
+    padding: 20px;
+    background-color: #fffdfa;
+    border: 1px solid #f0ebe4;
+    border-radius: 24px;
+    box-shadow: 0 8px 22px rgba(45, 36, 24, 0.12);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tarjeta-producto:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(45, 36, 24, 0.18);
+}
+
+/* IMAGEN */
+
+.tarjeta-producto-imagen {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 46%;
+    min-width: 0;
+    padding: 12px;
+    background-color: #f4f0e9;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.tarjeta-producto-imagen img {
+    width: 100%;
+    height: 100%;
+    max-height: 340px;
+    object-fit: contain;
+}
+
+/* ETIQUETA OFERTA */
+
+.tarjeta-producto-oferta {
+    position: absolute;
+    top: 16px;
+    right: 12px;
+    z-index: 1;
+    padding: 7px 15px;
+    background-color: #cfa153;
+    color: #ffffff;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* CONTENIDO */
+
+.tarjeta-producto-contenido {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 12px;
+    padding: 12px 0;
+}
+
+.tarjeta-producto-nombre {
+    margin: 0;
+    color: #073b3b;
+    font-size: 27px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.tarjeta-producto-descripcion {
+    margin: 10px 0 0;
+    color: #404040;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* LÍNEA DECORATIVA */
+
+.tarjeta-producto-separador {
+    width: 64px;
+    height: 2px;
+    margin-top: auto;
+    background-color: #cfa153;
+}
+
+/* PRECIO */
+
+.tarjeta-producto .precio-producto {
+    margin: 0;
+}
+
+/* BOTONES */
+
+.tarjeta-producto .acciones-producto {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.tarjeta-producto .acciones-producto .btn {
+    width: 100%;
+    min-height: 44px;
+    padding: 9px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* BOTÓN VER DETALLE */
+
+.tarjeta-producto .acciones-producto .btn:first-child {
+    background-color: #cfa153;
+    border: 1px solid #cfa153;
+    color: #073b3b;
+}
+
+.tarjeta-producto .acciones-producto .btn:first-child:hover {
+    background-color: #bd8e3f;
+    border-color: #bd8e3f;
+}
+
+/* BOTÓN AGREGAR AL CARRITO */
+
+.tarjeta-producto .acciones-producto .btn:last-child {
+    background-color: transparent;
+    border: 1.5px solid #073b3b;
+    color: #073b3b;
+}
+
+.tarjeta-producto .acciones-producto .btn:last-child:hover {
+    background-color: #073b3b;
+    color: #ffffff;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 576px) {
+    .tarjeta-producto {
+        gap: 12px;
+        padding: 12px;
+        border-radius: 18px;
+    }
+
+    .tarjeta-producto-imagen {
+        flex-basis: 42%;
+        padding: 6px;
+    }
+
+    .tarjeta-producto-imagen img {
+        max-height: 230px;
+    }
+
+    .tarjeta-producto-contenido {
+        gap: 8px;
+        padding: 4px 0;
+    }
+
+    .tarjeta-producto-nombre {
+        font-size: 19px;
+    }
+
+    .tarjeta-producto-descripcion {
+        font-size: 12px;
+        margin-top: 2px;
+    }
+
+    .tarjeta-producto-oferta {
+        top: 8px;
+        right: 6px;
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+
+    .tarjeta-producto .acciones-producto .btn {
+        min-height: 36px;
+        padding: 6px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 380px) {
+    .tarjeta-producto {
+        flex-direction: column;
+    }
+
+    .tarjeta-producto-imagen {
+        min-height: 210px;
+    }
+}

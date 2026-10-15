@@ -18,6 +18,7 @@ import ControlCantidad from "./components/molecules/ControlCantidad";
 import Buscador from "./components/molecules/Buscador";
 import Footer from "./components/organisms/Footer";
 import Header from "./components/organisms/Header";
+import TarjetaProducto from "./components/organisms/TarjetaProducto";
 
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
@@ -35,6 +36,58 @@ function App() {
       {/* PRUEBA DE MOLÉCULAS */}
         <section className="mb-5">
           <h2>Prueba de moléculas</h2>
+
+          {/* PRUEBA ORGANISMO TARJETA PRODUCTO */}
+          <section className="mb-5">
+
+            <h2 className="mb-4">Prueba TarjetaProducto</h2>
+
+            <div className="row g-4">
+
+                {/* PRODUCTO CON OFERTA */}
+                <div className="col-12 col-xl-6">
+                  <TarjetaProducto
+                    producto={{
+                      id: 1,
+                      nombre: "Polo Blue",
+                      descripcion: "Fragancia masculina fresca y elegante.",
+                      precio: 64,
+                      precioAnterior: 80,
+                      imagen: "/imagenes/263-Polo-Blue.webp"
+                    }}
+                    onDetalle={(id) =>
+                      alert(`Ver detalle del producto ${id}`)
+                    }
+                    onAgregar={(id) =>
+                      alert(`Agregar producto ${id} al carrito`)
+                    }
+                  />
+                </div>
+
+                {/* PRODUCTO SIN OFERTA */}
+                <div className="col-12 col-xl-6">
+                  <TarjetaProducto
+                    producto={{
+                      id: 2,
+                      nombre: "Sauvage",
+                      descripcion: "Fragancia intensa y sofisticada.",
+                      precio: 85,
+                      imagen: "/imagenes/sauvage.webp"
+                    }}
+                    onDetalle={(id) =>
+                      alert(`Ver detalle del producto ${id}`)
+                    }
+                    onAgregar={(id) =>
+                      alert(`Agregar producto ${id} al carrito`)
+                    }
+                  />
+                </div>
+
+            </div>
+
+          </section>
+
+          <hr />
 
           {/* CAMPO FORMULARIO */}
           <div className="p-4 bg-white rounded shadow-sm mt-3">

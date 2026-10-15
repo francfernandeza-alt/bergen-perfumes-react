@@ -23,7 +23,7 @@ import ListaProductos from "./components/organisms/ListaProductos";
 import ResumenCompra from "./components/organisms/ResumenCompra";
 import FormularioLogin from "./components/organisms/FormularioLogin";
 import FormularioRegistro from "./components/organisms/FormularioRegistro";
-
+import { validarCantidad } from "./scripts/carrito";
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
 
@@ -452,8 +452,16 @@ function App() {
 
           <ControlCantidad
             cantidad={cantidadPrueba}
-            onAumentar={() => setCantidadPrueba(cantidadPrueba + 1)}
-            onDisminuir={() => setCantidadPrueba(cantidadPrueba - 1)}
+            onAumentar={() => {
+              if (validarCantidad(cantidadPrueba + 1)) {
+                setCantidadPrueba(cantidadPrueba + 1);
+              }
+            }}
+            onDisminuir={() => {
+              if (validarCantidad(cantidadPrueba - 1)) {
+                setCantidadPrueba(cantidadPrueba - 1);
+              }
+            }}
           />
 
         </div>

@@ -8,7 +8,15 @@ import Enlace from "../atoms/Enlace";
 import Mensaje from "../atoms/Mensaje";
 
 import "../../styles/organisms/FormularioRegistro.css";
-
+import {
+    validarRut,
+    validarNombre,
+    validarApellidos,
+    validarCorreo,
+    validarContrasena,
+    validarConfirmacionContrasena,
+    validarDireccion
+} from "../../scripts/registros";
 function FormularioRegistro({ onRegistrar }) {
 
     const [datos, setDatos] = useState({
@@ -31,20 +39,41 @@ function FormularioRegistro({ onRegistrar }) {
             [name]: value
         }));
     };
-
     const manejarEnvio = (evento) => {
         evento.preventDefault();
         setError("");
-
-        if (datos.contrasena !== datos.confirmarContrasena) {
+        if (validarRut(datos.rut) == false) {
+            setError("El RUT no es válido.");
+            return;
+        }
+        if (validarNombre(datos.nombre) == false) {
+            setError("El nombre debe tener entre 2 y 50 caracteres.");
+            return;
+        }
+        if (validarApellidos(datos.apellidos) == false) {
+            setError("Los apellidos deben tener entre 2 y 100 caracteres.");
+            return;
+        }
+        if (validarCorreo(datos.correo) == false) {
+            setError("El correo electrónico no es válido.");
+            return;
+        }
+        if (validarContrasena(datos.contrasena) == false) {
+            setError("La contraseña debe tener 8 caracteres, con mayúsculas y minúsculas.");
+            return;
+        }
+        if (validarConfirmacionContrasena(datos.contrasena, datos.confirmarContrasena) == false) {
             setError("Las contraseñas no coinciden.");
             return;
         }
-
+        if (validarDireccion(datos.direccion) == false) {
+            setError("La dirección no es válida.");
+            return;
+        }
         const { confirmarContrasena, ...datosRegistro } = datos;
-
         onRegistrar?.(datosRegistro);
     };
+
 
     return (
         <section className="formulario-registro">
@@ -78,7 +107,7 @@ function FormularioRegistro({ onRegistrar }) {
                         <CampoFormulario
                             etiqueta="RUT"
                             nombre="rut"
-                            placeholder="12.345.678-9"
+                            placeholder="123456789"
                             valor={datos.rut}
                             onChange={manejarCambio}
                             requerido={true}

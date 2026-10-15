@@ -2,14 +2,14 @@ import { useState } from "react";
 import Input from "../atoms/Input";
 import Boton from "../atoms/Boton";
 import "../../styles/molecules/Subscripcion.css";
-
+import { validarCorreo } from "../../scripts/registros";
 function Subscripcion({ onSuscribir }) {
     const [correo, setCorreo] = useState("");
 
     const manejarEnvio = (evento) => {
         evento.preventDefault();
 
-        if (!correo.trim()) {
+        if (validarCorreo(correo.trim()) == false) {
             return;
         }
 

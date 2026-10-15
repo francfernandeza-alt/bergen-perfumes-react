@@ -21,6 +21,7 @@ import Header from "./components/organisms/Header";
 import TarjetaProducto from "./components/organisms/TarjetaProducto";
 import ListaProductos from "./components/organisms/ListaProductos";
 import ResumenCompra from "./components/organisms/ResumenCompra";
+import FormularioLogin from "./components/organisms/FormularioLogin";
 
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
@@ -38,6 +39,27 @@ function App() {
         {/* PRUEBA DE MOLÉCULAS */}
         <section className="mb-5">
           <h2>Prueba de moléculas</h2>
+
+          
+          {/* PRUEBA ORGANISMO FORMULARIO LOGIN */}
+          <section className="mb-5">
+
+            <h2 className="mb-4">Prueba FormularioLogin</h2>
+
+            <div className="py-4">
+
+              <FormularioLogin
+                onIngresar={(correo, contrasena) => {
+                  alert(`Intento de ingreso con: ${correo}`);
+                }}
+              />
+
+            </div>
+
+          </section>
+
+          <hr />
+
 
           
         {/* PRUEBA ORGANISMO RESUMEN COMPRA */}

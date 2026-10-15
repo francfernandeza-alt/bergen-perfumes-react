@@ -1,0 +1,111 @@
+.formulario-login {
+    width: 100%;
+    max-width: 460px;
+    margin: 0 auto;
+    padding: 35px;
+    background-color: #fffdfa;
+    border: 1px solid #e9e4db;
+    border-radius: 22px;
+    box-shadow: 0 8px 25px rgba(7, 59, 59, 0.12);
+}
+
+.formulario-login-encabezado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.formulario-login-icono {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65px;
+    height: 65px;
+    margin-bottom: 8px;
+    background-color: #f1e7d4;
+    border-radius: 50%;
+}
+
+.formulario-login-icono i {
+    color: var(--bergen-dark);
+    font-size: 32px;
+}
+
+.formulario-login-titulo {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-size: 25px;
+    font-weight: 700;
+}
+
+.formulario-login-descripcion {
+    margin: 0;
+    color: #666666;
+    font-size: 14px;
+}
+
+.formulario-login .campo-formulario {
+    text-align: left;
+}
+
+.formulario-login .campo-formulario .form-label {
+    color: var(--bergen-dark);
+}
+
+.formulario-login .formulario-login-boton {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    background-color: var(--bergen-gold);
+    border: 1px solid var(--bergen-gold);
+    border-radius: 10px;
+    color: var(--bergen-dark);
+    font-weight: 700;
+}
+
+.formulario-login .formulario-login-boton:hover {
+    background-color: #c3a064;
+    border-color: #c3a064;
+    color: var(--bergen-dark);
+}
+
+.formulario-login-registro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 25px;
+}
+
+.formulario-login-registro p {
+    margin: 0;
+    color: #666666;
+    font-size: 14px;
+}
+
+.formulario-login-registro a {
+    color: var(--bergen-dark);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.formulario-login-registro a:hover {
+    color: #b78d49;
+    text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+    .formulario-login {
+        padding: 25px 20px;
+        border-radius: 16px;
+    }
+
+    .formulario-login-titulo {
+        font-size: 22px;
+    }
+}

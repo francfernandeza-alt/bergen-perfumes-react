@@ -16,11 +16,23 @@ import Suscripcion from "./components/molecules/Subscripcion";
 import { useState } from "react";
 import ControlCantidad from "./components/molecules/ControlCantidad";
 import Buscador from "./components/molecules/Buscador";
+import Footer from "./components/organisms/Footer";
 
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
   return (
     <div className="container mt-5">
+
+      {/* PRUEBA DE ORGANISMOS */}
+      <section className="mb-5">
+
+        <h2 className="mb-4">Prueba de organismos</h2>
+
+        <Footer />
+
+      </section>
+
+      <hr />
 
       {/* PRUEBA DE MOLÉCULAS */}
       <section className="mb-5">

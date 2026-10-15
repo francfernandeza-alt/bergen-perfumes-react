@@ -16,42 +16,24 @@ import Suscripcion from "./components/molecules/Subscripcion";
 import { useState } from "react";
 import ControlCantidad from "./components/molecules/ControlCantidad";
 import Buscador from "./components/molecules/Buscador";
-<<<<<<< HEAD
 import Footer from "./components/organisms/Footer";
-=======
 import Header from "./components/organisms/Header";
->>>>>>> header
 
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
+
   const manejarBusquedaHeader = (texto) => {
     alert(`Buscando desde Header: ${texto}`);
   };
+
   return (
     <>
-      <Header onBuscar={manejarBusquedaHeader}/>
+      <Header onBuscar={manejarBusquedaHeader} />
 
-<<<<<<< HEAD
-      {/* PRUEBA DE ORGANISMOS */}
-      <section className="mb-5">
-
-        <h2 className="mb-4">Prueba de organismos</h2>
-
-        <Footer />
-
-      </section>
-
-      <hr />
+      <div className="container mt-5">
 
       {/* PRUEBA DE MOLÉCULAS */}
-      <section className="mb-5">
-=======
-      <div className="container mt-5">
->>>>>>> header
-
-        {/* PRUEBA DE MOLÉCULAS */}
         <section className="mb-5">
-
           <h2>Prueba de moléculas</h2>
 
           {/* CAMPO FORMULARIO */}
@@ -592,8 +574,10 @@ function App() {
 
           </div>
         </section>
+        </div>
 
-      </div>
+      {/* PRUEBA DEL ORGANISMO FOOTER */}
+      <Footer />
     </>
   );
 }

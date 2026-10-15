@@ -1,0 +1,139 @@
+.item-carrito {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+    width: 100%;
+    padding: 20px;
+    background-color: #fffdfa;
+    border: 1px solid #e9e4db;
+    border-radius: 20px;
+    box-shadow: 0 6px 18px rgba(7, 59, 59, 0.08);
+}
+
+.item-carrito-imagen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 32%;
+    min-width: 0;
+    padding: 15px;
+    background-color: #f4f0e9;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.item-carrito-imagen img {
+    width: 100%;
+    max-height: 230px;
+    object-fit: contain;
+}
+
+.item-carrito-contenido {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 15px;
+}
+
+.item-carrito-encabezado {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.item-carrito-nombre {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.item-carrito .item-carrito-eliminar {
+    flex-shrink: 0;
+    font-size: 12px;
+    border-radius: 8px;
+}
+
+.item-carrito-precio,
+.item-carrito-cantidad {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.item-carrito-etiqueta {
+    margin: 0;
+    color: #666666;
+    font-size: 13px;
+}
+
+.item-carrito-valor {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.item-carrito-subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #e9e4db;
+}
+
+.item-carrito-total {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+@media (max-width: 576px) {
+    .item-carrito {
+        gap: 12px;
+        padding: 12px;
+        border-radius: 15px;
+    }
+
+    .item-carrito-imagen {
+        flex-basis: 35%;
+        padding: 8px;
+    }
+
+    .item-carrito-imagen img {
+        max-height: 190px;
+    }
+
+    .item-carrito-contenido {
+        gap: 10px;
+    }
+
+    .item-carrito-nombre {
+        font-size: 18px;
+    }
+
+    .item-carrito .item-carrito-eliminar {
+        padding: 5px 8px;
+        font-size: 11px;
+    }
+
+    .item-carrito-total {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 380px) {
+    .item-carrito {
+        flex-direction: column;
+    }
+
+    .item-carrito-imagen {
+        min-height: 190px;
+    }
+}

@@ -7,6 +7,7 @@ import Inicio from "./pages/publicas/Inicio";
 import Catalogo from "./pages/publicas/Catalogo";
 import DetalleProducto from "./pages/publicas/DetalleProducto";
 import Login from "./pages/publicas/Login";
+import Registro from "./pages/publicas/Registro";
 
 function App() {
     return (
@@ -32,6 +33,11 @@ function App() {
                 <Route
                     path="/login"
                     element={<Login />}
+                />
+
+                <Route
+                    path="/registro"
+                    element={<Registro />}
                 />
 
             </Route>

@@ -6,6 +6,7 @@ import LayoutPrincipal from "./components/templates/LayoutPrincipal";
 import Inicio from "./pages/publicas/Inicio";
 import Catalogo from "./pages/publicas/Catalogo";
 import DetalleProducto from "./pages/publicas/DetalleProducto";
+import Login from "./pages/publicas/Login";
 
 function App() {
     return (
@@ -26,6 +27,11 @@ function App() {
                 <Route
                     path="/producto/:id"
                     element={<DetalleProducto />}
+                />
+
+                <Route
+                    path="/login"
+                    element={<Login />}
                 />
 
             </Route>

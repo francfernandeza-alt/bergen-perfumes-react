@@ -2,7 +2,9 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import LayoutPrincipal from "./components/templates/LayoutPrincipal";
+
 import Inicio from "./pages/publicas/Inicio";
+import Catalogo from "./pages/publicas/Catalogo";
 
 function App() {
     return (
@@ -13,6 +15,11 @@ function App() {
                 <Route
                     path="/"
                     element={<Inicio />}
+                />
+
+                <Route
+                    path="/catalogo"
+                    element={<Catalogo />}
                 />
 
             </Route>

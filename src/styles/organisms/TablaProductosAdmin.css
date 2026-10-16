@@ -1,0 +1,132 @@
+
+/* CONTENEDOR PRINCIPAL */
+
+.tabla-productos-admin {
+    width: 100%;
+    padding: 25px;
+    background-color: #fffdfa;
+    border: 1px solid #e9e4db;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(7, 59, 59, 0.09);
+}
+
+/* ENCABEZADO */
+
+.tabla-productos-admin-encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.tabla-productos-admin-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tabla-productos-admin-titulo i {
+    color: var(--bergen-dark);
+    font-size: 27px;
+}
+
+.tabla-productos-admin-titulo h2 {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.tabla-productos-admin-total {
+    margin: 0;
+    color: #666666;
+    font-size: 14px;
+}
+
+/* TABLA */
+
+.tabla-productos-admin-tabla {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.tabla-productos-admin-tabla thead th {
+    padding: 15px;
+    background-color: var(--bergen-dark);
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+}
+
+.tabla-productos-admin-tabla tbody td {
+    padding: 15px;
+    background-color: #fffdfa;
+    border-bottom: 1px solid #e9e4db;
+    vertical-align: middle;
+}
+
+/* IMAGEN */
+
+.tabla-productos-admin-imagen {
+    width: 65px;
+    height: 75px;
+    object-fit: contain;
+    background-color: #f8f6f1;
+    border-radius: 10px;
+}
+
+/* INFORMACIÓN */
+
+.tabla-productos-admin-nombre {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-weight: 700;
+}
+
+.tabla-productos-admin-precio {
+    margin: 0;
+    color: var(--bergen-text);
+    font-weight: 600;
+}
+
+/* ACCIONES */
+
+.tabla-productos-admin-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tabla-productos-admin-acciones button {
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .tabla-productos-admin {
+        padding: 15px;
+    }
+
+    .tabla-productos-admin-titulo h2 {
+        font-size: 20px;
+    }
+
+    .tabla-productos-admin-tabla {
+        min-width: 680px;
+    }
+
+    .tabla-productos-admin-acciones {
+        flex-direction: column;
+    }
+
+    .tabla-productos-admin-acciones button {
+        width: 100%;
+    }
+}

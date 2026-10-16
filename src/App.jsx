@@ -24,6 +24,148 @@ import ResumenCompra from "./components/organisms/ResumenCompra";
 import FormularioLogin from "./components/organisms/FormularioLogin";
 import FormularioRegistro from "./components/organisms/FormularioRegistro";
 import ItemCarrito from "./components/organisms/ItemCarrito";
+import ListaCarrito from "./components/organisms/ListaCarrito";
+import FormularioEnvio from "./components/organisms/FormularioEnvio";
+import FormularioProducto from "./components/organisms/FormularioProducto";
+import TablaProductosAdmin from "./components/organisms/TablaProductosAdmin";
+
+
+function PruebaTablaProductosAdmin() {
+
+    const [productos, setProductos] = useState([
+        {
+            id: 1,
+            nombre: "Polo Blue",
+            precio: 64,
+            stock: 20,
+            imagen: "/imagenes/263-Polo-Blue.webp"
+        },
+        {
+            id: 2,
+            nombre: "Big Pony",
+            precio: 85,
+            stock: 8,
+            imagen: "/imagenes/274-Big-Pony.webp"
+        },
+        {
+            id: 3,
+            nombre: "Libre",
+            precio: 95,
+            stock: 0,
+            imagen: "/imagenes/275-Libre.webp"
+        }
+    ]);
+
+    const editarProducto = (producto) => {
+
+        alert(
+            `Editar producto: ${producto.nombre}`
+        );
+
+        console.log("Producto seleccionado:", producto);
+    };
+
+    const eliminarProducto = (id) => {
+
+        setProductos((anteriores) =>
+            anteriores.filter((producto) =>
+                producto.id !== id
+            )
+        );
+    };
+
+    return (
+        <section className="mb-5">
+
+            <h2 className="mb-4">
+                Prueba TablaProductosAdmin
+            </h2>
+
+            <TablaProductosAdmin
+                productos={productos}
+                onEditar={editarProducto}
+                onEliminar={eliminarProducto}
+            />
+
+        </section>
+    );
+}
+
+
+
+function PruebaFormularioProducto() {
+
+    const productoEjemplo = {
+        id: 1,
+        nombre: "Polo Blue",
+        descripcion: "Fragancia masculina fresca y elegante.",
+        precio: 64,
+        precioAnterior: 80,
+        imagen: "/imagenes/263-Polo-Blue.webp",
+        stock: 20
+    };
+
+    const [productoEditar, setProductoEditar] = useState(null);
+    const [ultimoGuardado, setUltimoGuardado] = useState(null);
+
+    const guardarProducto = (datos) => {
+        setUltimoGuardado(datos);
+        alert("Datos del producto recibidos correctamente.");
+    };
+
+    return (
+        <section className="mb-5">
+
+            <h2 className="mb-4">
+                Prueba FormularioProducto
+            </h2>
+
+            <div className="d-flex gap-2 mb-4">
+
+                <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    onClick={() => setProductoEditar(null)}
+                >
+                    Probar creación
+                </button>
+
+                <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={() => setProductoEditar(productoEjemplo)}
+                >
+                    Probar edición
+                </button>
+
+            </div>
+
+            <div className="row">
+
+                <div className="col-12 col-lg-8">
+
+                    <FormularioProducto
+                        producto={productoEditar}
+                        onGuardar={guardarProducto}
+                        onCancelar={() => setProductoEditar(null)}
+                    />
+
+                </div>
+
+            </div>
+
+            {ultimoGuardado && (
+                <div className="alert alert-success mt-4">
+                    <strong>Último producto enviado:</strong>
+                    <pre className="mt-2 mb-0">
+                        {JSON.stringify(ultimoGuardado, null, 2)}
+                    </pre>
+                </div>
+            )}
+
+        </section>
+    );
+}
 
 
 function PruebaItemCarrito() {
@@ -86,6 +228,66 @@ function PruebaItemCarrito() {
   );
 }
 
+
+function PruebaListaCarrito() {
+
+    const [productos, setProductos] = useState([
+        {
+            id: 1,
+            nombre: "Polo Blue",
+            precio: 64,
+            cantidad: 2,
+            imagen: "/imagenes/263-Polo-Blue.webp"
+        },
+        {
+            id: 2,
+            nombre: "Big Pony",
+            precio: 85,
+            cantidad: 1,
+            imagen: "/imagenes/274-Big-Pony.webp"
+        }
+    ]);
+
+    const cambiarCantidad = (id, nuevaCantidad) => {
+
+        if (nuevaCantidad < 1) return;
+
+        setProductos((anteriores) =>
+            anteriores.map((producto) =>
+                producto.id === id
+                    ? { ...producto, cantidad: nuevaCantidad }
+                    : producto
+            )
+        );
+    };
+
+    const eliminarProducto = (id) => {
+
+        setProductos((anteriores) =>
+            anteriores.filter((producto) =>
+                producto.id !== id
+            )
+        );
+    };
+
+    return (
+        <section className="mb-5">
+
+            <h2 className="mb-4">
+                Prueba ListaCarrito
+            </h2>
+
+            <ListaCarrito
+                productos={productos}
+                onCambiarCantidad={cambiarCantidad}
+                onEliminar={eliminarProducto}
+            />
+
+        </section>
+    );
+}
+
+
 function App() {
   const [cantidadPrueba, setCantidadPrueba] = useState(1);
 
@@ -104,6 +306,45 @@ function App() {
           <h2>Prueba de moléculas</h2>
 
           <PruebaItemCarrito />
+
+          <hr />
+
+          <PruebaListaCarrito />
+
+          <hr />
+          
+          {/* PRUEBA ORGANISMO FORMULARIO ENVIO */}
+          <section className="mb-5">
+
+            <h2 className="mb-4">
+              Prueba FormularioEnvio
+            </h2>
+
+            <div className="row">
+
+              <div className="col-12 col-lg-8">
+
+                <FormularioEnvio
+                  onConfirmar={(datos) => {
+                    alert(
+                      `Compra de prueba confirmada para ${datos.nombre}`
+                    );
+                  }}
+                />
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <hr />
+
+          <PruebaFormularioProducto />
+
+          <hr />
+
+          <PruebaTablaProductosAdmin />
 
           <hr />
 

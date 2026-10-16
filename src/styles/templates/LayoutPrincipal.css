@@ -1,0 +1,12 @@
+.layout-principal {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bergen-background);
+}
+
+.layout-principal-contenido {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+}

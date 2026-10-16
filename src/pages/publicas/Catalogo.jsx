@@ -48,13 +48,12 @@ function Catalogo() {
                 .includes(busqueda.toLowerCase().trim())
     );
 
-    const verDetalle = (producto) => {
-        navigate(`/producto/${producto.id}`);
+    const verDetalle = (id) => {
+        navigate(`/producto/${id}`);
     };
 
-    const agregarAlCarrito = (producto) => {
-        // Pendiente: conectar lógica real del carrito.
-        console.log("Agregar al carrito:", producto);
+    const agregarAlCarrito = (id) => {
+        console.log("Agregar al carrito, ID:", id);
     };
 
     return (

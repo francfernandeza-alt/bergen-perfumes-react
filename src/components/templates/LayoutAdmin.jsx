@@ -44,6 +44,18 @@ function LayoutAdmin() {
                         className="layout-admin-menu"
                         aria-label="Navegación administrativa"
                     >
+                        <NavLink
+                            to="/admin"
+                            end
+                            className={({ isActive }) =>
+                                `layout-admin-enlace ${
+                                    isActive ? "activo" : ""
+                                }`
+                            }
+                        >
+                            <Icono nombre="speedometer2" />
+                            <span>Dashboard</span>
+                        </NavLink>
 
                         <NavLink
                             to="/admin/productos"

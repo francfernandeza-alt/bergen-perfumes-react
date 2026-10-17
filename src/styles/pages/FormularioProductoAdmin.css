@@ -1,0 +1,55 @@
+
+/* PÁGINA FORMULARIO DE PRODUCTOS */
+
+.formulario-producto-admin {
+    width: 100%;
+    padding: 30px;
+}
+
+/* ENCABEZADO */
+
+.formulario-producto-admin-encabezado {
+    margin-bottom: 35px;
+}
+
+.formulario-producto-admin-titulo {
+    margin-bottom: 12px;
+    color: var(--bergen-dark);
+    font-size: clamp(28px, 4vw, 38px);
+    font-weight: 700;
+}
+
+.formulario-producto-admin-descripcion {
+    margin: 0;
+    color: var(--bergen-text);
+    font-size: 16px;
+}
+
+/* CONTENEDOR DEL FORMULARIO */
+
+.formulario-producto-admin-contenido {
+    width: 100%;
+    max-width: 850px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .formulario-producto-admin {
+        padding: 20px 10px;
+    }
+
+    .formulario-producto-admin-encabezado {
+        margin-bottom: 25px;
+    }
+
+    .formulario-producto-admin-titulo {
+        font-size: 28px;
+    }
+
+    .formulario-producto-admin-descripcion {
+        font-size: 15px;
+    }
+
+}

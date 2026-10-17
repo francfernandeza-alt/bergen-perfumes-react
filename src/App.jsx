@@ -10,6 +10,10 @@ import Login from "./pages/publicas/Login";
 import Registro from "./pages/publicas/Registro";
 import Carrito from "./pages/clientes/Carrito";
 import Envio from "./pages/clientes/Envio";
+import LayoutAdmin from "./components/templates/LayoutAdmin";
+import Dashboard from "./pages/admin/Dashboard";
+import ProductosAdmin from "./pages/admin/ProductosAdmin";
+import FormularioProductoAdmin from "./pages/admin/FormularioProductoAdmin";
 
 function App() {
     return (
@@ -47,6 +51,11 @@ function App() {
                     element={<Carrito />}
                 />
 
+                <Route
+                    path="/envio"
+                    element={<Envio />}
+                />
+
             </Route>
 
             <Route
@@ -54,10 +63,29 @@ function App() {
                 element={<Navigate to="/" replace />}
             />
 
-            <Route
-                path="/envio"
-                element={<Envio />}
-            />
+            <Route path="/admin" element={<LayoutAdmin />}>
+
+                <Route
+                    index
+                    element={<Dashboard />}
+                />
+
+                <Route
+                    path="productos"
+                    element={<ProductosAdmin />}
+                />
+
+                <Route
+                    path="productos/nuevo"
+                    element={<FormularioProductoAdmin />}
+                />
+
+                <Route
+                    path="productos/editar/:id"
+                    element={<FormularioProductoAdmin />}
+                />
+
+            </Route>
 
         </Routes>
     );

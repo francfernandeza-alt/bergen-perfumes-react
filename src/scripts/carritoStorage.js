@@ -5,7 +5,6 @@ import {
 
 const CLAVE_CARRITO = "bergen_carrito";
 
-// Obtener los productos guardados en el carrito.
 export function obtenerCarrito() {
     try {
         const guardados = localStorage.getItem(CLAVE_CARRITO);
@@ -20,7 +19,6 @@ export function obtenerCarrito() {
             return [];
         }
 
-        // Obtener los datos actuales de cada producto.
         return carrito.flatMap((item) => {
             const producto = obtenerProductoPorId(item.id);
 
@@ -51,7 +49,6 @@ export function obtenerCarrito() {
     }
 }
 
-// Guardar únicamente ID y cantidad.
 function guardarCarrito(productos) {
     const datos = productos.map((producto) => ({
         id: producto.id,
@@ -64,7 +61,6 @@ function guardarCarrito(productos) {
     );
 }
 
-// Agregar un producto al carrito.
 export function agregarAlCarrito(id, cantidad = 1) {
     const producto = obtenerProductoPorId(id);
 
@@ -107,7 +103,6 @@ export function agregarAlCarrito(id, cantidad = 1) {
     return true;
 }
 
-// Cambiar la cantidad de un producto.
 export function cambiarCantidadCarrito(
     id,
     nuevaCantidad
@@ -140,7 +135,6 @@ export function cambiarCantidadCarrito(
     return true;
 }
 
-// Eliminar un producto del carrito.
 export function eliminarDelCarrito(id) {
     const carrito = obtenerCarrito();
 
@@ -156,3 +150,8 @@ export function eliminarDelCarrito(id) {
 
     return true;
 }
+
+export function vaciarCarrito() {
+    localStorage.removeItem("bergen_carrito");
+}
+

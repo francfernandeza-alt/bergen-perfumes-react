@@ -22,8 +22,6 @@ const productosIniciales = [
     }
 ];
 
-// CONSULTAR TODOS LOS PRODUCTOS
-
 export function obtenerProductos() {
     const guardados = localStorage.getItem(CLAVE_PRODUCTOS);
 
@@ -39,8 +37,6 @@ export function obtenerProductos() {
     return JSON.parse(guardados);
 }
 
-// CONSULTAR PRODUCTO POR ID
-
 export function obtenerProductoPorId(id) {
     const productos = obtenerProductos();
 
@@ -48,8 +44,6 @@ export function obtenerProductoPorId(id) {
         (producto) => producto.id === Number(id)
     ) ?? null;
 }
-
-// AGREGAR PRODUCTO
 
 export function agregarProducto(producto) {
     const productos = obtenerProductos();
@@ -73,8 +67,6 @@ export function agregarProducto(producto) {
 
     return nuevoProducto;
 }
-
-// ACTUALIZAR PRODUCTO
 
 export function actualizarProducto(productoActualizado) {
     const productos = obtenerProductos();
@@ -101,8 +93,6 @@ export function actualizarProducto(productoActualizado) {
     return true;
 }
 
-// ELIMINAR PRODUCTO
-
 export function eliminarProducto(id) {
     const productos = obtenerProductos();
 
@@ -121,3 +111,71 @@ export function eliminarProducto(id) {
 
     return true;
 }
+
+
+export function descontarStock(productosComprados) {
+
+    if (
+        !Array.isArray(productosComprados) ||
+        productosComprados.length === 0
+    ) {
+        return false;
+    }
+
+    const productos = obtenerProductos();
+
+    const cantidades = new Map();
+
+    for (const item of productosComprados) {
+
+        const id = Number(item.id);
+        const cantidad = Number(item.cantidad);
+
+        if (
+            !Number.isInteger(id) ||
+            !Number.isInteger(cantidad) ||
+            cantidad < 1
+        ) {
+            return false;
+        }
+
+        cantidades.set(
+            id,
+            (cantidades.get(id) || 0) + cantidad
+        );
+    }
+
+    for (const [id, cantidad] of cantidades) {
+
+        const producto = productos.find(
+            (item) => item.id === id
+        );
+
+        if (
+            !producto ||
+            !Number.isInteger(producto.stock) ||
+            producto.stock < cantidad
+        ) {
+            return false;
+        }
+    }
+
+    const productosActualizados = productos.map((producto) => {
+
+        const cantidadComprada = cantidades.get(producto.id) || 0;
+
+        return {
+            ...producto,
+            stock: producto.stock - cantidadComprada
+        };
+    });
+
+    // Guardar todos los cambios juntos.
+    localStorage.setItem(
+        "bergen_productos",
+        JSON.stringify(productosActualizados)
+    );
+
+    return true;
+}
+

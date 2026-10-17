@@ -8,40 +8,45 @@ import ResumenCompra from "../../components/organisms/ResumenCompra";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
+import {
+    obtenerCarrito,
+    vaciarCarrito
+} from "../../scripts/carritoStorage";
+import { descontarStock } from "../../scripts/storage";
+
 import "../../styles/pages/Envio.css";
-
-// Productos temporales.
-// Luego se conectarán con el carrito real.
-
-const productosEjemplo = [
-    {
-        id: 1,
-        nombre: "Polo Blue",
-        precio: 64,
-        cantidad: 2
-    },
-    {
-        id: 2,
-        nombre: "Big Pony",
-        precio: 85,
-        cantidad: 1
-    }
-];
 
 function Envio() {
 
-    const [productos] = useState(productosEjemplo);
+    const [productos] = useState(() => obtenerCarrito());
+
     const [compraConfirmada, setCompraConfirmada] = useState(false);
 
+    
     const confirmarCompra = (datosEnvio) => {
 
-        // Pendiente: integrar la lógica real de compras.
-        // No mostrar datos personales en consola.
+        const carritoActual = obtenerCarrito();
 
-        console.log("Compra simulada confirmada");
+        if (carritoActual.length === 0) {
+            alert("Tu carrito está vacío.");
+            return;
+        }
+
+        const descuentoRealizado = descontarStock(carritoActual);
+
+        if (!descuentoRealizado) {
+            alert(
+                "No se pudo confirmar la compra. " +
+                "Uno o más productos no tienen stock suficiente."
+            );
+            return;
+        }
+
+        vaciarCarrito();
 
         setCompraConfirmada(true);
     };
+
 
     if (compraConfirmada) {
         return (
@@ -81,12 +86,44 @@ function Envio() {
         );
     }
 
+    if (productos.length === 0) {
+        return (
+            <div className="envio-confirmacion">
+
+                <div className="container">
+
+                    <div className="envio-confirmacion-contenido">
+
+                        <Icono nombre="cart-x" />
+
+                        <Texto
+                            etiqueta="h1"
+                            contenido="Tu carrito está vacío"
+                        />
+
+                        <Texto
+                            contenido="Agrega productos antes de finalizar tu compra."
+                        />
+
+                        <Link
+                            to="/catalogo"
+                            className="envio-boton-volver"
+                        >
+                            Explorar catálogo
+                        </Link>
+
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+
     return (
         <div className="envio">
 
             <div className="container">
-
-                {/* ENCABEZADO */}
 
                 <div className="envio-encabezado">
 
@@ -103,8 +140,6 @@ function Envio() {
 
                 </div>
 
-                {/* VOLVER AL CARRITO */}
-
                 <Link
                     to="/carrito"
                     className="envio-volver"
@@ -112,8 +147,6 @@ function Envio() {
                     <Icono nombre="arrow-left" />
                     Volver al carrito
                 </Link>
-
-                {/* CONTENIDO */}
 
                 <div className="envio-contenido">
 

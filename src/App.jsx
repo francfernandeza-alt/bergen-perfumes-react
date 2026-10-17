@@ -8,6 +8,8 @@ import Catalogo from "./pages/publicas/Catalogo";
 import DetalleProducto from "./pages/publicas/DetalleProducto";
 import Login from "./pages/publicas/Login";
 import Registro from "./pages/publicas/Registro";
+import Carrito from "./pages/clientes/Carrito";
+import Envio from "./pages/clientes/Envio";
 
 function App() {
     return (
@@ -40,11 +42,21 @@ function App() {
                     element={<Registro />}
                 />
 
+                <Route
+                    path="/carrito"
+                    element={<Carrito />}
+                />
+
             </Route>
 
             <Route
                 path="*"
                 element={<Navigate to="/" replace />}
+            />
+
+            <Route
+                path="/envio"
+                element={<Envio />}
             />
 
         </Routes>

@@ -10,8 +10,8 @@ import Icono from "../../components/atoms/Icono";
 import PrecioProducto from "../../components/molecules/PrecioProducto";
 import ControlCantidad from "../../components/molecules/ControlCantidad";
 
-import { obtenerProductoPorId } from "../../scripts/storage";
-import { agregarAlCarrito } from "../../scripts/carritoStorage";
+import { obtenerProductoPorId } from "../../scripts/storage/storage";
+import { agregarAlCarrito } from "../../scripts/storage/carritoStorage";
 
 import "../../styles/pages/DetalleProducto.css";
 

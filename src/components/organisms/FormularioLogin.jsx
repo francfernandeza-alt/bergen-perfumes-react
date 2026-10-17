@@ -11,7 +11,7 @@ import Mensaje from "../atoms/Mensaje";
 import {
     validarCorreoLogin,
     validarContrasenaLogin
-} from "../../scripts/login";
+} from "../../scripts/validaciones/login";
 function FormularioLogin({ onIngresar }) {
 
     const [correo, setCorreo] = useState("");

@@ -9,7 +9,7 @@ import Boton from "../../components/atoms/Boton";
 import {
     obtenerProductos,
     eliminarProducto
-} from "../../scripts/storage";
+} from "../../scripts/storage/storage";
 
 import "../../styles/pages/ProductosAdmin.css";
 

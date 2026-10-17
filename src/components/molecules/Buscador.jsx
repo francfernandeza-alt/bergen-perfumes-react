@@ -3,7 +3,7 @@ import Input from "../atoms/Input";
 import Boton from "../atoms/Boton";
 import Icono from "../atoms/Icono";
 import "../../styles/molecules/Buscador.css";
-import { validarBusqueda } from "../../scripts/productos";
+import { validarBusqueda } from "../../scripts/validaciones/productos";
 
 function Buscador({ onBuscar }) {
     const [busqueda, setBusqueda] = useState("");

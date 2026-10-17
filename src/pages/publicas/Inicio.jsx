@@ -5,8 +5,8 @@ import ListaProductos from "../../components/organisms/ListaProductos";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
-import { obtenerProductos } from "../../scripts/storage";
-import { agregarAlCarrito } from "../../scripts/carritoStorage";
+import { obtenerProductos } from "../../scripts/storage/storage";
+import { agregarAlCarrito } from "../../scripts/storage/carritoStorage";
 
 import "../../styles/pages/Inicio.css";
 

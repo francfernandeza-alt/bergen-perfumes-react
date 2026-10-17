@@ -11,7 +11,7 @@ import {
     obtenerCarrito,
     cambiarCantidadCarrito,
     eliminarDelCarrito
-} from "../../scripts/carritoStorage";
+} from "../../scripts/storage/carritoStorage";
 
 import "../../styles/pages/Carrito.css";
 

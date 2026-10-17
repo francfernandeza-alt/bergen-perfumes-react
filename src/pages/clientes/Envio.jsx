@@ -11,8 +11,8 @@ import Icono from "../../components/atoms/Icono";
 import {
     obtenerCarrito,
     vaciarCarrito
-} from "../../scripts/carritoStorage";
-import { descontarStock } from "../../scripts/storage";
+} from "../../scripts/storage/carritoStorage";
+import { descontarStock } from "../../scripts/storage/storage";
 
 import "../../styles/pages/Envio.css";
 

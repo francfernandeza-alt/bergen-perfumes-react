@@ -16,7 +16,7 @@ import {
     validarContrasena,
     validarConfirmacionContrasena,
     validarDireccion
-} from "../../scripts/registros";
+} from "../../scripts/validaciones/registros";
 function FormularioRegistro({ onRegistrar }) {
 
     const [datos, setDatos] = useState({
@@ -31,6 +31,8 @@ function FormularioRegistro({ onRegistrar }) {
 
     const [error, setError] = useState("");
 
+    const [exito, setExito] = useState(false);
+
     const manejarCambio = (evento) => {
         const { name, value } = evento.target;
 
@@ -42,6 +44,7 @@ function FormularioRegistro({ onRegistrar }) {
     const manejarEnvio = (evento) => {
         evento.preventDefault();
         setError("");
+        setExito(false);
         if (validarRut(datos.rut) == false) {
             setError("El RUT no es válido.");
             return;
@@ -72,13 +75,13 @@ function FormularioRegistro({ onRegistrar }) {
         }
         const { confirmarContrasena, ...datosRegistro } = datos;
         onRegistrar?.(datosRegistro);
+        setExito(true);
     };
 
 
     return (
         <section className="formulario-registro">
 
-            {/* ENCABEZADO */}
             <div className="formulario-registro-encabezado">
 
                 <div className="formulario-registro-icono">
@@ -185,7 +188,6 @@ function FormularioRegistro({ onRegistrar }) {
 
                 </div>
 
-                {/* MENSAJE DE ERROR */}
                 {error && (
                     <Mensaje
                         texto={error}
@@ -193,7 +195,13 @@ function FormularioRegistro({ onRegistrar }) {
                     />
                 )}
 
-                {/* BOTÓN */}
+                {exito && (
+                    <Mensaje
+                        texto="¡Formulario validado correctamente! Esta es una simulación de registro."
+                        variante="success"
+                    />
+                )}
+
                 <Boton
                     texto="Crear cuenta"
                     tipo="submit"
@@ -203,7 +211,6 @@ function FormularioRegistro({ onRegistrar }) {
 
             </form>
 
-            {/* ENLACE AL LOGIN */}
             <div className="formulario-registro-login">
 
                 <Texto contenido="¿Ya tienes cuenta?" />

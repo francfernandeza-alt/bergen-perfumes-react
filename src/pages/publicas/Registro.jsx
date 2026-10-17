@@ -10,8 +10,6 @@ import "../../styles/pages/Registro.css";
 function Registro() {
 
     const manejarRegistro = (datosUsuario) => {
-        // Pendiente: integrar el registro real de usuarios.
-        // No mostrar contraseñas ni datos personales en consola.
         console.log("Formulario de registro enviado");
     };
 

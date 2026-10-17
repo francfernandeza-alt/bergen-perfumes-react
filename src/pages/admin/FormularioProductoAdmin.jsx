@@ -9,7 +9,7 @@ import {
     obtenerProductoPorId,
     agregarProducto,
     actualizarProducto
-} from "../../scripts/storage";
+} from "../../scripts/storage/storage";
 
 import "../../styles/pages/FormularioProductoAdmin.css";
 

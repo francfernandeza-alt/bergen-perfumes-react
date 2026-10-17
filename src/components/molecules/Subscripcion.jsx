@@ -2,7 +2,7 @@ import { useState } from "react";
 import Input from "../atoms/Input";
 import Boton from "../atoms/Boton";
 import "../../styles/molecules/Subscripcion.css";
-import { validarCorreo } from "../../scripts/registros";
+import { validarCorreo } from "../../scripts/validaciones/registros";
 function Subscripcion({ onSuscribir }) {
     const [correo, setCorreo] = useState("");
 

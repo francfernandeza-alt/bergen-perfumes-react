@@ -7,58 +7,48 @@ import ResumenCompra from "../../components/organisms/ResumenCompra";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
+import {
+    obtenerCarrito,
+    cambiarCantidadCarrito,
+    eliminarDelCarrito
+} from "../../scripts/carritoStorage";
+
 import "../../styles/pages/Carrito.css";
-
-// Productos temporales para probar la página.
-// Luego se conectarán con la lógica real del carrito.
-
-const productosEjemplo = [
-    {
-        id: 1,
-        nombre: "Polo Blue",
-        descripcion: "Fragancia masculina fresca y elegante.",
-        precio: 64,
-        precioAnterior: 80,
-        imagen: "/imagenes/263-Polo-Blue.webp",
-        cantidad: 2
-    },
-    {
-        id: 2,
-        nombre: "Big Pony",
-        descripcion: "Una fragancia moderna y dinámica.",
-        precio: 85,
-        precioAnterior: null,
-        imagen: "/imagenes/274-Big-Pony.webp",
-        cantidad: 1
-    }
-];
 
 function Carrito() {
 
     const navigate = useNavigate();
 
-    const [productos, setProductos] = useState(productosEjemplo);
+    const [productos, setProductos] = useState(
+        () => obtenerCarrito()
+    );
 
     const cambiarCantidad = (id, nuevaCantidad) => {
-        if (nuevaCantidad < 1) return;
 
-        setProductos((anteriores) =>
-            anteriores.map((producto) =>
-                producto.id === id
-                    ? { ...producto, cantidad: nuevaCantidad }
-                    : producto
-            )
+        const actualizado = cambiarCantidadCarrito(
+            id,
+            nuevaCantidad
         );
+
+        if (actualizado) {
+            setProductos(obtenerCarrito());
+        }
     };
 
     const eliminarProducto = (id) => {
-        setProductos((anteriores) =>
-            anteriores.filter((producto) => producto.id !== id)
-        );
+
+        const eliminado = eliminarDelCarrito(id);
+
+        if (eliminado) {
+            setProductos(obtenerCarrito());
+        }
     };
 
     const procederAlPago = () => {
-        if (productos.length === 0) return;
+
+        if (productos.length === 0) {
+            return;
+        }
 
         navigate("/envio");
     };
@@ -67,8 +57,6 @@ function Carrito() {
         <div className="carrito">
 
             <div className="container">
-
-                {/* ENCABEZADO */}
 
                 <div className="carrito-encabezado">
 
@@ -84,8 +72,6 @@ function Carrito() {
                     />
 
                 </div>
-
-                {/* NAVEGACIÓN */}
 
                 <Link
                     to="/catalogo"

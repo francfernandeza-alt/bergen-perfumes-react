@@ -6,6 +6,7 @@ import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
 import { obtenerProductos } from "../../scripts/storage";
+import { agregarAlCarrito } from "../../scripts/carritoStorage";
 
 import "../../styles/pages/Inicio.css";
 
@@ -13,24 +14,25 @@ function Inicio() {
 
     const navigate = useNavigate();
 
-    // Obtener los productos desde localStorage
-    // y seleccionar los primeros 4 como destacados.
-
-    const productosDestacados = obtenerProductos().slice(0, 4);
+    const productosDestacados = obtenerProductos().slice(0, 5);
 
     const verDetalle = (id) => {
         navigate(`/producto/${id}`);
     };
 
-    const agregarAlCarrito = (id) => {
-        // Pendiente: integrar lógica real del carrito.
-        console.log("Agregar al carrito, ID:", id);
-    };
+    const manejarAgregarAlCarrito = (id) => {
+
+    const agregado = agregarAlCarrito(id);
+
+    if (agregado) {
+        alert("Producto agregado al carrito correctamente.");
+    } else {
+        alert("No se pudo agregar el producto. Revisa el stock disponible.");
+    }
+};
 
     return (
         <div className="inicio">
-
-            {/* SECCIÓN DE BIENVENIDA */}
 
             <section className="inicio-hero">
 
@@ -69,8 +71,6 @@ function Inicio() {
 
             </section>
 
-            {/* PRODUCTOS DESTACADOS */}
-
             <section className="inicio-destacados">
 
                 <div className="container">
@@ -91,14 +91,12 @@ function Inicio() {
                     <ListaProductos
                         productos={productosDestacados}
                         onDetalle={verDetalle}
-                        onAgregar={agregarAlCarrito}
+                        onAgregar={manejarAgregarAlCarrito}
                     />
 
                 </div>
 
             </section>
-
-            {/* ACCESO AL CATÁLOGO */}
 
             <section className="inicio-catalogo">
 

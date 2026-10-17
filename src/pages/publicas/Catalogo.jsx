@@ -8,6 +8,7 @@ import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
 import { obtenerProductos } from "../../scripts/storage";
+import { agregarAlCarrito } from "../../scripts/carritoStorage";
 
 import "../../styles/pages/Catalogo.css";
 
@@ -18,14 +19,12 @@ function Catalogo() {
     // Productos compartidos con el administrador
     const [productos] = useState(() => obtenerProductos());
 
-    // Estado del buscador
     const [busqueda, setBusqueda] = useState("");
 
     const manejarBusqueda = (texto) => {
         setBusqueda(texto);
     };
 
-    // Filtrar los productos por nombre
     const productosFiltrados = productos.filter(
         (producto) =>
             producto.nombre
@@ -37,14 +36,19 @@ function Catalogo() {
         navigate(`/producto/${id}`);
     };
 
-    const agregarAlCarrito = (id) => {
-        console.log("Agregar al carrito, ID:", id);
-    };
+    const manejarAgregarAlCarrito = (id) => {
+
+    const agregado = agregarAlCarrito(id);
+
+    if (agregado) {
+        alert("Producto agregado al carrito correctamente.");
+    } else {
+        alert("No se pudo agregar el producto. Revisa el stock disponible.");
+    }
+};
 
     return (
         <div className="catalogo">
-
-            {/* ENCABEZADO */}
 
             <section className="catalogo-encabezado">
 
@@ -75,8 +79,6 @@ function Catalogo() {
 
             </section>
 
-            {/* BUSCADOR Y PRODUCTOS */}
-
             <section className="catalogo-productos">
 
                 <div className="container">
@@ -99,14 +101,12 @@ function Catalogo() {
                     <ListaProductos
                         productos={productosFiltrados}
                         onDetalle={verDetalle}
-                        onAgregar={agregarAlCarrito}
+                        onAgregar={manejarAgregarAlCarrito}
                     />
 
                 </div>
 
             </section>
-
-            {/* PIE INFORMATIVO */}
 
             <section className="catalogo-informacion">
 

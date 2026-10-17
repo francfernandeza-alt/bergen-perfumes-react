@@ -11,6 +11,7 @@ import PrecioProducto from "../../components/molecules/PrecioProducto";
 import ControlCantidad from "../../components/molecules/ControlCantidad";
 
 import { obtenerProductoPorId } from "../../scripts/storage";
+import { agregarAlCarrito } from "../../scripts/carritoStorage";
 
 import "../../styles/pages/DetalleProducto.css";
 
@@ -20,7 +21,6 @@ function DetalleProducto() {
 
     const [cantidad, setCantidad] = useState(1);
 
-    // Obtener el producto actualizado desde localStorage.
     const producto = obtenerProductoPorId(id);
 
     const aumentarCantidad = () => {
@@ -37,20 +37,27 @@ function DetalleProducto() {
         setCantidad((anterior) => Math.max(1, anterior - 1));
     };
 
-    const agregarAlCarrito = () => {
+    const manejarAgregarAlCarrito = () => {
 
         if (!producto || producto.stock <= 0) {
             return;
         }
 
-        // Pendiente: integrar lógica real del carrito.
-        console.log("Agregar al carrito:", {
-            ...producto,
+        const agregado = agregarAlCarrito(
+            producto.id,
             cantidad
-        });
-    };
+        );
 
-    // PRODUCTO NO ENCONTRADO
+        if (agregado) {
+            alert(
+                `${cantidad} unidad(es) de ${producto.nombre} agregada(s) al carrito.`
+            );
+        } else {
+            alert(
+                "No se pudo agregar el producto. Revisa el stock disponible."
+            );
+        }
+    };
 
     if (!producto) {
         return (
@@ -85,8 +92,6 @@ function DetalleProducto() {
 
             <div className="container">
 
-                {/* NAVEGACIÓN */}
-
                 <div className="detalle-navegacion">
 
                     <Link
@@ -98,8 +103,6 @@ function DetalleProducto() {
                     </Link>
 
                 </div>
-
-                {/* INFORMACIÓN DEL PRODUCTO */}
 
                 <section className="detalle-contenido">
 
@@ -137,8 +140,6 @@ function DetalleProducto() {
                             precioAnterior={producto.precioAnterior}
                         />
 
-                        {/* DISPONIBILIDAD */}
-
                         <Texto
                             contenido={
                                 producto.stock > 0
@@ -147,8 +148,6 @@ function DetalleProducto() {
                             }
                             className="detalle-stock"
                         />
-
-                        {/* COMPRA */}
 
                         <div className="detalle-compra">
 
@@ -176,7 +175,7 @@ function DetalleProducto() {
                                         </>
                                     }
                                     variante="marca"
-                                    onClick={agregarAlCarrito}
+                                    onClick={manejarAgregarAlCarrito}
                                     deshabilitado={producto.stock <= 0}
                                     className="detalle-boton-carrito"
                                 />

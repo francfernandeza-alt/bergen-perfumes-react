@@ -1,0 +1,85 @@
+
+/* PÁGINA REGISTRO */
+
+.registro {
+    display: flex;
+    align-items: center;
+    min-height: 80vh;
+    padding: 70px 0;
+    background: linear-gradient(
+        135deg,
+        var(--bergen-background) 0%,
+        #e6f0ec 100%
+    );
+}
+
+/* CONTENEDOR */
+
+.registro-contenedor {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+/* NAVEGACIÓN */
+
+.registro-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    color: var(--bergen-dark);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.registro-volver:hover {
+    color: var(--bergen-primary);
+}
+
+/* INFORMACIÓN ADICIONAL */
+
+.registro-informacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+    text-align: center;
+    color: var(--bergen-dark);
+}
+
+.registro-informacion i {
+    color: var(--bergen-primary);
+    font-size: 19px;
+}
+
+.registro-informacion p {
+    margin: 0;
+    font-size: 13px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .registro {
+        min-height: 70vh;
+        padding: 45px 0;
+    }
+
+    .registro-contenedor {
+        max-width: 100%;
+    }
+
+    .registro-volver {
+        margin-bottom: 20px;
+    }
+
+    .registro-informacion {
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+}

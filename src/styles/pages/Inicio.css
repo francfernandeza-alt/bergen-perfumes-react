@@ -1,0 +1,156 @@
+/* PÁGINA DE INICIO */
+
+.inicio {
+    width: 100%;
+    background-color: var(--bergen-background);
+}
+
+/* SECCIÓN HERO */
+
+.inicio-hero {
+    display: flex;
+    align-items: center;
+    min-height: 420px;
+    padding: 75px 0;
+    background: linear-gradient(
+        120deg,
+        var(--bergen-dark) 0%,
+        var(--bergen-primary) 100%
+    );
+}
+
+.inicio-hero-contenido {
+    max-width: 650px;
+}
+
+.inicio-etiqueta {
+    margin-bottom: 15px;
+    color: var(--bergen-gold);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.inicio-titulo {
+    margin-bottom: 20px;
+    color: #ffffff;
+    font-size: clamp(32px, 5vw, 54px);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.inicio-descripcion {
+    margin-bottom: 30px;
+    color: #e0eae6;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+/* BOTONES */
+
+.inicio-boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 13px 25px;
+    background-color: var(--bergen-gold);
+    border: 1px solid var(--bergen-gold);
+    border-radius: 10px;
+    color: var(--bergen-dark);
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.inicio-boton:hover {
+    transform: translateY(-2px);
+    background-color: #c3a064;
+    color: var(--bergen-dark);
+}
+
+/* PRODUCTOS DESTACADOS */
+
+.inicio-destacados {
+    padding: 75px 0;
+}
+
+.inicio-seccion-titulo {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.inicio-seccion-titulo h2 {
+    margin-bottom: 12px;
+    color: var(--bergen-dark);
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.inicio-seccion-titulo p {
+    color: #666666;
+    font-size: 16px;
+}
+
+/* ACCESO AL CATÁLOGO */
+
+.inicio-catalogo {
+    padding: 65px 0;
+    background-color: #e6f0ec;
+    text-align: center;
+}
+
+.inicio-catalogo h2 {
+    margin-bottom: 15px;
+    color: var(--bergen-dark);
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.inicio-catalogo p {
+    margin-bottom: 25px;
+    color: var(--bergen-text);
+    font-size: 16px;
+}
+
+.inicio-boton-secundario {
+    background-color: var(--bergen-dark);
+    border-color: var(--bergen-dark);
+    color: #ffffff;
+}
+
+.inicio-boton-secundario:hover {
+    background-color: var(--bergen-primary);
+    color: #ffffff;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .inicio-hero {
+        min-height: 350px;
+        padding: 55px 0;
+    }
+
+    .inicio-descripcion {
+        font-size: 15px;
+    }
+
+    .inicio-destacados {
+        padding: 50px 0;
+    }
+
+    .inicio-seccion-titulo h2 {
+        font-size: 26px;
+    }
+
+    .inicio-catalogo {
+        padding: 50px 0;
+    }
+
+    .inicio-catalogo h2 {
+        font-size: 25px;
+    }
+}

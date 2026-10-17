@@ -1,0 +1,83 @@
+
+/* PÁGINA LOGIN */
+
+.login {
+    display: flex;
+    align-items: center;
+    min-height: 75vh;
+    padding: 70px 0;
+    background: linear-gradient(
+        135deg,
+        var(--bergen-background) 0%,
+        #e6f0ec 100%
+    );
+}
+
+/* CONTENEDOR */
+
+.login-contenedor {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* NAVEGACIÓN */
+
+.login-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    color: var(--bergen-dark);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.login-volver:hover {
+    color: var(--bergen-primary);
+}
+
+/* INFORMACIÓN */
+
+.login-informacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+    color: var(--bergen-dark);
+}
+
+.login-informacion i {
+    color: var(--bergen-primary);
+    font-size: 19px;
+}
+
+.login-informacion p {
+    margin: 0;
+    font-size: 13px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+    .login {
+        min-height: 65vh;
+        padding: 45px 0;
+    }
+
+    .login-contenedor {
+        max-width: 100%;
+    }
+
+    .login-volver {
+        margin-bottom: 20px;
+    }
+
+    .login-informacion {
+        margin-top: 20px;
+    }
+}

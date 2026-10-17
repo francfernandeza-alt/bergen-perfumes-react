@@ -1,0 +1,115 @@
+
+/* CONTENEDOR PRINCIPAL */
+
+.formulario-producto {
+    width: 100%;
+    padding: 30px;
+    background-color: #fffdfa;
+    border: 1px solid #e9e4db;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(7, 59, 59, 0.09);
+}
+
+/* ENCABEZADO */
+
+.formulario-producto-encabezado {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.formulario-producto-encabezado i {
+    font-size: 28px;
+    color: var(--bergen-dark);
+}
+
+.formulario-producto-titulo {
+    margin: 0;
+    color: var(--bergen-dark);
+    font-size: 25px;
+    font-weight: 700;
+}
+
+/* LÍNEA DECORATIVA */
+
+.formulario-producto-linea {
+    width: 65px;
+    height: 3px;
+    margin: 18px 0 25px;
+    background-color: var(--bergen-gold);
+    border-radius: 3px;
+}
+
+/* CAMPOS */
+
+.formulario-producto .form-label {
+    color: var(--bergen-dark);
+    font-weight: 600;
+}
+
+/* VISTA PREVIA */
+
+.formulario-producto-vista {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: #f8f6f1;
+    border: 1px solid #e9e4db;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.formulario-producto-vista h3 {
+    margin-bottom: 15px;
+    color: var(--bergen-dark);
+    font-size: 18px;
+}
+
+.formulario-producto-imagen {
+    width: 150px;
+    height: 170px;
+    object-fit: contain;
+}
+
+/* BOTONES */
+
+.formulario-producto-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.formulario-producto .formulario-producto-guardar {
+    padding: 10px 24px;
+    background-color: var(--bergen-gold);
+    border: 1px solid var(--bergen-gold);
+    border-radius: 10px;
+    color: var(--bergen-dark);
+    font-weight: 700;
+}
+
+.formulario-producto .formulario-producto-guardar:hover {
+    background-color: #c3a064;
+    border-color: #c3a064;
+    color: var(--bergen-dark);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 576px) {
+    .formulario-producto {
+        padding: 20px 15px;
+    }
+
+    .formulario-producto-titulo {
+        font-size: 21px;
+    }
+
+    .formulario-producto-acciones {
+        flex-direction: column;
+    }
+
+    .formulario-producto-acciones button {
+        width: 100%;
+    }
+}

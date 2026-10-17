@@ -6,17 +6,28 @@ import Boton from "../atoms/Boton";
 import Texto from "../atoms/Texto";
 import Icono from "../atoms/Icono";
 import Enlace from "../atoms/Enlace";
-
 import "../../styles/organisms/FormularioLogin.css";
-
+import Mensaje from "../atoms/Mensaje";
+import {
+    validarCorreoLogin,
+    validarContrasenaLogin
+} from "../../scripts/login";
 function FormularioLogin({ onIngresar }) {
 
     const [correo, setCorreo] = useState("");
     const [contrasena, setContrasena] = useState("");
-
+    const [error, setError] = useState("");
     const manejarEnvio = (evento) => {
-        evento.preventDefault();
-
+    evento.preventDefault();
+        setError("");
+        if (validarCorreoLogin(correo) == false) {
+            setError("El correo electrónico no es válido.");
+            return;
+        }
+        if (validarContrasenaLogin(contrasena) == false) {
+            setError("Debes ingresar una contraseña.");
+            return;
+        }
         onIngresar?.(correo, contrasena);
     };
 
@@ -67,7 +78,12 @@ function FormularioLogin({ onIngresar }) {
                     }
                     requerido={true}
                 />
-
+                {error && (
+                    <Mensaje
+                        texto={error}
+                        variante="danger"
+                    />
+                )}
                 <Boton
                     texto="Ingresar"
                     tipo="submit"

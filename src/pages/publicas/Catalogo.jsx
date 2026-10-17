@@ -7,41 +7,26 @@ import Buscador from "../../components/molecules/Buscador";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
+import { obtenerProductos } from "../../scripts/storage";
+
 import "../../styles/pages/Catalogo.css";
-
-// Datos temporales para probar la página.
-// Luego conectaremos los productos reales de src/scripts/.
-
-const productosEjemplo = [
-    {
-        id: 1,
-        nombre: "Polo Blue",
-        descripcion: "Fragancia masculina fresca y elegante.",
-        precio: 64,
-        precioAnterior: 80,
-        imagen: "/imagenes/263-Polo-Blue.webp"
-    },
-    {
-        id: 2,
-        nombre: "Big Pony",
-        descripcion: "Una fragancia moderna y dinámica.",
-        precio: 85,
-        precioAnterior: null,
-        imagen: "/imagenes/274-Big-Pony.webp"
-    }
-];
 
 function Catalogo() {
 
     const navigate = useNavigate();
 
+    // Productos compartidos con el administrador
+    const [productos] = useState(() => obtenerProductos());
+
+    // Estado del buscador
     const [busqueda, setBusqueda] = useState("");
 
     const manejarBusqueda = (texto) => {
-    setBusqueda(texto);
+        setBusqueda(texto);
     };
 
-    const productosFiltrados = productosEjemplo.filter(
+    // Filtrar los productos por nombre
+    const productosFiltrados = productos.filter(
         (producto) =>
             producto.nombre
                 .toLowerCase()

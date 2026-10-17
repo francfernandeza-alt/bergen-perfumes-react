@@ -3,64 +3,66 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import FormularioProducto from "../../components/organisms/FormularioProducto";
 import Texto from "../../components/atoms/Texto";
-import Icono from "../../components/atoms/Icono";
+import Boton from "../../components/atoms/Boton";
+
+import {
+    obtenerProductoPorId,
+    agregarProducto,
+    actualizarProducto
+} from "../../scripts/storage";
 
 import "../../styles/pages/FormularioProductoAdmin.css";
-
-// Productos temporales para probar la edición.
-// Posteriormente se conectarán al CRUD real.
-
-const productosEjemplo = [
-    {
-        id: 1,
-        nombre: "Polo Blue",
-        descripcion: "Fragancia masculina fresca y elegante.",
-        precio: 64,
-        precioAnterior: 80,
-        stock: 15,
-        imagen: "/imagenes/263-Polo-Blue.webp"
-    },
-    {
-        id: 2,
-        nombre: "Big Pony",
-        descripcion: "Una fragancia moderna y dinámica.",
-        precio: 85,
-        precioAnterior: null,
-        stock: 8,
-        imagen: "/imagenes/274-Big-Pony.webp"
-    }
-];
 
 function FormularioProductoAdmin() {
 
     const navigate = useNavigate();
     const { id } = useParams();
 
+    // Si existe un ID, estamos editando.
+    // Si no existe, estamos agregando.
+
     const esEdicion = id !== undefined;
 
+    // Consultar el producto desde localStorage
+
     const productoSeleccionado = esEdicion
-        ? productosEjemplo.find(
-            (producto) => producto.id === Number(id)
-        )
+        ? obtenerProductoPorId(id)
         : null;
+
+    // GUARDAR PRODUCTO
 
     const guardarProducto = (datosProducto) => {
 
-        // Simulación temporal.
-        // Aquí se conectará el CRUD real.
-
         if (esEdicion) {
-            console.log("Edición simulada de producto");
+
+            // Actualizar producto existente
+
+            const actualizado = actualizarProducto(datosProducto);
+
+            if (!actualizado) {
+                alert("No se pudo actualizar el producto.");
+                return;
+            }
+
         } else {
-            console.log("Creación simulada de producto");
+
+            // Agregar producto nuevo
+
+            agregarProducto(datosProducto);
         }
+
+        // Regresar a la tabla de productos
 
         navigate("/admin/productos");
     };
+
+    // CANCELAR
 
     const cancelar = () => {
         navigate("/admin/productos");
     };
+
+    // PRODUCTO NO ENCONTRADO
 
     if (esEdicion && !productoSeleccionado) {
         return (
@@ -69,19 +71,19 @@ function FormularioProductoAdmin() {
                 <Texto
                     etiqueta="h1"
                     contenido="Producto no encontrado"
+                    className="formulario-producto-admin-titulo"
                 />
 
                 <Texto
                     contenido="El producto que intentas editar no existe."
+                    className="formulario-producto-admin-descripcion"
                 />
 
-                <button
-                    type="button"
-                    className="btn btn-outline-secondary"
+                <Boton
+                    texto="Volver a productos"
+                    variante="outline-secondary"
                     onClick={cancelar}
-                >
-                    Volver a productos
-                </button>
+                />
 
             </div>
         );

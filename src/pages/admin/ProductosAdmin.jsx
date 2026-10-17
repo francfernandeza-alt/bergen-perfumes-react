@@ -6,37 +6,21 @@ import TablaProductosAdmin from "../../components/organisms/TablaProductosAdmin"
 import Texto from "../../components/atoms/Texto";
 import Boton from "../../components/atoms/Boton";
 
+import {
+    obtenerProductos,
+    eliminarProducto
+} from "../../scripts/storage";
+
 import "../../styles/pages/ProductosAdmin.css";
-
-// Productos temporales para probar la página.
-// Luego se conectarán con el CRUD real.
-
-const productosEjemplo = [
-    {
-        id: 1,
-        nombre: "Polo Blue",
-        descripcion: "Fragancia masculina fresca y elegante.",
-        precio: 64,
-        precioAnterior: 80,
-        stock: 15,
-        imagen: "/imagenes/263-Polo-Blue.webp"
-    },
-    {
-        id: 2,
-        nombre: "Big Pony",
-        descripcion: "Una fragancia moderna y dinámica.",
-        precio: 85,
-        precioAnterior: null,
-        stock: 8,
-        imagen: "/imagenes/274-Big-Pony.webp"
-    }
-];
 
 function ProductosAdmin() {
 
     const navigate = useNavigate();
 
-    const [productos, setProductos] = useState(productosEjemplo);
+    // Cargar los productos desde localStorage
+    const [productos, setProductos] = useState(() =>
+        obtenerProductos()
+    );
 
     const agregarProducto = () => {
         navigate("/admin/productos/nuevo");
@@ -46,10 +30,13 @@ function ProductosAdmin() {
         navigate(`/admin/productos/editar/${producto.id}`);
     };
 
-    const eliminarProducto = (id) => {
-        setProductos((anteriores) =>
-            anteriores.filter((producto) => producto.id !== id)
-        );
+    const manejarEliminar = (id) => {
+
+        const eliminado = eliminarProducto(id);
+
+        if (eliminado) {
+            setProductos(obtenerProductos());
+        }
     };
 
     return (
@@ -83,14 +70,14 @@ function ProductosAdmin() {
 
             </div>
 
-            {/* TABLA */}
+            {/* TABLA DE PRODUCTOS */}
 
             <div className="productos-admin-contenido">
 
                 <TablaProductosAdmin
                     productos={productos}
                     onEditar={editarProducto}
-                    onEliminar={eliminarProducto}
+                    onEliminar={manejarEliminar}
                 />
 
             </div>

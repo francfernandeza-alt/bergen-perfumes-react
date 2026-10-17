@@ -147,7 +147,17 @@
     gap: 10px;
     margin-top: 0;
     padding: 13px 25px;
+
 }
+
+.detalle-stock {
+    margin-top: 18px;
+    margin-bottom: 20px;
+    color: var(--bergen-dark);
+    font-size: 15px;
+    font-weight: 600;
+}
+
 
 @media (max-width: 768px) {
     .detalle-acciones {

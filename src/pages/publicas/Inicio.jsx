@@ -5,36 +5,25 @@ import ListaProductos from "../../components/organisms/ListaProductos";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
-import "../../styles/pages/Inicio.css";
+import { obtenerProductos } from "../../scripts/storage";
 
-const productosDestacados = [
-    {
-        id: 1,
-        nombre: "Polo Blue",
-        descripcion: "Fragancia masculina fresca y elegante.",
-        precio: 64,
-        precioAnterior: 80,
-        imagen: "/imagenes/263-Polo-Blue.webp"
-    },
-    {
-        id: 2,
-        nombre: "Big Pony",
-        descripcion: "Una fragancia moderna y dinámica.",
-        precio: 85,
-        precioAnterior: null,
-        imagen: "/imagenes/274-Big-Pony.webp"
-    }
-];
+import "../../styles/pages/Inicio.css";
 
 function Inicio() {
 
     const navigate = useNavigate();
+
+    // Obtener los productos desde localStorage
+    // y seleccionar los primeros 4 como destacados.
+
+    const productosDestacados = obtenerProductos().slice(0, 4);
 
     const verDetalle = (id) => {
         navigate(`/producto/${id}`);
     };
 
     const agregarAlCarrito = (id) => {
+        // Pendiente: integrar lógica real del carrito.
         console.log("Agregar al carrito, ID:", id);
     };
 

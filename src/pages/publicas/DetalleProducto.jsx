@@ -10,29 +10,9 @@ import Icono from "../../components/atoms/Icono";
 import PrecioProducto from "../../components/molecules/PrecioProducto";
 import ControlCantidad from "../../components/molecules/ControlCantidad";
 
+import { obtenerProductoPorId } from "../../scripts/storage";
+
 import "../../styles/pages/DetalleProducto.css";
-
-// Datos temporales.
-// Más adelante se conectarán con los productos reales.
-
-const productosEjemplo = [
-    {
-        id: 1,
-        nombre: "Polo Blue",
-        descripcion: "Fragancia masculina fresca y elegante.",
-        precio: 64,
-        precioAnterior: 80,
-        imagen: "/imagenes/263-Polo-Blue.webp"
-    },
-    {
-        id: 2,
-        nombre: "Big Pony",
-        descripcion: "Una fragancia moderna y dinámica.",
-        precio: 85,
-        precioAnterior: null,
-        imagen: "/imagenes/274-Big-Pony.webp"
-    }
-];
 
 function DetalleProducto() {
 
@@ -40,12 +20,17 @@ function DetalleProducto() {
 
     const [cantidad, setCantidad] = useState(1);
 
-    const producto = productosEjemplo.find(
-        (item) => item.id === Number(id)
-    );
+    // Obtener el producto actualizado desde localStorage.
+    const producto = obtenerProductoPorId(id);
 
     const aumentarCantidad = () => {
-        setCantidad((anterior) => anterior + 1);
+        setCantidad((anterior) => {
+            if (producto.stock <= 0) {
+                return anterior;
+            }
+
+            return Math.min(anterior + 1, producto.stock);
+        });
     };
 
     const disminuirCantidad = () => {
@@ -53,6 +38,11 @@ function DetalleProducto() {
     };
 
     const agregarAlCarrito = () => {
+
+        if (!producto || producto.stock <= 0) {
+            return;
+        }
+
         // Pendiente: integrar lógica real del carrito.
         console.log("Agregar al carrito:", {
             ...producto,
@@ -60,9 +50,12 @@ function DetalleProducto() {
         });
     };
 
+    // PRODUCTO NO ENCONTRADO
+
     if (!producto) {
         return (
             <section className="detalle-no-encontrado">
+
                 <div className="container">
 
                     <Texto
@@ -82,6 +75,7 @@ function DetalleProducto() {
                     </Link>
 
                 </div>
+
             </section>
         );
     }
@@ -143,6 +137,19 @@ function DetalleProducto() {
                             precioAnterior={producto.precioAnterior}
                         />
 
+                        {/* DISPONIBILIDAD */}
+
+                        <Texto
+                            contenido={
+                                producto.stock > 0
+                                    ? `Stock disponible: ${producto.stock}`
+                                    : "Producto sin stock"
+                            }
+                            className="detalle-stock"
+                        />
+
+                        {/* COMPRA */}
+
                         <div className="detalle-compra">
 
                             <Texto
@@ -163,11 +170,14 @@ function DetalleProducto() {
                                     texto={
                                         <>
                                             <Icono nombre="cart-plus" />
-                                            <span>Agregar al carrito</span>
+                                            <span>
+                                                Agregar al carrito
+                                            </span>
                                         </>
                                     }
                                     variante="marca"
                                     onClick={agregarAlCarrito}
+                                    deshabilitado={producto.stock <= 0}
                                     className="detalle-boton-carrito"
                                 />
 

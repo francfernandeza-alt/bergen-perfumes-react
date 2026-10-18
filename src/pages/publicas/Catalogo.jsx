@@ -16,27 +16,49 @@ function Catalogo() {
 
     const navigate = useNavigate();
 
-    // Productos compartidos con el administrador
     const [productos] = useState(() => obtenerProductos());
 
     const [busqueda, setBusqueda] = useState("");
 
     const [marcaSeleccionada, setMarcaSeleccionada] = useState("");
 
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+
+    const marcasDisponibles = [
+        ...new Set(
+            productos
+                .map((producto) => producto.marca)
+                .filter(Boolean)
+        )
+    ].sort();
+
+    const categoriasDisponibles = [
+        ...new Set(
+            productos
+                .map((producto) => producto.categoria)
+                .filter(Boolean)
+        )
+    ].sort();
+
     const manejarBusqueda = (texto) => {
         setBusqueda(texto);
     };
 
     const productosFiltrados = productos.filter((producto) => {
-    const coincideNombre = producto.nombre
-        .toLowerCase()
-        .includes(busqueda.toLowerCase().trim());
+        const coincideNombre = producto.nombre
+            .toLowerCase()
+            .includes(busqueda.toLowerCase().trim());
 
-    const coincideMarca =
-        marcaSeleccionada === "" ||
-        producto.marca === marcaSeleccionada;
+        const coincideMarca =
+            marcaSeleccionada === "" ||
+            producto.marca === marcaSeleccionada;
 
-        return coincideNombre && coincideMarca;
+        const coincideCategoria =
+            categoriaSeleccionada === "" ||
+            producto.categoria === categoriaSeleccionada;
+
+        return coincideNombre && coincideMarca && coincideCategoria;
+
     });
 
     const verDetalle = (id) => {
@@ -97,20 +119,43 @@ function Catalogo() {
                             <Buscador onBuscar={manejarBusqueda} />
 
                         </div>
+                        
                         <div className="catalogo-marcas">
                             <select
                                 className="form-select"
                                 value={marcaSeleccionada}
-                                onChange={(evento) => setMarcaSeleccionada(evento.target.value)}
+                                onChange={(evento) =>
+                                    setMarcaSeleccionada(evento.target.value)
+                                }
                             >
                                 <option value="">Todas las marcas</option>
-                                <option value="Ralph Lauren">Ralph Lauren</option>
-                                <option value="Carolina Herrera">Carolina Herrera</option>
-                                <option value="Yves Saint Laurent">Yves Saint Laurent</option>
-                                <option value="Dior">Dior</option>
-                                <option value="Versace">Versace</option>
+
+                                {marcasDisponibles.map((marca) => (
+                                    <option key={marca} value={marca}>
+                                        {marca}
+                                    </option>
+                                ))}
                             </select>
                         </div>
+
+                        <div className="catalogo-categorias">
+                            <select
+                                className="form-select"
+                                value={categoriaSeleccionada}
+                                onChange={(evento) =>
+                                    setCategoriaSeleccionada(evento.target.value)
+                                }
+                            >
+                                <option value="">Todas las categorías</option>
+
+                                {categoriasDisponibles.map((categoria) => (
+                                    <option key={categoria} value={categoria}>
+                                        {categoria}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
                         <Texto
                             contenido={`${productosFiltrados.length} productos encontrados`}
                             className="catalogo-contador"

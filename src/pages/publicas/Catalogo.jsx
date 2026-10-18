@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import ListaProductos from "../../components/organisms/ListaProductos";
 import Buscador from "../../components/molecules/Buscador";
@@ -16,13 +16,17 @@ function Catalogo() {
 
     const navigate = useNavigate();
 
+    const [searchParams] = useSearchParams();
+
     const [productos] = useState(() => obtenerProductos());
 
     const [busqueda, setBusqueda] = useState("");
 
     const [marcaSeleccionada, setMarcaSeleccionada] = useState("");
 
-    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(
+        () => searchParams.get("categoria") || ""
+    );
 
     const marcasDisponibles = [
         ...new Set(
@@ -40,9 +44,15 @@ function Catalogo() {
         )
     ].sort();
 
+    useEffect(() => {
+        setCategoriaSeleccionada(searchParams.get("categoria") || "");
+    }, [searchParams]);
+
     const manejarBusqueda = (texto) => {
         setBusqueda(texto);
     };
+
+    const soloOfertas = searchParams.get("ofertas") === "true";
 
     const productosFiltrados = productos.filter((producto) => {
         const coincideNombre = producto.nombre
@@ -57,7 +67,13 @@ function Catalogo() {
             categoriaSeleccionada === "" ||
             producto.categoria === categoriaSeleccionada;
 
-        return coincideNombre && coincideMarca && coincideCategoria;
+        const coincideOferta = !soloOfertas ||
+        (
+            producto.precioAnterior != null &&
+            producto.precioAnterior > producto.precio
+        );
+
+    return coincideNombre && coincideMarca && coincideCategoria && coincideOferta;
 
     });
 

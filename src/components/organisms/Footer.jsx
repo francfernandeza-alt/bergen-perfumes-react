@@ -38,25 +38,27 @@ function Footer() {
                         />
 
                         <div className="footer-enlaces">
+                            
                             <Enlace
                                 texto="Hombre"
-                                href="/categorias/hombre"
+                                href="/catalogo?categoria=Masculino"
                             />
 
                             <Enlace
                                 texto="Mujer"
-                                href="/categorias/mujer"
+                                href="/catalogo?categoria=Femenino"
                             />
 
                             <Enlace
                                 texto="Ofertas"
-                                href="/ofertas"
+                                href="/catalogo?ofertas=true"
                             />
 
                             <Enlace
                                 texto="Catálogo"
                                 href="/catalogo"
                             />
+
                         </div>
                     </div>
 
@@ -84,7 +86,7 @@ function Footer() {
                             <EnlaceIcono
                                 texto="WhatsApp"
                                 icono="whatsapp"
-                                href="https://wa.me/"
+                                href="https://wa.me/56936639565"
                                 target="_blank"
                             />
                         </div>

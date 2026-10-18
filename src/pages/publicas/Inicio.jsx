@@ -14,7 +14,8 @@ function Inicio() {
 
     const navigate = useNavigate();
 
-    const productosDestacados = obtenerProductos().slice(0, 5);
+    const productos = obtenerProductos();
+    const productosDestacados = productos.slice(0, 4);
 
     const verDetalle = (id) => {
         navigate(`/producto/${id}`);

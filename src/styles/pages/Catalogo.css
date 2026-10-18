@@ -63,14 +63,35 @@
     max-width: 450px;
 }
 
+.catalogo-marcas,.catalogo-categorias {
+    flex: 1 1 180px;
+    min-width: 180px;
+    max-width: 240px;
+}
+
+.catalogo-marcas .form-select,
+.catalogo-categorias .form-select {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--bergen-border);
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: var(--bergen-dark);
+    font-size: 14px;
+}
+
+.catalogo-marcas .form-select:focus,
+.catalogo-categorias .form-select:focus {
+    border-color: var(--bergen-primary);
+    box-shadow: 0 0 0 3px rgba(0, 140, 140, 0.12);
+}
+
 .catalogo-contador {
     margin: 0;
     color: var(--bergen-dark);
     font-size: 14px;
     font-weight: 600;
 }
-
-/* PIE INFORMATIVO */
 
 .catalogo-informacion {
     padding: 35px 0;
@@ -116,5 +137,18 @@
 
     .catalogo-buscador {
         max-width: 100%;
+    }
+    
+    .catalogo-marcas,
+    .catalogo-categorias {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        flex: none;
+    }
+
+    .catalogo-contador {
+        width: 100%;
+        text-align: left;
     }
 }

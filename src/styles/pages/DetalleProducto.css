@@ -104,17 +104,6 @@
     font-weight: 600;
 }
 
-.detalle-boton-carrito {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 25px;
-    padding: 13px 25px;
-}
-
-/* PRODUCTO NO ENCONTRADO */
-
 .detalle-no-encontrado {
     min-height: 60vh;
     padding: 90px 0;
@@ -130,8 +119,6 @@
 .detalle-no-encontrado p {
     margin-bottom: 25px;
 }
-
-/* ACCIONES DE COMPRA */
 
 .detalle-acciones {
     display: flex;
@@ -158,6 +145,34 @@
     font-weight: 600;
 }
 
+.detalle-atributos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.detalle-atributo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 16px;
+    background-color: #f8f6f1;
+    border: 1px solid #d9dedb;
+    border-radius: 8px;
+}
+
+.detalle-atributo-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666;
+}
+
+.detalle-atributo-valor {
+    font-size: 14px;
+    font-weight: 600;
+    color: #073b3b;
+}
 
 @media (max-width: 768px) {
     .detalle-acciones {
@@ -170,8 +185,6 @@
         width: 100%;
     }
 }
-
-/* RESPONSIVE */
 
 @media (max-width: 768px) {
 

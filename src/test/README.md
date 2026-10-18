@@ -1,12 +1,15 @@
-Pruebas unitarias - Bergen Perfumes
+Se incorporan las pruebas unitarias de los componentes y páginas de Bergen Perfumes utilizando Jasmine, Karma y React Testing Library.
 
-Esta carpeta contendrá las pruebas unitarias del proyecto.
+Cambios realizados:
 
-Se utilizarán Jasmine y Karma para verificar:
+Pruebas de organismos.
 
-- Renderizado de componentes React.
-- Propiedades (props).
-- Gestión de estados.
-- Eventos e interacciones.
-- Validaciones de formularios.
-- Funcionalidades del carrito de compras.
+Pruebas de templates.
+
+Pruebas de páginas administrativas, de clientes y públicas.
+
+Correcciones necesarias en Footer, almacenamiento del carrito y validaciones de login.
+
+Integración de los cambios recientes de main.
+
+Validación: ejecución de las pruebas unitarias completada correctamente.

@@ -20,7 +20,9 @@ function Catalogo() {
 
     const [productos] = useState(() => obtenerProductos());
 
-    const [busqueda, setBusqueda] = useState("");
+    const [busqueda, setBusqueda] = useState(
+        () => searchParams.get("buscar") || ""
+    );
 
     const [marcaSeleccionada, setMarcaSeleccionada] = useState("");
 
@@ -46,6 +48,7 @@ function Catalogo() {
 
     useEffect(() => {
         setCategoriaSeleccionada(searchParams.get("categoria") || "");
+        setBusqueda(searchParams.get("buscar") || "");
     }, [searchParams]);
 
     const manejarBusqueda = (texto) => {

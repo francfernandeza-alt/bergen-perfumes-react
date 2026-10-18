@@ -1,4 +1,4 @@
-import { validarCorreo } from "./registros";
+import { validarCorreo } from "./registros.js";
 
 export function validarCorreoLogin(correo) {
     return validarCorreo(correo);

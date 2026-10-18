@@ -1,7 +1,7 @@
 
 import {
     obtenerProductoPorId
-} from "./storage";
+} from "./storage.js";
 
 const CLAVE_CARRITO = "bergen_carrito";
 

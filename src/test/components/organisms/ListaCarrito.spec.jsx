@@ -21,7 +21,6 @@ describe('ListaCarrito Component', () => {
         }
     ];
 
-
     it('muestra un mensaje cuando el carrito está vacío', () => {
         render(<ListaCarrito productos={[]} />);
 
@@ -35,7 +34,6 @@ describe('ListaCarrito Component', () => {
         expect(mensaje).toBeTruthy();
     });
 
-
     it('renderiza correctamente los productos del carrito', () => {
         render(
             <ListaCarrito productos={productosEjemplo} />
@@ -44,15 +42,14 @@ describe('ListaCarrito Component', () => {
         const producto1 = screen.getByText('Polo Blue');
         const producto2 = screen.getByText('Versace Eros');
 
-        const subtotal1 = screen.getByText('128 Esmeraldas');
-        const subtotal2 = screen.getByText('150 Esmeraldas');
+        const subtotal1 = screen.getByText('$128');
+        const subtotal2 = screen.getByText('$150');
 
         expect(producto1).toBeTruthy();
         expect(producto2).toBeTruthy();
         expect(subtotal1).toBeTruthy();
         expect(subtotal2).toBeTruthy();
     });
-
 
     it('permite cambiar cantidades y eliminar productos', () => {
         const mockCambiarCantidad = jasmine.createSpy('onCambiarCantidad');

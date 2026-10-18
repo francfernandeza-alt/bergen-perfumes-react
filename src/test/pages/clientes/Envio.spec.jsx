@@ -114,7 +114,7 @@ describe('Envio Component', () => {
         expect(titulo).toBeTruthy();
         expect(nombre).toBeTruthy();
         expect(boton).toBeTruthy();
-        expect(total.textContent).toContain('128 Esmeraldas');
+        expect(total.textContent).toContain('$128');
     });
 
 

@@ -34,11 +34,13 @@ describe('FormularioProductoAdmin Component', () => {
 
         const titulo = screen.getByText('Agregar nuevo perfume');
         const nombre = screen.getByLabelText('Nombre del perfume');
+        const marca = screen.getByLabelText('Marca del perfume');
         const precio = screen.getByLabelText('Precio');
         const stock = screen.getByLabelText('Stock disponible');
 
         expect(titulo).toBeTruthy();
         expect(nombre).toBeTruthy();
+        expect(marca).toBeTruthy();
         expect(precio).toBeTruthy();
         expect(stock).toBeTruthy();
     });
@@ -49,6 +51,10 @@ describe('FormularioProductoAdmin Component', () => {
 
         fireEvent.change(screen.getByLabelText('Nombre del perfume'), {
             target: { value: 'Polo Blue' }
+        });
+
+        fireEvent.change(screen.getByLabelText('Marca del perfume'), {
+            target: { value: 'Ralph Lauren' }
         });
 
         fireEvent.change(screen.getByLabelText('Descripción'), {

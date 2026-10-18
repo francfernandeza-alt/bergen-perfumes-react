@@ -19,7 +19,6 @@ describe('ResumenCompra Component', () => {
         }
     ];
 
-
     it('muestra un mensaje cuando el carrito está vacío', () => {
         render(<ResumenCompra productos={[]} />);
 
@@ -34,7 +33,6 @@ describe('ResumenCompra Component', () => {
         })).toBeNull();
     });
 
-
     it('calcula correctamente los productos y el total de compra', () => {
         render(
             <ResumenCompra productos={productosEjemplo} />
@@ -44,14 +42,13 @@ describe('ResumenCompra Component', () => {
         const producto2 = screen.getByText('Versace Eros');
 
         const totalProductos = screen.getByText('5');
-        const totalCompra = screen.getByText('278 Esmeraldas');
+        const totalCompra = screen.getByText('$278');
 
         expect(producto1).toBeTruthy();
         expect(producto2).toBeTruthy();
         expect(totalProductos).toBeTruthy();
         expect(totalCompra).toBeTruthy();
     });
-
 
     it('permite proceder al pago y ocultar el botón', () => {
         const mockPagar = jasmine.createSpy('onPagar');

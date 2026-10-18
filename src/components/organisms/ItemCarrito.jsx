@@ -72,7 +72,7 @@ function ItemCarrito({
                     />
 
                     <Texto
-                        contenido={`${producto.precio} Esmeraldas`}
+                        contenido={`$${producto.precio.toLocaleString("es-CL")}`}
                         className="item-carrito-valor"
                     />
 
@@ -103,7 +103,7 @@ function ItemCarrito({
                     />
 
                     <Texto
-                        contenido={`${subtotal} Esmeraldas`}
+                        contenido={`$${subtotal.toLocaleString("es-CL")}`}
                         className="item-carrito-total"
                     />
 

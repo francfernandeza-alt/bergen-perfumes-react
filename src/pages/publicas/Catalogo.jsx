@@ -21,16 +21,23 @@ function Catalogo() {
 
     const [busqueda, setBusqueda] = useState("");
 
+    const [marcaSeleccionada, setMarcaSeleccionada] = useState("");
+
     const manejarBusqueda = (texto) => {
         setBusqueda(texto);
     };
 
-    const productosFiltrados = productos.filter(
-        (producto) =>
-            producto.nombre
-                .toLowerCase()
-                .includes(busqueda.toLowerCase().trim())
-    );
+    const productosFiltrados = productos.filter((producto) => {
+    const coincideNombre = producto.nombre
+        .toLowerCase()
+        .includes(busqueda.toLowerCase().trim());
+
+    const coincideMarca =
+        marcaSeleccionada === "" ||
+        producto.marca === marcaSeleccionada;
+
+        return coincideNombre && coincideMarca;
+    });
 
     const verDetalle = (id) => {
         navigate(`/producto/${id}`);
@@ -90,7 +97,20 @@ function Catalogo() {
                             <Buscador onBuscar={manejarBusqueda} />
 
                         </div>
-
+                        <div className="catalogo-marcas">
+                            <select
+                                className="form-select"
+                                value={marcaSeleccionada}
+                                onChange={(evento) => setMarcaSeleccionada(evento.target.value)}
+                            >
+                                <option value="">Todas las marcas</option>
+                                <option value="Ralph Lauren">Ralph Lauren</option>
+                                <option value="Carolina Herrera">Carolina Herrera</option>
+                                <option value="Yves Saint Laurent">Yves Saint Laurent</option>
+                                <option value="Dior">Dior</option>
+                                <option value="Versace">Versace</option>
+                            </select>
+                        </div>
                         <Texto
                             contenido={`${productosFiltrados.length} productos encontrados`}
                             className="catalogo-contador"

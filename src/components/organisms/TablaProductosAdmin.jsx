@@ -93,7 +93,7 @@ function TablaProductosAdmin({
 
                                     <td>
                                         <Texto
-                                            contenido={`${producto.precio} Esmeraldas`}
+                                            contenido={`$${producto.precio.toLocaleString("es-CL")}`}
                                             className="tabla-productos-admin-precio"
                                         />
                                     </td>

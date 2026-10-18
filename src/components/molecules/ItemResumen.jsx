@@ -20,7 +20,7 @@ function ItemResumen({
 
                 <Texto
                     etiqueta="span"
-                    contenido={`Precio unitario: ${precio} esmeraldas`}
+                    contenido={`Precio unitario: $${precio.toLocaleString("es-CL")}`}
                     className="item-resumen-precio"
                 />
             </div>
@@ -33,7 +33,7 @@ function ItemResumen({
 
             <Texto
                 etiqueta="span"
-                contenido={`${subtotal} esmeraldas`}
+                contenido={`$${subtotal.toLocaleString("es-CL")}`}
                 className="item-resumen-subtotal"
             />
 

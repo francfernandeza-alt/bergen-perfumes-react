@@ -4,7 +4,34 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 
 import Login from '../../../pages/publicas/Login';
 
+import { crearUsuario } from '../../../scripts/storage/usuariosStorage.js';
+import { obtenerSesion } from '../../../scripts/storage/sesionStorage.js';
+
 describe('Login Component', () => {
+
+    let respaldoUsuarios;
+    let respaldoSesion;
+
+    beforeEach(() => {
+        respaldoUsuarios = localStorage.getItem('bergen_usuarios');
+        respaldoSesion = localStorage.getItem('bergen_sesion');
+
+        localStorage.removeItem('bergen_usuarios');
+        localStorage.removeItem('bergen_sesion');
+    });
+
+    afterEach(() => {
+        localStorage.removeItem('bergen_usuarios');
+        localStorage.removeItem('bergen_sesion');
+
+        if (respaldoUsuarios !== null) {
+            localStorage.setItem('bergen_usuarios', respaldoUsuarios);
+        }
+
+        if (respaldoSesion !== null) {
+            localStorage.setItem('bergen_sesion', respaldoSesion);
+        }
+    });
 
     const renderLogin = () => {
         return render(
@@ -24,31 +51,29 @@ describe('Login Component', () => {
         );
     };
 
-
     it('renderiza correctamente el formulario de inicio de sesión', () => {
         renderLogin();
 
-        const titulo = screen.getByText('Bienvenido nuevamente');
+        expect(
+            screen.getByText('Bienvenido nuevamente')
+        ).toBeTruthy();
 
-        const correo = screen.getByLabelText('Correo electrónico');
+        expect(
+            screen.getByLabelText('Correo electrónico')
+        ).toBeTruthy();
 
-        const contrasena = screen.getByLabelText('Contraseña');
+        expect(
+            screen.getByLabelText('Contraseña')
+        ).toBeTruthy();
 
-        const boton = screen.getByRole('button', {
-            name: 'Ingresar'
-        });
+        expect(
+            screen.getByRole('button', { name: 'Ingresar' })
+        ).toBeTruthy();
 
-        const mensaje = screen.getByText(
-            'Tu información está protegida.'
-        );
-
-        expect(titulo).toBeTruthy();
-        expect(correo).toBeTruthy();
-        expect(contrasena).toBeTruthy();
-        expect(boton).toBeTruthy();
-        expect(mensaje).toBeTruthy();
+        expect(
+            screen.getByText('Tu información está protegida.')
+        ).toBeTruthy();
     });
-
 
     it('permite volver a la página de inicio', () => {
         renderLogin();
@@ -70,34 +95,48 @@ describe('Login Component', () => {
         ).toBeNull();
     });
 
+    it('permite iniciar sesión como cliente y guarda su rol', () => {
 
-    it('recibe un intento de inicio de sesión válido', () => {
-        const mockConsola = spyOn(console, 'log');
+        const creado = crearUsuario({
+            rut: '12345678-9',
+            nombre: 'Cliente',
+            apellidos: 'Prueba',
+            correo: 'cliente@bergen.com',
+            contrasena: 'BergenDemo2026',
+            direccion: 'Dirección de prueba'
+        });
+
+        expect(creado).toBe(true);
 
         renderLogin();
 
-        const correo = screen.getByLabelText('Correo electrónico');
-
-        const contrasena = screen.getByLabelText('Contraseña');
-
-        fireEvent.change(correo, {
-            target: { value: 'cliente@bergen.com' }
-        });
-
-        fireEvent.change(contrasena, {
-            target: { value: 'ClaveSegura123!' }
-        });
-
-        const boton = screen.getByRole('button', {
-            name: 'Ingresar'
-        });
-
-        fireEvent.submit(boton.closest('form'));
-
-        expect(mockConsola).toHaveBeenCalledWith(
-            'Intento de inicio de sesión:',
-            'cliente@bergen.com'
+        fireEvent.change(
+            screen.getByLabelText('Correo electrónico'),
+            {
+                target: { value: 'cliente@bergen.com' }
+            }
         );
+
+        fireEvent.change(
+            screen.getByLabelText('Contraseña'),
+            {
+                target: { value: 'BergenDemo2026' }
+            }
+        );
+
+        fireEvent.click(
+            screen.getByRole('button', { name: 'Ingresar' })
+        );
+
+        const sesion = obtenerSesion();
+
+        expect(sesion).not.toBeNull();
+        expect(sesion.correo).toBe('cliente@bergen.com');
+        expect(sesion.rol).toBe('cliente');
+
+        expect(
+            screen.getByText('Página de inicio de prueba')
+        ).toBeTruthy();
     });
 
 });

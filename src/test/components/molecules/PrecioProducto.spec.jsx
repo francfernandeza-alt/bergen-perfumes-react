@@ -1,3 +1,4 @@
+
 import { render, screen } from '@testing-library/react';
 import PrecioProducto from '../../../components/molecules/PrecioProducto';
 
@@ -10,7 +11,7 @@ describe('PrecioProducto Component', () => {
             />
         );
 
-        const precioActual = screen.getByText('800 esmeraldas');
+        const precioActual = screen.getByText('$800');
 
         expect(precioActual).toBeTruthy();
     });
@@ -24,8 +25,8 @@ describe('PrecioProducto Component', () => {
             />
         );
 
-        const precioAnterior = screen.getByText('1000 esmeraldas');
-        const precioActual = screen.getByText('800 esmeraldas');
+        const precioAnterior = screen.getByText('$1.000');
+        const precioActual = screen.getByText('$800');
 
         expect(precioAnterior).toBeTruthy();
         expect(precioActual).toBeTruthy();
@@ -40,9 +41,11 @@ describe('PrecioProducto Component', () => {
             />
         );
 
-        const precioAnterior = screen.queryByText('700 esmeraldas');
+        const precioAnterior = screen.queryByText('$700');
 
         expect(precioAnterior).toBeNull();
+
+        expect(screen.getByText('$800')).toBeTruthy();
     });
 
 });

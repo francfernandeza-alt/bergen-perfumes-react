@@ -1,19 +1,43 @@
 
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import FormularioLogin from "../../components/organisms/FormularioLogin";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
+import Mensaje from "../../components/atoms/Mensaje";
+
+import { iniciarSesion } from "../../scripts/storage/usuariosStorage.js";
+import { guardarSesion } from "../../scripts/storage/sesionStorage.js";
 
 import "../../styles/pages/Login.css";
 
 function Login() {
 
+    const navigate = useNavigate();
+
+    const [error, setError] = useState("");
+
     const manejarIngreso = (correo, contrasena) => {
-        // Pendiente: integrar autenticación real.
-        // No mostrar contraseñas en consola.
-        console.log("Intento de inicio de sesión:", correo);
+
+        setError("");
+
+        const usuario = iniciarSesion(correo, contrasena);
+
+        if (usuario === null) {
+            setError("Correo o contraseña incorrectos.");
+            return;
+        }
+
+        guardarSesion(usuario);
+
+        if (usuario.rol === "admin") {
+            navigate("/admin");
+        } else {
+            navigate("/");
+        }
     };
+
 
     return (
         <div className="login">
@@ -21,8 +45,6 @@ function Login() {
             <div className="container">
 
                 <div className="login-contenedor">
-
-                    {/* NAVEGACIÓN */}
 
                     <Link
                         to="/"
@@ -32,13 +54,16 @@ function Login() {
                         Volver al inicio
                     </Link>
 
-                    {/* FORMULARIO */}
-
                     <FormularioLogin
                         onIngresar={manejarIngreso}
                     />
 
-                    {/* INFORMACIÓN ADICIONAL */}
+                    {error && (
+                        <Mensaje
+                            texto={error}
+                            variante="danger"
+                        />
+                    )}
 
                     <div className="login-informacion">
 

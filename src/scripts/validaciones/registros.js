@@ -10,7 +10,7 @@ export function validarCorreo(correo) {
 }
 
 export function validarContrasena(clave) {
-    if (clave.length !== 8 || clave == clave.toLowerCase() || clave == clave.toUpperCase()) {
+    if (clave.length <= 8 || clave == clave.toLowerCase() || clave == clave.toUpperCase()) {
         return false;
     }
     return true;

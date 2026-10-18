@@ -1,3 +1,4 @@
+
 import { render, screen } from '@testing-library/react';
 import ItemResumen from '../../../components/molecules/ItemResumen';
 
@@ -28,7 +29,7 @@ describe('ItemResumen Component', () => {
         );
 
         const cantidad = screen.getByText('Cantidad: 2');
-        const precio = screen.getByText('Precio unitario: 500 esmeraldas');
+        const precio = screen.getByText('Precio unitario: $500');
 
         expect(cantidad).toBeTruthy();
         expect(precio).toBeTruthy();
@@ -44,7 +45,7 @@ describe('ItemResumen Component', () => {
             />
         );
 
-        const subtotal = screen.getByText('1500 esmeraldas');
+        const subtotal = screen.getByText('$1.500');
 
         expect(subtotal).toBeTruthy();
     });

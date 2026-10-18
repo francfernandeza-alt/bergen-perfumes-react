@@ -73,9 +73,16 @@ function FormularioRegistro({ onRegistrar }) {
             setError("La dirección no es válida.");
             return;
         }
+
         const { confirmarContrasena, ...datosRegistro } = datos;
-        onRegistrar?.(datosRegistro);
-        setExito(true);
+
+        const registrado = onRegistrar?.(datosRegistro);
+
+        if (registrado === true) {
+            setExito(true);
+        } else {
+            setError("No se pudo crear la cuenta. El correo podría estar registrado.");
+        }
     };
 
 
@@ -197,7 +204,7 @@ function FormularioRegistro({ onRegistrar }) {
 
                 {exito && (
                     <Mensaje
-                        texto="¡Formulario validado correctamente! Esta es una simulación de registro."
+                        texto="¡Cuenta creada correctamente! Ya puedes iniciar sesión."
                         variante="success"
                     />
                 )}

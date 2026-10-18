@@ -86,7 +86,7 @@ function ResumenCompra({
                             />
 
                             <Texto
-                                contenido={`${totalCompra} Esmeraldas`}
+                                contenido={`$${totalCompra.toLocaleString("es-CL")}`}
                             />
 
                         </div>

@@ -5,20 +5,112 @@ const productosIniciales = [
     {
         id: 1,
         nombre: "Polo Blue",
+        marca: "Ralph Lauren",
         descripcion: "Fragancia masculina fresca y elegante.",
-        precio: 64,
-        precioAnterior: 80,
+        precio: 64000,
+        precioAnterior: null,
         stock: 15,
         imagen: "/imagenes/263-Polo-Blue.webp"
     },
     {
         id: 2,
         nombre: "Big Pony",
+        marca: "Ralph Lauren",
         descripcion: "Una fragancia moderna y dinámica.",
-        precio: 85,
+        precio: 85000,
         precioAnterior: null,
         stock: 8,
         imagen: "/imagenes/274-Big-Pony.webp"
+    },
+    {
+        id: 3,
+        nombre: "Very Good Girl - Carolina Herrera",
+        marca: "Carolina Herrera",
+        descripcion: "Fragancia femenina elegante y sofisticada.",
+        precio: 55000,
+        precioAnterior: 65000,
+        stock: 24,
+        imagen: "/imagenes/Carolina Herrera Very Good Girl EDP 80 ml – Mujer.webp"
+    },
+    {
+        id: 4,
+        nombre: "Polo Green",
+        marca: "Ralph Lauren",
+        descripcion: "Fragancia masculina clásica.",
+        precio: 40000,
+        precioAnterior: null,
+        stock: 8,
+        imagen: "/imagenes/267-Polo-Green.webp"
+    },
+    {
+        id: 5,
+        nombre: "Polo Black",
+        marca: "Ralph Lauren",
+        descripcion: "Fragancia masculina elegante.",
+        precio: 20000,
+        precioAnterior: null,
+        stock: 7,
+        imagen: "/imagenes/269-Polo-Black.webp"
+    },
+    {
+        id: 6,
+        nombre: "Polo Red",
+        marca: "Ralph Lauren",
+        descripcion: "Fragancia masculina intensa.",
+        precio: 29000,
+        precioAnterior: null,
+        stock: 5,
+        imagen: "/imagenes/272-Polo-Red.webp"
+    },
+    {
+        id: 7,
+        nombre: "Libre",
+        marca: "Yves Saint Laurent",
+        descripcion: "Fragancia femenina elegante.",
+        precio: 39000,
+        precioAnterior: null,
+        stock: 4,
+        imagen: "/imagenes/275-Libre.webp"
+    },
+    {
+        id: 8,
+        nombre: "Good Girl - Carolina Herrera",
+        marca: "Carolina Herrera",
+        descripcion: "Fragancia femenina elegante.",
+        precio: 88000,
+        precioAnterior: null,
+        stock: 4,
+        imagen: "/imagenes/Good Girl de Carolina Herrera..png"
+    },
+    {
+        id: 9,
+        nombre: "Miss Dior Blooming Bouquet",
+        marca: "Dior",
+        descripcion: "Fragancia femenina floral.",
+        precio: 56000,
+        precioAnterior: null,
+        stock: 3,
+        imagen: "/imagenes/Miss Dior Blooming Bouquet EDT 100 ml – Mujer.webp"
+    },
+    {
+        id: 10,
+        nombre: "Versace Bright Crystal",
+        marca: "Versace",
+        descripcion: "Fragancia femenina fresca.",
+        precio: 67000,
+        precioAnterior: null,
+        stock: 5,
+        imagen: "/imagenes/Versace Bright Crystal EDT 90 ml – Mujer.webp"
+    },
+    {
+        id: 11,
+        nombre: "Versace Yellow Diamond",
+        marca: "Versace",
+        descripcion: "Fragancia femenina floral.",
+        precio: 88000,
+        precioAnterior: null,
+        stock: 6,
+        imagen: "/imagenes/Versace Yellow Diamond EDT 90 ml – Mujer.webp"
     }
 ];
 

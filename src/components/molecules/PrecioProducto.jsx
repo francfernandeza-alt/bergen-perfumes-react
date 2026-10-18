@@ -11,14 +11,14 @@ function PrecioProducto({
             {precioAnterior != null && precioAnterior > precio && (
                 <Texto
                     etiqueta="span"
-                    contenido={`${precioAnterior} esmeraldas`}
+                    contenido={`$${precioAnterior.toLocaleString("es-CL")}`}
                     className="precio-anterior"
                 />
             )}
 
             <Texto
                 etiqueta="span"
-                contenido={`${precio} esmeraldas`}
+                contenido={`$${precio.toLocaleString("es-CL")}`}
                 className="precio-actual"
             />
 

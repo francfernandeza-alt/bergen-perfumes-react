@@ -8,9 +8,15 @@ import Icono from "../atoms/Icono";
 import Imagen from "../atoms/Imagen";
 
 import "../../styles/organisms/FormularioProducto.css";
-
+import {
+    validarNombreProducto,
+    validarPrecio,
+    validarStock,
+    validarMarca
+} from "../../scripts/validaciones/productos";
 const productoVacio = {
     nombre: "",
+    marca: "",
     descripcion: "",
     precio: "",
     precioAnterior: "",
@@ -32,6 +38,7 @@ function FormularioProducto({
         if (producto) {
             setDatos({
                 nombre: producto.nombre ?? "",
+                marca: producto.marca ?? "",
                 descripcion: producto.descripcion ?? "",
                 precio: producto.precio ?? "",
                 precioAnterior: producto.precioAnterior ?? "",
@@ -54,7 +61,22 @@ function FormularioProducto({
 
     const manejarEnvio = (evento) => {
         evento.preventDefault();
-
+        if (validarNombreProducto(datos.nombre) == false) {
+            alert("El nombre del perfume debe tener entre 1 y 100 caracteres.");
+            return;
+        }
+        if (validarMarca(datos.marca) == false) {
+            alert("Debes seleccionar una marca para el perfume.");
+            return;
+        }
+        if (validarPrecio(Number(datos.precio)) == false) {
+            alert("El precio debe ser mayor a 0 y no puede tener decimales.");
+            return;
+        }
+        if (validarStock(Number(datos.stock)) == false) {
+            alert("El stock no puede ser negativo ni tener decimales.");
+            return;
+        }
         const productoGuardar = {
             ...datos,
             ...(esEdicion ? { id: producto.id } : {}),
@@ -117,6 +139,27 @@ function FormularioProducto({
                             onChange={manejarCambio}
                             requerido={true}
                         />
+                    </div>
+                    <div className="col-12">
+                        <label htmlFor="marca" className="form-label">
+                            Marca del perfume
+                        </label>
+
+                        <select
+                            id="marca"
+                            name="marca"
+                            className="form-select"
+                            value={datos.marca}
+                            onChange={manejarCambio}
+                            required
+                        >
+                            <option value="">Selecciona una marca</option>
+                            <option value="Ralph Lauren">Ralph Lauren</option>
+                            <option value="Carolina Herrera">Carolina Herrera</option>
+                            <option value="Yves Saint Laurent">Yves Saint Laurent</option>
+                            <option value="Dior">Dior</option>
+                            <option value="Versace">Versace</option>
+                        </select>
                     </div>
 
                     <div className="col-12">

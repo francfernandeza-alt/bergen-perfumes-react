@@ -30,3 +30,10 @@ export function validarBusqueda(texto) {
 
     return true;
 }
+
+export function validarMarca(marca) {
+    if (marca.trim().length == 0) {
+        return false;
+    }
+    return true;
+}

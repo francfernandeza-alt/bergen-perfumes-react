@@ -22,8 +22,6 @@ function Registro() {
 
                 <div className="registro-contenedor">
 
-                    {/* NAVEGACIÓN */}
-
                     <Link
                         to="/"
                         className="registro-volver"
@@ -32,13 +30,9 @@ function Registro() {
                         Volver al inicio
                     </Link>
 
-                    {/* FORMULARIO */}
-
                     <FormularioRegistro
                         onRegistrar={manejarRegistro}
                     />
-
-                    {/* INFORMACIÓN ADICIONAL */}
 
                     <div className="registro-informacion">
 

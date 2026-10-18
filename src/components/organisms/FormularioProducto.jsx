@@ -16,6 +16,7 @@ import {
 } from "../../scripts/validaciones/productos";
 const productoVacio = {
     nombre: "",
+    categoria: "",
     marca: "",
     descripcion: "",
     precio: "",
@@ -38,6 +39,7 @@ function FormularioProducto({
         if (producto) {
             setDatos({
                 nombre: producto.nombre ?? "",
+                categoria: producto.categoria ?? "",
                 marca: producto.marca ?? "",
                 descripcion: producto.descripcion ?? "",
                 precio: producto.precio ?? "",
@@ -63,6 +65,10 @@ function FormularioProducto({
         evento.preventDefault();
         if (validarNombreProducto(datos.nombre) == false) {
             alert("El nombre del perfume debe tener entre 1 y 100 caracteres.");
+            return;
+        }
+        if (!["Masculino", "Femenino", "Unisex"].includes(datos.categoria)) {
+            alert("Debes seleccionar una categoría válida para el perfume.");
             return;
         }
         if (validarMarca(datos.marca) == false) {
@@ -140,6 +146,26 @@ function FormularioProducto({
                             requerido={true}
                         />
                     </div>
+                    <div className="col-12">
+                        <label htmlFor="categoria" className="form-label">
+                            Categoría del perfume
+                        </label>
+                        
+                        <select
+                            id="categoria"
+                            name="categoria"
+                            className="form-select"
+                            value={datos.categoria}
+                            onChange={manejarCambio}
+                            required
+                        >
+                            <option value="">Selecciona una categoría</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Unisex">Unisex</option>
+                        </select>
+                    </div>
+
                     <div className="col-12">
                         <label htmlFor="marca" className="form-label">
                             Marca del perfume

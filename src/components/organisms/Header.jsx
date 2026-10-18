@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Imagen from "../atoms/Imagen";
 import Enlace from "../atoms/Enlace";
@@ -10,11 +11,24 @@ import EnlaceIcono from "../molecules/EnlaceIcono";
 
 import "../../styles/organisms/Header.css";
 
-function Header({ onBuscar }) {
+function Header() {
+    const navigate = useNavigate();
+
     const [menuAbierto, setMenuAbierto] = useState(false);
 
     const alternarMenu = () => {
         setMenuAbierto(!menuAbierto);
+    };
+    
+    const manejarBusqueda = (texto) => {
+        const busqueda = texto.trim();
+
+        if (busqueda === "") {
+            navigate("/catalogo");
+            return;
+        }
+
+        navigate(`/catalogo?buscar=${encodeURIComponent(busqueda)}`);
     };
 
     return (
@@ -54,7 +68,7 @@ function Header({ onBuscar }) {
                 </nav>
 
                 <div className="header-buscador">
-                    <Buscador onBuscar={onBuscar} />
+                    <Buscador onBuscar={manejarBusqueda} />
                 </div>
 
                 <div

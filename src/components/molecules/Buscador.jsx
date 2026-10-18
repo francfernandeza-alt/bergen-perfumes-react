@@ -8,6 +8,16 @@ import { validarBusqueda } from "../../scripts/validaciones/productos";
 function Buscador({ onBuscar }) {
     const [busqueda, setBusqueda] = useState("");
 
+    const manejarCambio = (evento) => {
+        const texto = evento.target.value;
+
+        setBusqueda(texto);
+
+        if (texto.trim() === "") {
+            onBuscar("");
+        }
+    };
+
     const manejarBusqueda = (evento) => {
     evento.preventDefault();
 
@@ -29,7 +39,7 @@ function Buscador({ onBuscar }) {
                 id="busqueda"
                 placeholder="Buscar perfume..."
                 valor={busqueda}
-                onChange={(evento) => setBusqueda(evento.target.value)}
+                onChange={manejarCambio}
             />
 
             <Boton

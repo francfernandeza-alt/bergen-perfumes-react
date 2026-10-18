@@ -123,12 +123,36 @@ function DetalleProducto() {
                             contenido="BERGEN PERFUMES"
                             className="detalle-etiqueta"
                         />
-
+                        
                         <Texto
                             etiqueta="h1"
                             contenido={producto.nombre}
                             className="detalle-titulo"
                         />
+
+                        <div className="detalle-atributos">
+                            {producto.marca && (
+                                <div className="detalle-atributo">
+                                    <span className="detalle-atributo-label">
+                                        Marca
+                                    </span>
+                                    <span className="detalle-atributo-valor">
+                                        {producto.marca}
+                                    </span>
+                                </div>
+                            )}
+
+                            {producto.categoria && (
+                                <div className="detalle-atributo">
+                                    <span className="detalle-atributo-label">
+                                        Categoría
+                                    </span>
+                                    <span className="detalle-atributo-valor">
+                                        {producto.categoria}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
 
                         <Texto
                             contenido={producto.descripcion}

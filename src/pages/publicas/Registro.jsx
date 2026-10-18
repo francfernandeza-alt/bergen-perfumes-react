@@ -5,12 +5,14 @@ import FormularioRegistro from "../../components/organisms/FormularioRegistro";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
+import { crearUsuario } from "../../scripts/storage/usuariosStorage.js";
+
 import "../../styles/pages/Registro.css";
 
 function Registro() {
 
     const manejarRegistro = (datosUsuario) => {
-        console.log("Formulario de registro enviado");
+        return crearUsuario(datosUsuario);
     };
 
     return (

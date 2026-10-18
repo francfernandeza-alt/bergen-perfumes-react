@@ -103,7 +103,7 @@ function Footer() {
                         />
 
                         <Subscripcion
-                            onSubscribir={manejarSubscripcion}
+                            onSuscribir={manejarSubscripcion}
                         />
                     </div>
 

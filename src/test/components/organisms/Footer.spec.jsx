@@ -1,3 +1,4 @@
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import Footer from '../../../components/organisms/Footer';
 
@@ -11,7 +12,6 @@ describe('Footer Component', () => {
         expect(screen.getByText('CONTACTO E INFORMACIÓN')).toBeTruthy();
         expect(screen.getByText('SUBSCRÍBETE')).toBeTruthy();
     });
-
 
     it('renderiza correctamente los enlaces de navegación', () => {
         render(<Footer />);
@@ -29,10 +29,9 @@ describe('Footer Component', () => {
         });
 
         expect(catalogo.getAttribute('href')).toBe('/catalogo');
-        expect(ofertas.getAttribute('href')).toBe('/ofertas');
+        expect(ofertas.getAttribute('href')).toBe('/catalogo?ofertas=true');
         expect(contacto.getAttribute('href')).toBe('mailto:contacto@bergenperfumes.cl');
     });
-
 
     it('permite suscribirse desde el Footer', () => {
         const mockAlert = spyOn(window, 'alert');

@@ -15,6 +15,22 @@ describe('FormularioProducto Component', () => {
         stock: 10
     };
 
+    const seleccionarCategoria = () => {
+        const categoria = screen.getByLabelText(/Categoría/i);
+
+        const opcionValida = Array.from(categoria.options).find(
+            (opcion) => opcion.value !== '' && !opcion.disabled
+        );
+
+        expect(opcionValida).toBeDefined();
+
+        fireEvent.change(categoria, {
+            target: { value: opcionValida.value }
+        });
+
+        return opcionValida.value;
+    };
+
     it('carga correctamente los datos al editar un producto', () => {
         render(
             <FormularioProducto producto={productoEjemplo} />
@@ -48,6 +64,8 @@ describe('FormularioProducto Component', () => {
             target: { value: 'Ralph Lauren' }
         });
 
+        const categoriaSeleccionada = seleccionarCategoria();
+
         fireEvent.change(screen.getByLabelText('Descripción'), {
             target: { value: 'Perfume para hombre' }
         });
@@ -75,6 +93,7 @@ describe('FormularioProducto Component', () => {
         expect(mockGuardar).toHaveBeenCalledWith({
             nombre: 'Polo Blue',
             marca: 'Ralph Lauren',
+            categoria: categoriaSeleccionada,
             descripcion: 'Perfume para hombre',
             precio: 64,
             precioAnterior: null,
@@ -93,6 +112,8 @@ describe('FormularioProducto Component', () => {
                 onGuardar={mockGuardar}
             />
         );
+
+        seleccionarCategoria();
 
         const stock = screen.getByLabelText('Stock disponible');
 

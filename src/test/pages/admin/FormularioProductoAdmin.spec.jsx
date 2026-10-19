@@ -28,6 +28,19 @@ describe('FormularioProductoAdmin Component', () => {
         );
     };
 
+    const seleccionarPrimeraCategoriaValida = () => {
+        const categoria = screen.getByLabelText(/Categoría/i);
+        const opciones = Array.from(categoria.options);
+        const opcionValida = opciones.find(
+            (opcion) => opcion.value !== '' && !opcion.disabled
+        );
+
+        expect(opcionValida).toBeDefined();
+
+        fireEvent.change(categoria, {
+            target: { value: opcionValida.value }
+        });
+    };
 
     it('renderiza correctamente el formulario para agregar productos', () => {
         renderFormulario();
@@ -35,16 +48,17 @@ describe('FormularioProductoAdmin Component', () => {
         const titulo = screen.getByText('Agregar nuevo perfume');
         const nombre = screen.getByLabelText('Nombre del perfume');
         const marca = screen.getByLabelText('Marca del perfume');
+        const categoria = screen.getByLabelText(/Categoría/i);
         const precio = screen.getByLabelText('Precio');
         const stock = screen.getByLabelText('Stock disponible');
 
         expect(titulo).toBeTruthy();
         expect(nombre).toBeTruthy();
         expect(marca).toBeTruthy();
+        expect(categoria).toBeTruthy();
         expect(precio).toBeTruthy();
         expect(stock).toBeTruthy();
     });
-
 
     it('permite guardar un producto y regresar al listado', () => {
         renderFormulario();
@@ -56,6 +70,8 @@ describe('FormularioProductoAdmin Component', () => {
         fireEvent.change(screen.getByLabelText('Marca del perfume'), {
             target: { value: 'Ralph Lauren' }
         });
+
+        seleccionarPrimeraCategoriaValida();
 
         fireEvent.change(screen.getByLabelText('Descripción'), {
             target: { value: 'Perfume para hombre' }
@@ -84,7 +100,6 @@ describe('FormularioProductoAdmin Component', () => {
         expect(listado).toBeTruthy();
         expect(screen.queryByText('Agregar nuevo perfume')).toBeNull();
     });
-
 
     it('muestra un mensaje cuando el producto no existe y permite volver', () => {
         renderFormulario('/admin/productos/editar/producto-inexistente-999999');

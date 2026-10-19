@@ -117,13 +117,36 @@ describe('Envio Component', () => {
         expect(total.textContent).toContain('$128');
     });
 
-
     it('impide confirmar si el carrito se vació', () => {
         prepararCarrito();
 
         const mockAlert = spyOn(window, 'alert');
 
         renderEnvio();
+
+        fireEvent.change(screen.getByLabelText('Nombre completo'), {
+            target: { value: 'Juan Perez' }
+        });
+
+        fireEvent.change(screen.getByLabelText('Correo electrónico'), {
+            target: { value: 'juan@correo.cl' }
+        });
+
+        fireEvent.change(screen.getByLabelText('Teléfono'), {
+            target: { value: '+56912345678' }
+        });
+
+        fireEvent.change(screen.getByLabelText('Región'), {
+            target: { value: 'Metropolitana' }
+        });
+
+        fireEvent.change(screen.getByLabelText('Comuna'), {
+            target: { value: 'Santiago' }
+        });
+
+        fireEvent.change(screen.getByLabelText('Dirección'), {
+            target: { value: 'Av. Principal 123' }
+        });
 
         const boton = screen.getByRole('button', {
             name: 'Confirmar compra'
@@ -141,5 +164,4 @@ describe('Envio Component', () => {
             screen.queryByText('¡Compra confirmada!')
         ).toBeNull();
     });
-
 });

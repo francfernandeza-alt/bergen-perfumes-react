@@ -7,6 +7,16 @@ import Texto from "../atoms/Texto";
 import Icono from "../atoms/Icono";
 
 import "../../styles/organisms/FormularioEnvio.css";
+import {
+    validarCampoObligatorio,
+    validarTelefono
+} from "../../scripts/validaciones/envio.js";
+
+import {
+    validarNombre,
+    validarCorreo,
+    validarDireccion
+} from "../../scripts/validaciones/registros.js";
 
 function FormularioEnvio({ onConfirmar }) {
 
@@ -32,7 +42,34 @@ function FormularioEnvio({ onConfirmar }) {
 
     const manejarEnvio = (evento) => {
         evento.preventDefault();
+        if (validarNombre(datos.nombre.trim()) == false) {
+            alert("El nombre debe tener entre 2 y 50 caracteres.");
+            return;
+        }
+        if (validarCorreo(datos.correo.trim()) == false) {
+            alert("Ingresa un correo electrónico válido que termine en .com o .cl.");
+            return;
+        }
+        if (validarTelefono(datos.telefono) == false) {
+            alert("Ingresa un número de teléfono chileno válido.");
+            return;
+        }
+        if (validarCampoObligatorio(datos.region) == false) {
+            alert("Debes ingresar una región válida.");
+            return;
+        }
 
+        if (validarCampoObligatorio(datos.comuna) == false) {
+            alert("Debes ingresar una comuna válida.");
+            return;
+        }
+        if (
+            validarCampoObligatorio(datos.direccion) == false ||
+            validarDireccion(datos.direccion) == false
+        ) {
+            alert("La dirección es obligatoria y no puede superar los 100 caracteres.");
+            return;
+        }
         onConfirmar?.(datos);
     };
 

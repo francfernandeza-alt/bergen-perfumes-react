@@ -89,7 +89,7 @@ const productosIniciales = [
         precio: 88000,
         precioAnterior: null,
         stock: 4,
-        imagen: "/imagenes/Good Girl de Carolina Herrera..png"
+        imagen: "/imagenes/Good Girl de Carolina Herrera.webp"
     },
     {
         id: 9,

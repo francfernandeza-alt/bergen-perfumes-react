@@ -105,7 +105,6 @@ describe('Inicio Component', () => {
         );
     };
 
-
     it('renderiza correctamente la página de inicio', () => {
         renderInicio();
 
@@ -126,8 +125,7 @@ describe('Inicio Component', () => {
         ).toBeTruthy();
     });
 
-
-    it('muestra solamente los primeros cinco perfumes destacados', () => {
+    it('muestra solamente los primeros cuatro perfumes destacados', () => {
         prepararProductos();
 
         renderInicio();
@@ -140,21 +138,24 @@ describe('Inicio Component', () => {
             '.tarjeta-producto'
         );
 
-        expect(tarjetas.length).toBe(5);
+        expect(tarjetas.length).toBe(4);
 
         expect(
             within(seccion).getByText('Perfume Uno')
         ).toBeTruthy();
 
         expect(
-            within(seccion).getByText('Perfume Cinco')
+            within(seccion).getByText('Perfume Cuatro')
         ).toBeTruthy();
+
+        expect(
+            within(seccion).queryByText('Perfume Cinco')
+        ).toBeNull();
 
         expect(
             within(seccion).queryByText('Perfume Seis')
         ).toBeNull();
     });
-
 
     it('permite navegar al detalle de un perfume destacado', () => {
         prepararProductos();

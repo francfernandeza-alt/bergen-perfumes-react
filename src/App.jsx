@@ -8,12 +8,16 @@ import Catalogo from "./pages/publicas/Catalogo";
 import DetalleProducto from "./pages/publicas/DetalleProducto";
 import Login from "./pages/publicas/Login";
 import Registro from "./pages/publicas/Registro";
+
 import Carrito from "./pages/clientes/Carrito";
 import Envio from "./pages/clientes/Envio";
+
 import LayoutAdmin from "./components/templates/LayoutAdmin";
 import Dashboard from "./pages/admin/Dashboard";
 import ProductosAdmin from "./pages/admin/ProductosAdmin";
 import FormularioProductoAdmin from "./pages/admin/FormularioProductoAdmin";
+
+import RutaAdmin from "./routes/RutaAdmin";
 
 function App() {
     return (
@@ -58,34 +62,38 @@ function App() {
 
             </Route>
 
+            <Route element={<RutaAdmin />}>
+
+                <Route path="/admin" element={<LayoutAdmin />}>
+
+                    <Route
+                        index
+                        element={<Dashboard />}
+                    />
+
+                    <Route
+                        path="productos"
+                        element={<ProductosAdmin />}
+                    />
+
+                    <Route
+                        path="productos/nuevo"
+                        element={<FormularioProductoAdmin />}
+                    />
+
+                    <Route
+                        path="productos/editar/:id"
+                        element={<FormularioProductoAdmin />}
+                    />
+
+                </Route>
+
+            </Route>
+
             <Route
                 path="*"
                 element={<Navigate to="/" replace />}
             />
-
-            <Route path="/admin" element={<LayoutAdmin />}>
-
-                <Route
-                    index
-                    element={<Dashboard />}
-                />
-
-                <Route
-                    path="productos"
-                    element={<ProductosAdmin />}
-                />
-
-                <Route
-                    path="productos/nuevo"
-                    element={<FormularioProductoAdmin />}
-                />
-
-                <Route
-                    path="productos/editar/:id"
-                    element={<FormularioProductoAdmin />}
-                />
-
-            </Route>
 
         </Routes>
     );

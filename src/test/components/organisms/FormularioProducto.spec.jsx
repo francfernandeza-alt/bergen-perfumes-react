@@ -7,13 +7,13 @@ describe('FormularioProducto Component', () => {
     const productoEjemplo = {
         id: 1,
         nombre: 'Polo Blue',
+        marca: 'Ralph Lauren',
         descripcion: 'Perfume para hombre',
         precio: 64,
         precioAnterior: 80,
         imagen: '/imagenes/263-Polo-Blue.webp',
         stock: 10
     };
-
 
     it('carga correctamente los datos al editar un producto', () => {
         render(
@@ -22,15 +22,16 @@ describe('FormularioProducto Component', () => {
 
         const titulo = screen.getByText('Editar producto');
         const nombre = screen.getByLabelText('Nombre del perfume');
+        const marca = screen.getByLabelText('Marca del perfume');
         const precio = screen.getByLabelText('Precio');
         const stock = screen.getByLabelText('Stock disponible');
 
         expect(titulo).toBeTruthy();
         expect(nombre.value).toBe('Polo Blue');
+        expect(marca.value).toBe('Ralph Lauren');
         expect(precio.value).toBe('64');
         expect(stock.value).toBe('10');
     });
-
 
     it('ejecuta onGuardar con los datos correctos', () => {
         const mockGuardar = jasmine.createSpy('onGuardar');
@@ -41,6 +42,10 @@ describe('FormularioProducto Component', () => {
 
         fireEvent.change(screen.getByLabelText('Nombre del perfume'), {
             target: { value: 'Polo Blue' }
+        });
+
+        fireEvent.change(screen.getByLabelText('Marca del perfume'), {
+            target: { value: 'Ralph Lauren' }
         });
 
         fireEvent.change(screen.getByLabelText('Descripción'), {
@@ -69,6 +74,7 @@ describe('FormularioProducto Component', () => {
 
         expect(mockGuardar).toHaveBeenCalledWith({
             nombre: 'Polo Blue',
+            marca: 'Ralph Lauren',
             descripcion: 'Perfume para hombre',
             precio: 64,
             precioAnterior: null,
@@ -76,7 +82,6 @@ describe('FormularioProducto Component', () => {
             stock: 10
         });
     });
-
 
     it('no permite guardar un producto con stock negativo', () => {
         const mockGuardar = jasmine.createSpy('onGuardar');
@@ -104,7 +109,7 @@ describe('FormularioProducto Component', () => {
         expect(mockGuardar).not.toHaveBeenCalled();
 
         expect(mockAlert).toHaveBeenCalledWith(
-            'Revisa el precio y el stock ingresados.'
+            'El stock no puede ser negativo ni tener decimales.'
         );
     });
 

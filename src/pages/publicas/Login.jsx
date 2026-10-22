@@ -38,6 +38,20 @@ function Login() {
         }
     };
 
+    // Acceso exclusivo para demostraciones académicas
+    const ingresarComoAdminDemo = () => {
+        setError("");
+
+        const administrador = {
+            id: 1,
+            nombre: "Administrador Demo",
+            correo: "admin-demo@bergen.com",
+            rol: "admin"
+        };
+
+        guardarSesion(administrador);
+        navigate("/admin");
+    };
 
     return (
         <div className="login">
@@ -57,6 +71,16 @@ function Login() {
                     <FormularioLogin
                         onIngresar={manejarIngreso}
                     />
+
+                    {import.meta.env.VITE_MODO_DEMO === "true" && (
+                        <button
+                            type="button"
+                            onClick={ingresarComoAdminDemo}
+                            className="btn btn-outline-secondary w-100 mt-3"
+                        >
+                            Entrar como administrador demo
+                        </button>
+                    )}
 
                     {error && (
                         <Mensaje

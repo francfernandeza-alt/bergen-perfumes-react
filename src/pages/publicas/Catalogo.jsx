@@ -7,7 +7,7 @@ import Buscador from "../../components/molecules/Buscador";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
-import { obtenerProductos } from "../../scripts/storage/storage";
+import { obtenerProductosAPI } from "../../services/productoService";
 import { agregarAlCarrito } from "../../scripts/storage/carritoStorage";
 
 import "../../styles/pages/Catalogo.css";
@@ -18,7 +18,9 @@ function Catalogo() {
 
     const [searchParams] = useSearchParams();
 
-    const [productos] = useState(() => obtenerProductos());
+    const [productos, setProductos] = useState([]);
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState("");
 
     const [busqueda, setBusqueda] = useState(
         () => searchParams.get("buscar") || ""
@@ -29,6 +31,45 @@ function Catalogo() {
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(
         () => searchParams.get("categoria") || ""
     );
+
+    useEffect(() => {
+
+        let activo = true;
+
+        async function cargarProductos() {
+
+            try {
+                const datos = await obtenerProductosAPI();
+
+                if (activo) {
+                    setProductos(datos);
+                }
+
+            } catch (error) {
+
+                console.error("Error al cargar productos:", error);
+
+                if (activo) {
+                    setError(
+                        "No fue posible cargar los productos. Intenta nuevamente."
+                    );
+                }
+
+            } finally {
+
+                if (activo) {
+                    setCargando(false);
+                }
+            }
+        }
+
+        cargarProductos();
+
+        return () => {
+            activo = false;
+        };
+
+    }, []);
 
     const marcasDisponibles = [
         ...new Set(
@@ -182,11 +223,17 @@ function Catalogo() {
 
                     </div>
 
-                    <ListaProductos
-                        productos={productosFiltrados}
-                        onDetalle={verDetalle}
-                        onAgregar={manejarAgregarAlCarrito}
-                    />
+                    {cargando ? (
+                        <p>Cargando productos...</p>
+                    ) : error ? (
+                        <p role="alert">{error}</p>
+                    ) : (
+                        <ListaProductos
+                            productos={productosFiltrados}
+                            onDetalle={verDetalle}
+                            onAgregar={manejarAgregarAlCarrito}
+                        />
+                    )}
 
                 </div>
 

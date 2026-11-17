@@ -1,5 +1,5 @@
 
-const API_URL = "http://localhost:8080/api/productos";
+const API_URL = `${import.meta.env.VITE_API_URL}/productos`;
 
 // Adaptar los datos del backend al formato del frontend
 function adaptarProducto(producto) {
@@ -43,4 +43,23 @@ export async function obtenerProductosAPI() {
     const productos = await respuesta.json();
 
     return productos.map(adaptarProducto);
+}
+
+
+export async function obtenerProductoPorIdAPI(id) {
+    const respuesta = await fetch(`${API_URL}/${id}`);
+
+    if (respuesta.status === 404) {
+        return null;
+    }
+
+    if (!respuesta.ok) {
+        throw new Error(
+            `Error al obtener el producto: ${respuesta.status}`
+        );
+    }
+
+    const producto = await respuesta.json();
+
+    return adaptarProducto(producto);
 }

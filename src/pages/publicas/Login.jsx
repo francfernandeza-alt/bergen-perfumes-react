@@ -1,56 +1,64 @@
 
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+    Link,
+    useNavigate,
+    useLocation
+} from "react-router-dom";
 
 import FormularioLogin from "../../components/organisms/FormularioLogin";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 import Mensaje from "../../components/atoms/Mensaje";
 
-import { iniciarSesion } from "../../scripts/storage/usuariosStorage.js";
-import { guardarSesion } from "../../scripts/storage/sesionStorage.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 import "../../styles/pages/Login.css";
 
 function Login() {
 
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const { ingresar } = useAuth();
 
     const [error, setError] = useState("");
+    const [cargando, setCargando] = useState(false);
 
-    const manejarIngreso = (correo, contrasena) => {
+    // Página que el visitante intentaba abrir
+    const desde = location.state?.desde;
+
+    const manejarIngreso = async (correo, contrasena) => {
 
         setError("");
+        setCargando(true);
 
-        const usuario = iniciarSesion(correo, contrasena);
+        try {
+            const usuario = await ingresar(correo, contrasena);
 
-        if (usuario === null) {
-            setError("Correo o contraseña incorrectos.");
-            return;
+            if (usuario.rol === "ADMIN") {
+                navigate("/admin", { replace: true });
+
+            } else if (usuario.rol === "CLIENTE") {
+
+                const destino = desde
+                    ? `${desde.pathname}${desde.search || ""}${desde.hash || ""}`
+                    : "/";
+
+                navigate(destino, { replace: true });
+
+            } else {
+                navigate("/", { replace: true });
+            }
+
+        } catch (error) {
+            setError(
+                error.message ||
+                "No se pudo iniciar sesión."
+            );
+        } finally {
+            setCargando(false);
         }
-
-        guardarSesion(usuario);
-
-        if (usuario.rol === "admin") {
-            navigate("/admin");
-        } else {
-            navigate("/");
-        }
-    };
-
-    // Acceso exclusivo para demostraciones académicas
-    const ingresarComoAdminDemo = () => {
-        setError("");
-
-        const administrador = {
-            id: 1,
-            nombre: "Administrador Demo",
-            correo: "admin-demo@bergen.com",
-            rol: "admin"
-        };
-
-        guardarSesion(administrador);
-        navigate("/admin");
     };
 
     return (
@@ -70,17 +78,8 @@ function Login() {
 
                     <FormularioLogin
                         onIngresar={manejarIngreso}
+                        cargando={cargando}
                     />
-
-                    {import.meta.env.VITE_MODO_DEMO === "true" && (
-                        <button
-                            type="button"
-                            onClick={ingresarComoAdminDemo}
-                            className="btn btn-outline-secondary w-100 mt-3"
-                        >
-                            Entrar como administrador demo
-                        </button>
-                    )}
 
                     {error && (
                         <Mensaje

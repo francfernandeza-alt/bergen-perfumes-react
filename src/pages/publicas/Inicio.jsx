@@ -1,12 +1,12 @@
-
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import ListaProductos from "../../components/organisms/ListaProductos";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
-import { obtenerProductos } from "../../scripts/storage/storage";
-import { agregarAlCarrito } from "../../scripts/storage/carritoStorage";
+import { obtenerProductosAPI } from "../../services/productoService";
+import { useCarrito } from "../../context/CarritoContext";
 
 import "../../styles/pages/Inicio.css";
 
@@ -14,23 +14,105 @@ function Inicio() {
 
     const navigate = useNavigate();
 
-    const productos = obtenerProductos();
-    const productosDestacados = productos.slice(0, 4);
+    const { agregarAlCarrito } = useCarrito();
 
+    const [productos, setProductos] = useState([]);
+    const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState("");
+    const [agregando, setAgregando] = useState(false);
+
+    // Obtener productos desde el backend
+    useEffect(() => {
+
+        async function cargarProductos() {
+
+            try {
+
+                setCargando(true);
+                setError("");
+
+                const datos = await obtenerProductosAPI();
+
+                setProductos(datos);
+
+            } catch (error) {
+
+                console.error(
+                    "Error al cargar productos destacados:",
+                    error
+                );
+
+                setError(
+                    "No se pudieron cargar los productos destacados."
+                );
+
+            } finally {
+
+                setCargando(false);
+            }
+        }
+
+        cargarProductos();
+
+    }, []);
+
+    // Seleccionar los productos destacados
+    const destacados = productos.filter(
+        (producto) => producto.destacado
+    );
+
+    const productosDestacados = (
+        destacados.length > 0 ? destacados : productos
+    ).slice(0, 4);
+    
+    // Navegar al detalle del producto
     const verDetalle = (id) => {
+
         navigate(`/producto/${id}`);
     };
 
-    const manejarAgregarAlCarrito = (id) => {
+    // Agregar producto mediante el contexto del carrito
+    const manejarAgregarAlCarrito = async (producto) => {
 
-    const agregado = agregarAlCarrito(id);
+        if (agregando) {
+            return;
+        }
 
-    if (agregado) {
-        alert("Producto agregado al carrito correctamente.");
-    } else {
-        alert("No se pudo agregar el producto. Revisa el stock disponible.");
-    }
-};
+        setAgregando(true);
+
+        try {
+
+            const agregado = await agregarAlCarrito(
+                producto.id,
+                1,
+                producto
+            );
+
+            if (agregado) {
+
+                alert(
+                    "Producto agregado al carrito correctamente."
+                );
+
+            } else {
+
+                alert(
+                    "No se pudo agregar el producto. Revisa el stock disponible."
+                );
+            }
+
+        } catch (error) {
+
+            alert(
+                error.message ||
+                "No se pudo agregar el producto al carrito."
+            );
+
+        } finally {
+
+            setAgregando(false);
+        }
+    };
 
     return (
         <div className="inicio">
@@ -89,11 +171,31 @@ function Inicio() {
 
                     </div>
 
-                    <ListaProductos
-                        productos={productosDestacados}
-                        onDetalle={verDetalle}
-                        onAgregar={manejarAgregarAlCarrito}
-                    />
+                    {cargando ? (
+
+                        <Texto
+                            contenido="Cargando productos destacados..."
+                        />
+
+                    ) : error ? (
+
+                        <Texto contenido={error} />
+
+                    ) : productosDestacados.length === 0 ? (
+
+                        <Texto
+                            contenido="No hay productos destacados disponibles."
+                        />
+
+                    ) : (
+
+                        <ListaProductos
+                            productos={productosDestacados}
+                            onDetalle={verDetalle}
+                            onAgregar={manejarAgregarAlCarrito}
+                        />
+
+                    )}
 
                 </div>
 

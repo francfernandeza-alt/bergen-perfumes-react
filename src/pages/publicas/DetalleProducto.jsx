@@ -11,7 +11,7 @@ import PrecioProducto from "../../components/molecules/PrecioProducto";
 import ControlCantidad from "../../components/molecules/ControlCantidad";
 
 import { obtenerProductoPorIdAPI } from "../../services/productoService";
-import { agregarAlCarrito } from "../../scripts/storage/carritoStorage";
+import { useCarrito } from "../../context/CarritoContext.jsx";
 
 import "../../styles/pages/DetalleProducto.css";
 
@@ -23,6 +23,9 @@ function DetalleProducto() {
     const [cantidad, setCantidad] = useState(1);
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState("");
+    const [agregando, setAgregando] = useState(false);
+
+    const { agregarAlCarrito } = useCarrito();
 
     // Obtener producto desde Spring Boot
     useEffect(() => {
@@ -77,25 +80,42 @@ function DetalleProducto() {
         setCantidad((anterior) => Math.max(1, anterior - 1));
     };
 
-    const manejarAgregarAlCarrito = () => {
+    const manejarAgregarAlCarrito = async () => {
 
-        if (!producto || producto.stock <= 0) {
+        if (!producto || producto.stock <= 0 || agregando) {
             return;
         }
 
-        const agregado = agregarAlCarrito(
-            producto.id,
-            cantidad
-        );
+        setAgregando(true);
 
-        if (agregado) {
-            alert(
-                `${cantidad} unidad(es) de ${producto.nombre} agregada(s) al carrito.`
+        try {
+
+            const agregado = await agregarAlCarrito(
+                producto.id,
+                cantidad
             );
-        } else {
-            alert(
-                "No se pudo agregar el producto. Revisa el stock disponible."
+
+            if (agregado) {
+                alert(
+                    `${cantidad} unidad(es) de ${producto.nombre} agregada(s) al carrito.`
+                );
+            } else {
+                alert(
+                    "No se pudo agregar el producto. Revisa el stock disponible."
+                );
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Error al agregar al carrito:",
+                error
             );
+
+            alert(error.message);
+
+        } finally {
+            setAgregando(false);
         }
     };
 
@@ -252,12 +272,18 @@ function DetalleProducto() {
                                     texto={
                                         <>
                                             <Icono nombre="cart-plus" />
-                                            <span>Agregar al carrito</span>
+                                            <span>
+                                                {agregando
+                                                    ? "Agregando..."
+                                                    : "Agregar al carrito"}
+                                            </span>
                                         </>
                                     }
                                     variante="marca"
                                     onClick={manejarAgregarAlCarrito}
-                                    deshabilitado={producto.stock <= 0}
+                                    deshabilitado={
+                                        producto.stock <= 0 || agregando
+                                    }
                                     className="detalle-boton-carrito"
                                 />
 

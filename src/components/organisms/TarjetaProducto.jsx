@@ -55,7 +55,7 @@ function TarjetaProducto({ producto, onDetalle, onAgregar }) {
 
                 <AccionesProducto
                     onDetalle={() => onDetalle?.(producto.id)}
-                    onAgregar={() => onAgregar?.(producto.id)}
+                    onAgregar={() => onAgregar?.(producto)}
                 />
 
             </div>

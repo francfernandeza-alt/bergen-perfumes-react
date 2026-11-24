@@ -15,7 +15,6 @@ import {
     validarCorreo,
     validarContrasena,
     validarConfirmacionContrasena,
-    validarDireccion
 } from "../../scripts/validaciones/registros";
 function FormularioRegistro({ onRegistrar }) {
 
@@ -26,12 +25,13 @@ function FormularioRegistro({ onRegistrar }) {
         correo: "",
         contrasena: "",
         confirmarContrasena: "",
-        direccion: ""
     });
 
     const [error, setError] = useState("");
 
     const [exito, setExito] = useState(false);
+
+    const [cargando, setCargando] = useState(false);
 
     const manejarCambio = (evento) => {
         const { name, value } = evento.target;
@@ -41,49 +41,75 @@ function FormularioRegistro({ onRegistrar }) {
             [name]: value
         }));
     };
-    const manejarEnvio = (evento) => {
+    
+    const manejarEnvio = async (evento) => {
         evento.preventDefault();
+
+        if (cargando) return;
+
         setError("");
         setExito(false);
-        if (validarRut(datos.rut) == false) {
+
+        if (!validarRut(datos.rut)) {
             setError("El RUT no es válido.");
             return;
         }
-        if (validarNombre(datos.nombre) == false) {
+
+        if (!validarNombre(datos.nombre)) {
             setError("El nombre debe tener entre 2 y 50 caracteres.");
             return;
         }
-        if (validarApellidos(datos.apellidos) == false) {
+
+        if (!validarApellidos(datos.apellidos)) {
             setError("Los apellidos deben tener entre 2 y 100 caracteres.");
             return;
         }
-        if (validarCorreo(datos.correo) == false) {
+
+        if (!validarCorreo(datos.correo)) {
             setError("El correo electrónico no es válido.");
             return;
         }
-        if (validarContrasena(datos.contrasena) == false) {
+
+        if (!validarContrasena(datos.contrasena)) {
             setError("La contraseña debe tener 8 caracteres, con mayúsculas y minúsculas.");
             return;
         }
-        if (validarConfirmacionContrasena(datos.contrasena, datos.confirmarContrasena) == false) {
+
+        if (!validarConfirmacionContrasena(
+            datos.contrasena,
+            datos.confirmarContrasena
+        )) {
             setError("Las contraseñas no coinciden.");
-            return;
-        }
-        if (validarDireccion(datos.direccion) == false) {
-            setError("La dirección no es válida.");
             return;
         }
 
         const { confirmarContrasena, ...datosRegistro } = datos;
 
-        const registrado = onRegistrar?.(datosRegistro);
+        setCargando(true);
 
-        if (registrado === true) {
+        try {
+            await onRegistrar(datosRegistro);
+
             setExito(true);
-        } else {
-            setError("No se pudo crear la cuenta. El correo podría estar registrado.");
+
+            setDatos({
+                rut: "",
+                nombre: "",
+                apellidos: "",
+                correo: "",
+                contrasena: "",
+                confirmarContrasena: ""
+            });
+
+        } catch (error) {
+            setError(
+                error.message || "No se pudo crear la cuenta."
+            );
+        } finally {
+            setCargando(false);
         }
     };
+
 
 
     return (
@@ -182,17 +208,6 @@ function FormularioRegistro({ onRegistrar }) {
                         />
                     </div>
 
-                    <div className="col-12">
-                        <CampoFormulario
-                            etiqueta="Dirección"
-                            nombre="direccion"
-                            placeholder="Ingresa tu dirección"
-                            valor={datos.direccion}
-                            onChange={manejarCambio}
-                            requerido={true}
-                        />
-                    </div>
-
                 </div>
 
                 {error && (
@@ -210,10 +225,11 @@ function FormularioRegistro({ onRegistrar }) {
                 )}
 
                 <Boton
-                    texto="Crear cuenta"
+                    texto={cargando ? "Creando cuenta..." : "Crear cuenta"}
                     tipo="submit"
                     variante="marca"
                     className="formulario-registro-boton"
+                    deshabilitado={cargando}
                 />
 
             </form>

@@ -160,4 +160,72 @@
     .header-acciones-abiertas {
         display: flex;
     }
+
+    .header-cuenta {
+        position: relative;
+    }
+
+    .header-cuenta-boton {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        border: none;
+        background: transparent;
+        color: inherit;
+        cursor: pointer;
+    }
+
+    .header-cuenta-menu {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        right: 0;
+        z-index: 1000;
+        min-width: 220px;
+        padding: 0.75rem;
+        background: #ffffff;
+        color: #212529;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .header-cuenta-correo {
+        display: block;
+        padding: 0.5rem;
+        font-size: 0.85rem;
+        overflow-wrap: anywhere;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .header-cuenta-opcion {
+        display: block;
+        width: 100%;
+        padding: 0.65rem 0.5rem;
+        border: none;
+        background: transparent;
+        color: inherit;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .header-cuenta-opcion:hover {
+        background: #f3f3f3;
+    }
+
+    .header-cuenta-opcion:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .header-cuenta-error {
+        margin: 0.5rem 0 0;
+        color: #b42318;
+        font-size: 0.85rem;
+    }
+
+    .header-cuenta-cargando {
+        font-size: 0.85rem;
+    }
+
 }

@@ -5,14 +5,14 @@ import FormularioRegistro from "../../components/organisms/FormularioRegistro";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
-import { crearUsuario } from "../../scripts/storage/usuariosStorage.js";
+import { registrarUsuario } from "../../services/autenticacionService.js";
 
 import "../../styles/pages/Registro.css";
 
 function Registro() {
 
-    const manejarRegistro = (datosUsuario) => {
-        return crearUsuario(datosUsuario);
+    const manejarRegistro = async (datosUsuario) => {
+        return await registrarUsuario(datosUsuario);
     };
 
     return (

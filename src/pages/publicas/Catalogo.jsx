@@ -8,7 +8,7 @@ import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
 import { obtenerProductosAPI } from "../../services/productoService";
-import { agregarAlCarrito } from "../../scripts/storage/carritoStorage";
+import { useCarrito } from "../../context/CarritoContext.jsx";
 
 import "../../styles/pages/Catalogo.css";
 
@@ -18,9 +18,12 @@ function Catalogo() {
 
     const [searchParams] = useSearchParams();
 
+    const { agregarAlCarrito } = useCarrito();
+
     const [productos, setProductos] = useState([]);
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState("");
+    const [agregando, setAgregando] = useState(false);
 
     const [busqueda, setBusqueda] = useState(
         () => searchParams.get("buscar") || ""
@@ -88,8 +91,13 @@ function Catalogo() {
     ].sort();
 
     useEffect(() => {
-        setCategoriaSeleccionada(searchParams.get("categoria") || "");
-        setBusqueda(searchParams.get("buscar") || "");
+        setCategoriaSeleccionada(
+            searchParams.get("categoria") || ""
+        );
+
+        setBusqueda(
+            searchParams.get("buscar") || ""
+        );
     }, [searchParams]);
 
     const manejarBusqueda = (texto) => {
@@ -99,6 +107,7 @@ function Catalogo() {
     const soloOfertas = searchParams.get("ofertas") === "true";
 
     const productosFiltrados = productos.filter((producto) => {
+
         const coincideNombre = producto.nombre
             .toLowerCase()
             .includes(busqueda.toLowerCase().trim());
@@ -117,24 +126,58 @@ function Catalogo() {
             producto.precioAnterior > producto.precio
         );
 
-    return coincideNombre && coincideMarca && coincideCategoria && coincideOferta;
-
+        return coincideNombre &&
+            coincideMarca &&
+            coincideCategoria &&
+            coincideOferta;
     });
 
     const verDetalle = (id) => {
         navigate(`/producto/${id}`);
     };
 
-    const manejarAgregarAlCarrito = (id) => {
+    const manejarAgregarAlCarrito = async (producto) => {
 
-    const agregado = agregarAlCarrito(id);
+        if (agregando) {
+            return;
+        }
 
-    if (agregado) {
-        alert("Producto agregado al carrito correctamente.");
-    } else {
-        alert("No se pudo agregar el producto. Revisa el stock disponible.");
-    }
-};
+        setAgregando(true);
+
+        try {
+
+            const agregado = await agregarAlCarrito(
+                producto.id,
+                1,
+                producto
+            );
+
+            if (agregado) {
+                alert(
+                    "Producto agregado al carrito correctamente."
+                );
+            } else {
+                alert(
+                    "No se pudo agregar el producto. Revisa el stock disponible."
+                );
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Error al agregar producto desde catálogo:",
+                error
+            );
+
+            alert(
+                error.message ||
+                "No fue posible agregar el producto al carrito."
+            );
+
+        } finally {
+            setAgregando(false);
+        }
+    };
 
     return (
         <div className="catalogo">
@@ -179,8 +222,9 @@ function Catalogo() {
                             <Buscador onBuscar={manejarBusqueda} />
 
                         </div>
-                        
+
                         <div className="catalogo-marcas">
+
                             <select
                                 className="form-select"
                                 value={marcaSeleccionada}
@@ -188,32 +232,47 @@ function Catalogo() {
                                     setMarcaSeleccionada(evento.target.value)
                                 }
                             >
-                                <option value="">Todas las marcas</option>
+                                <option value="">
+                                    Todas las marcas
+                                </option>
 
                                 {marcasDisponibles.map((marca) => (
-                                    <option key={marca} value={marca}>
+                                    <option
+                                        key={marca}
+                                        value={marca}
+                                    >
                                         {marca}
                                     </option>
                                 ))}
                             </select>
+
                         </div>
 
                         <div className="catalogo-categorias">
+
                             <select
                                 className="form-select"
                                 value={categoriaSeleccionada}
                                 onChange={(evento) =>
-                                    setCategoriaSeleccionada(evento.target.value)
+                                    setCategoriaSeleccionada(
+                                        evento.target.value
+                                    )
                                 }
                             >
-                                <option value="">Todas las categorías</option>
+                                <option value="">
+                                    Todas las categorías
+                                </option>
 
                                 {categoriasDisponibles.map((categoria) => (
-                                    <option key={categoria} value={categoria}>
+                                    <option
+                                        key={categoria}
+                                        value={categoria}
+                                    >
                                         {categoria}
                                     </option>
                                 ))}
                             </select>
+
                         </div>
 
                         <Texto
@@ -224,15 +283,21 @@ function Catalogo() {
                     </div>
 
                     {cargando ? (
+
                         <p>Cargando productos...</p>
+
                     ) : error ? (
+
                         <p role="alert">{error}</p>
+
                     ) : (
+
                         <ListaProductos
                             productos={productosFiltrados}
                             onDetalle={verDetalle}
                             onAgregar={manejarAgregarAlCarrito}
                         />
+
                     )}
 
                 </div>

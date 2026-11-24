@@ -1,17 +1,13 @@
 
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import ListaCarrito from "../../components/organisms/ListaCarrito";
 import ResumenCompra from "../../components/organisms/ResumenCompra";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
+import Alerta from "../../components/molecules/Alerta";
 
-import {
-    obtenerCarrito,
-    cambiarCantidadCarrito,
-    eliminarDelCarrito
-} from "../../scripts/storage/carritoStorage";
+import { useCarrito } from "../../context/CarritoContext.jsx";
 
 import "../../styles/pages/Carrito.css";
 
@@ -19,28 +15,55 @@ function Carrito() {
 
     const navigate = useNavigate();
 
-    const [productos, setProductos] = useState(
-        () => obtenerCarrito()
-    );
+    const {
+        productos,
+        cargando,
+        error,
+        avisoSincronizacion,
+        cambiarCantidad: cambiarCantidadContexto,
+        eliminarProducto: eliminarProductoContexto
+    } = useCarrito();
 
-    const cambiarCantidad = (id, nuevaCantidad) => {
+    const cambiarCantidad = async (id, nuevaCantidad) => {
 
-        const actualizado = cambiarCantidadCarrito(
-            id,
-            nuevaCantidad
-        );
+        try {
+            const actualizado = await cambiarCantidadContexto(
+                id,
+                nuevaCantidad
+            );
 
-        if (actualizado) {
-            setProductos(obtenerCarrito());
+            if (!actualizado) {
+                alert(
+                    "No se pudo cambiar la cantidad. Revisa el stock disponible."
+                );
+            }
+
+        } catch (error) {
+            console.error(
+                "Error al cambiar cantidad:",
+                error
+            );
+
+            alert(error.message);
         }
     };
 
-    const eliminarProducto = (id) => {
+    const eliminarProducto = async (id) => {
 
-        const eliminado = eliminarDelCarrito(id);
+        try {
+            const eliminado = await eliminarProductoContexto(id);
 
-        if (eliminado) {
-            setProductos(obtenerCarrito());
+            if (!eliminado) {
+                alert("No se pudo eliminar el producto.");
+            }
+
+        } catch (error) {
+            console.error(
+                "Error al eliminar producto:",
+                error
+            );
+
+            alert(error.message);
         }
     };
 
@@ -81,30 +104,50 @@ function Carrito() {
                     Continuar comprando
                 </Link>
 
-                {/* CONTENIDO */}
+                {!cargando && !error && avisoSincronizacion && (
 
-                <div className="carrito-contenido">
+                    <Alerta
+                        tipo="advertencia"
+                        titulo="Aviso de sincronización del carrito"
+                        mensaje={avisoSincronizacion}
+                    />
 
-                    <div className="carrito-listado">
+                )}
 
-                        <ListaCarrito
-                            productos={productos}
-                            onCambiarCantidad={cambiarCantidad}
-                            onEliminar={eliminarProducto}
-                        />
+                {cargando ? (
+
+                    <Texto contenido="Cargando carrito..." />
+
+                ) : error ? (
+
+                    <Texto contenido={error} />
+
+                ) : (
+
+                    <div className="carrito-contenido">
+
+                        <div className="carrito-listado">
+
+                            <ListaCarrito
+                                productos={productos}
+                                onCambiarCantidad={cambiarCantidad}
+                                onEliminar={eliminarProducto}
+                            />
+
+                        </div>
+
+                        <div className="carrito-resumen">
+
+                            <ResumenCompra
+                                productos={productos}
+                                onPagar={procederAlPago}
+                            />
+
+                        </div>
 
                     </div>
 
-                    <div className="carrito-resumen">
-
-                        <ResumenCompra
-                            productos={productos}
-                            onPagar={procederAlPago}
-                        />
-
-                    </div>
-
-                </div>
+                )}
 
             </div>
 

@@ -1,5 +1,4 @@
 
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import FormularioEnvio from "../../components/organisms/FormularioEnvio";
@@ -8,47 +7,38 @@ import ResumenCompra from "../../components/organisms/ResumenCompra";
 import Texto from "../../components/atoms/Texto";
 import Icono from "../../components/atoms/Icono";
 
-import {
-    obtenerCarrito,
-    vaciarCarrito
-} from "../../scripts/storage/carritoStorage";
-import { descontarStock } from "../../scripts/storage/storage";
+import { useCarrito } from "../../context/CarritoContext.jsx";
 
 import "../../styles/pages/Envio.css";
 
 function Envio() {
 
-    const [productos] = useState(() => obtenerCarrito());
+    const {
+        productos,
+        cargando,
+        error
+    } = useCarrito();
 
-    const [compraConfirmada, setCompraConfirmada] = useState(false);
-
-    
     const confirmarCompra = (datosEnvio) => {
 
-        const carritoActual = obtenerCarrito();
-
-        if (carritoActual.length === 0) {
+        if (productos.length === 0) {
             alert("Tu carrito está vacío.");
             return;
         }
 
-        const descuentoRealizado = descontarStock(carritoActual);
+        console.log(
+            "Datos de envío validados:",
+            datosEnvio
+        );
 
-        if (!descuentoRealizado) {
-            alert(
-                "No se pudo confirmar la compra. " +
-                "Uno o más productos no tienen stock suficiente."
-            );
-            return;
-        }
-
-        vaciarCarrito();
-
-        setCompraConfirmada(true);
+        alert(
+            "Los datos de envío se validaron correctamente. " +
+            "La confirmación del pedido estará disponible " +
+            "cuando integremos el backend de pedidos."
+        );
     };
 
-
-    if (compraConfirmada) {
+    if (cargando) {
         return (
             <div className="envio-confirmacion">
 
@@ -56,26 +46,47 @@ function Envio() {
 
                     <div className="envio-confirmacion-contenido">
 
-                        <Icono nombre="check-circle-fill" />
+                        <Texto
+                            etiqueta="h1"
+                            contenido="Cargando tu carrito..."
+                        />
+
+                        <Texto
+                            contenido="Estamos preparando el resumen de tu compra."
+                        />
+
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="envio-confirmacion">
+
+                <div className="container">
+
+                    <div className="envio-confirmacion-contenido">
+
+                        <Icono nombre="exclamation-triangle" />
 
                         <Texto
                             etiqueta="h1"
-                            contenido="¡Compra confirmada!"
+                            contenido="No pudimos cargar tu carrito"
                         />
 
                         <Texto
-                            contenido="Tu pedido se ha registrado correctamente en esta simulación."
-                        />
-
-                        <Texto
-                            contenido="Gracias por comprar en Bergen Perfumes."
+                            contenido={error}
                         />
 
                         <Link
-                            to="/"
+                            to="/carrito"
                             className="envio-boton-volver"
                         >
-                            Volver al inicio
+                            Volver al carrito
                         </Link>
 
                     </div>

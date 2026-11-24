@@ -18,6 +18,7 @@ import ProductosAdmin from "./pages/admin/ProductosAdmin";
 import FormularioProductoAdmin from "./pages/admin/FormularioProductoAdmin";
 
 import RutaAdmin from "./routes/RutaAdmin";
+import RutaCliente from "./routes/RutaCliente";
 
 function App() {
     return (
@@ -50,18 +51,25 @@ function App() {
                     element={<Registro />}
                 />
 
+                {/* Carrito público: invitados y clientes */}
                 <Route
                     path="/carrito"
                     element={<Carrito />}
                 />
 
-                <Route
-                    path="/envio"
-                    element={<Envio />}
-                />
+                {/* Checkout exclusivo para clientes */}
+                <Route element={<RutaCliente />}>
+
+                    <Route
+                        path="/envio"
+                        element={<Envio />}
+                    />
+
+                </Route>
 
             </Route>
 
+            {/* Administración exclusiva para ADMIN */}
             <Route element={<RutaAdmin />}>
 
                 <Route path="/admin" element={<LayoutAdmin />}>

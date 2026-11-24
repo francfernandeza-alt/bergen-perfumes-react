@@ -1,0 +1,21 @@
+# Dependencias y compilación
+node_modules/
+dist/
+dist-ssr/
+
+# Control de versiones
+.git
+.gitignore
+
+# Configuraciones del IDE
+.idea/
+.vscode/
+
+# Variables de entorno
+.env
+.env.*
+!.env.production
+
+# Logs y pruebas
+*.log
+coverage/

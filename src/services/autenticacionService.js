@@ -1,6 +1,6 @@
 
 const API_URL = import.meta.env.VITE_API_URL
-    || "http://localhost:8081/api";
+    || "http://localhost:8081/api/v2";
 
 export async function obtenerTokenCsrf() {
     const respuesta = await fetch(

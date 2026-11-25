@@ -12,7 +12,7 @@ RUN npm ci
 COPY . .
 
 # Configurar la ruta de la API
-ENV VITE_API_URL=/api
+ENV VITE_API_URL=/api/v2
 
 # Compilar React
 RUN npm run build

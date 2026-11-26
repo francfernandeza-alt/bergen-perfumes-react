@@ -6,112 +6,185 @@ import Boton from "../atoms/Boton";
 import Texto from "../atoms/Texto";
 import Icono from "../atoms/Icono";
 import Imagen from "../atoms/Imagen";
+import Mensaje from "../atoms/Mensaje";
 
 import "../../styles/organisms/FormularioProducto.css";
+
 import {
-    validarNombreProducto,
     validarPrecio,
-    validarStock,
-    validarMarca
+    validarStock
 } from "../../scripts/validaciones/productos";
+
+import { validarImagen } from "../../services/imagenService.js";
+
 const productoVacio = {
     nombre: "",
-    categoria: "",
-    marca: "",
+    idCategoria: "",
+    idMarca: "",
     descripcion: "",
     precio: "",
-    precioAnterior: "",
-    imagen: "",
-    stock: ""
+    precioOferta: "",
+    stock: "",
+    volumenMl: "",
+    destacado: false
 };
+
+// Datos iniciales del formulario: vacíos al crear, los del producto al editar
+function datosIniciales(producto) {
+
+    if (!producto) {
+        return { ...productoVacio };
+    }
+
+    return {
+        nombre: producto.nombre ?? "",
+        idCategoria: producto.idCategoria != null ? String(producto.idCategoria) : "",
+        idMarca: producto.idMarca != null ? String(producto.idMarca) : "",
+        descripcion: producto.descripcion ?? "",
+        precio: producto.precio ?? "",
+        precioOferta: producto.precioOferta ?? "",
+        stock: producto.stock ?? "",
+        volumenMl: producto.volumenMl ?? "",
+        destacado: Boolean(producto.destacado)
+    };
+}
+
+function esEnteroPositivo(valor) {
+    const numero = Number(valor);
+    return Number.isInteger(numero) && numero > 0;
+}
+
+// Validaciones alineadas con ProductoDTO y ProductoService del backend
+function validarDatosProducto(datos, archivo, esEdicion) {
+
+    const nombre = datos.nombre.trim();
+
+    if (nombre.length === 0 || nombre.length > 150) {
+        return "El nombre del perfume es obligatorio y puede tener hasta 150 caracteres.";
+    }
+
+    if (datos.idCategoria === "") {
+        return "Selecciona una categoría.";
+    }
+
+    if (datos.idMarca === "") {
+        return "Selecciona una marca.";
+    }
+
+    if (datos.precio === "" || !validarPrecio(Number(datos.precio))) {
+        return "El precio debe ser un número entero mayor a 0.";
+    }
+
+    if (
+        datos.precioOferta !== "" &&
+        (!esEnteroPositivo(datos.precioOferta) ||
+            Number(datos.precioOferta) >= Number(datos.precio))
+    ) {
+        return "El precio de oferta debe ser un número entero mayor a 0 y menor que el precio.";
+    }
+
+    if (datos.stock === "" || !validarStock(Number(datos.stock))) {
+        return "El stock debe ser un número entero mayor o igual a 0.";
+    }
+
+    if (datos.volumenMl !== "" && !esEnteroPositivo(datos.volumenMl)) {
+        return "El volumen debe ser un número entero mayor a 0.";
+    }
+
+    if (!esEdicion && !archivo) {
+        return "Debes seleccionar una imagen del perfume.";
+    }
+
+    return null;
+}
 
 function FormularioProducto({
     producto = null,
+    marcas = [],
+    categorias = [],
     onGuardar,
-    onCancelar
+    onCancelar,
+    guardando = false,
+    error = ""
 }) {
 
-    const [datos, setDatos] = useState(productoVacio);
+    // Se inicializa directamente (sin useEffect) para no sobrescribir
+    // lo que el usuario escriba justo después de que el formulario aparece.
+    // La página monta el formulario recién cuando el producto ya está cargado.
+    const [datos, setDatos] = useState(() => datosIniciales(producto));
+    const [archivo, setArchivo] = useState(null);
+    const [vistaPrevia, setVistaPrevia] = useState("");
+    const [errorFormulario, setErrorFormulario] = useState("");
 
     const esEdicion = producto !== null;
 
+    // Liberar la URL temporal de la vista previa
     useEffect(() => {
-        if (producto) {
-            setDatos({
-                nombre: producto.nombre ?? "",
-                categoria: producto.categoria ?? "",
-                marca: producto.marca ?? "",
-                descripcion: producto.descripcion ?? "",
-                precio: producto.precio ?? "",
-                precioAnterior: producto.precioAnterior ?? "",
-                imagen: producto.imagen ?? "",
-                stock: producto.stock ?? ""
-            });
-        } else {
-            setDatos({ ...productoVacio });
-        }
-    }, [producto]);
+        return () => {
+            if (vistaPrevia) {
+                URL.revokeObjectURL(vistaPrevia);
+            }
+        };
+    }, [vistaPrevia]);
 
     const manejarCambio = (evento) => {
-        const { name, value } = evento.target;
+        const { name, value, type, checked } = evento.target;
 
         setDatos((anteriores) => ({
             ...anteriores,
-            [name]: value
+            [name]: type === "checkbox" ? checked : value
         }));
+    };
+
+    // La imagen solo se muestra localmente; se sube a ImgBB al guardar
+    const manejarImagen = (evento) => {
+        const seleccionado = evento.target.files?.[0] ?? null;
+
+        setErrorFormulario("");
+
+        if (!seleccionado) {
+            setArchivo(null);
+            setVistaPrevia("");
+            return;
+        }
+
+        const errorImagen = validarImagen(seleccionado);
+
+        if (errorImagen) {
+            setArchivo(null);
+            setVistaPrevia("");
+            setErrorFormulario(errorImagen);
+            evento.target.value = "";
+            return;
+        }
+
+        setArchivo(seleccionado);
+        setVistaPrevia(URL.createObjectURL(seleccionado));
     };
 
     const manejarEnvio = (evento) => {
         evento.preventDefault();
-        if (validarNombreProducto(datos.nombre) == false) {
-            alert("El nombre del perfume debe tener entre 1 y 100 caracteres.");
-            return;
-        }
-        if (!["Masculino", "Femenino", "Unisex"].includes(datos.categoria)) {
-            alert("Debes seleccionar una categoría válida para el perfume.");
-            return;
-        }
-        if (validarMarca(datos.marca) == false) {
-            alert("Debes seleccionar una marca para el perfume.");
-            return;
-        }
-        if (validarPrecio(Number(datos.precio)) == false) {
-            alert("El precio debe ser mayor a 0 y no puede tener decimales.");
-            return;
-        }
-        if (validarStock(Number(datos.stock)) == false) {
-            alert("El stock no puede ser negativo ni tener decimales.");
-            return;
-        }
-        const productoGuardar = {
-            ...datos,
-            ...(esEdicion ? { id: producto.id } : {}),
-            precio: Number(datos.precio),
-            precioAnterior: datos.precioAnterior === ""
-                ? null
-                : Number(datos.precioAnterior),
-            stock: Number(datos.stock)
-        };
 
-        if (
-            !Number.isFinite(productoGuardar.precio) ||
-            productoGuardar.precio <= 0 ||
-            !Number.isInteger(productoGuardar.stock) ||
-            productoGuardar.stock < 0 ||
-            (
-                productoGuardar.precioAnterior !== null &&
-                (
-                    !Number.isFinite(productoGuardar.precioAnterior) ||
-                    productoGuardar.precioAnterior < 0
-                )
-            )
-        ) {
-            alert("Revisa el precio y el stock ingresados.");
+        const errorValidacion = validarDatosProducto(datos, archivo, esEdicion);
+
+        if (errorValidacion) {
+            setErrorFormulario(errorValidacion);
             return;
         }
 
-        onGuardar?.(productoGuardar);
+        setErrorFormulario("");
+
+        onGuardar?.(
+            {
+                ...datos,
+                activo: producto?.activo ?? true
+            },
+            archivo
+        );
     };
+
+    const imagenMostrada = vistaPrevia || producto?.imagen || "";
+    const mensajeError = errorFormulario || error;
 
     return (
         <section className="formulario-producto">
@@ -132,7 +205,7 @@ function FormularioProducto({
 
             <div className="formulario-producto-linea"></div>
 
-            <form onSubmit={manejarEnvio}>
+            <form onSubmit={manejarEnvio} noValidate>
 
                 <div className="row g-3">
 
@@ -144,47 +217,53 @@ function FormularioProducto({
                             valor={datos.nombre}
                             onChange={manejarCambio}
                             requerido={true}
+                            deshabilitado={guardando}
                         />
                     </div>
-                    <div className="col-12">
-                        <label htmlFor="categoria" className="form-label">
+
+                    <div className="col-12 col-md-6">
+                        <label htmlFor="idCategoria" className="form-label">
                             Categoría del perfume
                         </label>
-                        
+
                         <select
-                            id="categoria"
-                            name="categoria"
+                            id="idCategoria"
+                            name="idCategoria"
                             className="form-select"
-                            value={datos.categoria}
+                            value={datos.idCategoria}
                             onChange={manejarCambio}
+                            disabled={guardando}
                             required
                         >
                             <option value="">Selecciona una categoría</option>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Femenino">Femenino</option>
-                            <option value="Unisex">Unisex</option>
+                            {categorias.map((categoria) => (
+                                <option key={categoria.id} value={categoria.id}>
+                                    {categoria.nombre}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
-                    <div className="col-12">
-                        <label htmlFor="marca" className="form-label">
+                    <div className="col-12 col-md-6">
+                        <label htmlFor="idMarca" className="form-label">
                             Marca del perfume
                         </label>
 
                         <select
-                            id="marca"
-                            name="marca"
+                            id="idMarca"
+                            name="idMarca"
                             className="form-select"
-                            value={datos.marca}
+                            value={datos.idMarca}
                             onChange={manejarCambio}
+                            disabled={guardando}
                             required
                         >
                             <option value="">Selecciona una marca</option>
-                            <option value="Ralph Lauren">Ralph Lauren</option>
-                            <option value="Carolina Herrera">Carolina Herrera</option>
-                            <option value="Yves Saint Laurent">Yves Saint Laurent</option>
-                            <option value="Dior">Dior</option>
-                            <option value="Versace">Versace</option>
+                            {marcas.map((marca) => (
+                                <option key={marca.id} value={marca.id}>
+                                    {marca.nombre}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
@@ -195,7 +274,7 @@ function FormularioProducto({
                             placeholder="Descripción del perfume"
                             valor={datos.descripcion}
                             onChange={manejarCambio}
-                            requerido={true}
+                            deshabilitado={guardando}
                         />
                     </div>
 
@@ -204,36 +283,27 @@ function FormularioProducto({
                             etiqueta="Precio"
                             tipo="number"
                             nombre="precio"
-                            placeholder="Ej: 64"
+                            placeholder="Ej: 64000"
                             valor={datos.precio}
                             onChange={manejarCambio}
                             requerido={true}
+                            deshabilitado={guardando}
                         />
                     </div>
 
                     <div className="col-12 col-md-6">
                         <CampoFormulario
-                            etiqueta="Precio anterior (opcional)"
+                            etiqueta="Precio de oferta (opcional)"
                             tipo="number"
-                            nombre="precioAnterior"
-                            placeholder="Ej: 80"
-                            valor={datos.precioAnterior}
+                            nombre="precioOferta"
+                            placeholder="Ej: 55000"
+                            valor={datos.precioOferta}
                             onChange={manejarCambio}
+                            deshabilitado={guardando}
                         />
                     </div>
 
-                    <div className="col-12">
-                        <CampoFormulario
-                            etiqueta="Ruta de imagen"
-                            nombre="imagen"
-                            placeholder="/imagenes/263-Polo-Blue.webp"
-                            valor={datos.imagen}
-                            onChange={manejarCambio}
-                            requerido={true}
-                        />
-                    </div>
-
-                    <div className="col-12">
+                    <div className="col-12 col-md-6">
                         <CampoFormulario
                             etiqueta="Stock disponible"
                             tipo="number"
@@ -242,21 +312,73 @@ function FormularioProducto({
                             valor={datos.stock}
                             onChange={manejarCambio}
                             requerido={true}
+                            deshabilitado={guardando}
                         />
+                    </div>
+
+                    <div className="col-12 col-md-6">
+                        <CampoFormulario
+                            etiqueta="Volumen en ml (opcional)"
+                            tipo="number"
+                            nombre="volumenMl"
+                            placeholder="Ej: 100"
+                            valor={datos.volumenMl}
+                            onChange={manejarCambio}
+                            deshabilitado={guardando}
+                        />
+                    </div>
+
+                    <div className="col-12">
+                        <div className="form-check">
+                            <input
+                                id="destacado"
+                                name="destacado"
+                                type="checkbox"
+                                className="form-check-input"
+                                checked={datos.destacado}
+                                onChange={manejarCambio}
+                                disabled={guardando}
+                            />
+                            <label htmlFor="destacado" className="form-check-label">
+                                Mostrar como producto destacado
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className="col-12">
+                        <label htmlFor="imagen" className="form-label">
+                            {esEdicion
+                                ? "Nueva imagen (opcional)"
+                                : "Imagen del perfume"}
+                        </label>
+
+                        <input
+                            id="imagen"
+                            name="imagen"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            className="form-control"
+                            onChange={manejarImagen}
+                            disabled={guardando}
+                        />
+
+                        <div className="form-text">
+                            JPG, PNG o WEBP de hasta 1 MB. Se publica en ImgBB al guardar.
+                        </div>
                     </div>
 
                 </div>
 
-                {datos.imagen.trim() !== "" && (
+                {imagenMostrada !== "" && (
                     <div className="formulario-producto-vista">
 
                         <Texto
                             etiqueta="h3"
-                            contenido="Vista previa"
+                            contenido={vistaPrevia ? "Vista previa" : "Imagen actual"}
                         />
 
                         <Imagen
-                            src={datos.imagen}
+                            src={imagenMostrada}
                             alt="Vista previa del perfume"
                             className="formulario-producto-imagen"
                         />
@@ -264,17 +386,28 @@ function FormularioProducto({
                     </div>
                 )}
 
+                {mensajeError && (
+                    <Mensaje
+                        texto={mensajeError}
+                        variante="danger"
+                        className="formulario-producto-error"
+                    />
+                )}
+
                 <div className="formulario-producto-acciones">
 
                     <Boton
                         texto={
-                            esEdicion
-                                ? "Guardar cambios"
-                                : "Agregar producto"
+                            guardando
+                                ? "Guardando..."
+                                : esEdicion
+                                    ? "Guardar cambios"
+                                    : "Agregar producto"
                         }
                         tipo="submit"
                         variante="marca"
                         className="formulario-producto-guardar"
+                        deshabilitado={guardando}
                     />
 
                     <Boton
@@ -282,6 +415,7 @@ function FormularioProducto({
                         tipo="button"
                         variante="outline-secondary"
                         onClick={onCancelar}
+                        deshabilitado={guardando}
                     />
 
                 </div>

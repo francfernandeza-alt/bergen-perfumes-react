@@ -4,134 +4,212 @@ import FormularioProducto from '../../../components/organisms/FormularioProducto
 
 describe('FormularioProducto Component', () => {
 
+    const marcas = [
+        { id: 3, nombre: 'Ralph Lauren' },
+        { id: 5, nombre: 'Dior' }
+    ];
+
+    const categorias = [
+        { id: 1, nombre: 'Masculino' },
+        { id: 2, nombre: 'Femenino' }
+    ];
+
     const productoEjemplo = {
         id: 1,
         nombre: 'Polo Blue',
-        marca: 'Ralph Lauren',
-        descripcion: 'Perfume para hombre',
-        precio: 64,
-        precioAnterior: 80,
-        imagen: '/imagenes/263-Polo-Blue.webp',
-        stock: 10
+        idCategoria: 1,
+        idMarca: 3,
+        descripcion: 'Fragancia fresca',
+        precio: 64000,
+        precioOferta: null,
+        stock: 15,
+        volumenMl: 125,
+        destacado: false,
+        activo: true,
+        imagen: 'https://i.ibb.co/abc/polo-blue.webp'
     };
 
-    const seleccionarCategoria = () => {
-        const categoria = screen.getByLabelText(/Categoría/i);
+    const crearArchivo = (tipo = 'image/png', nombre = 'perfume.png') =>
+        new File([new Uint8Array(100)], nombre, { type: tipo });
 
-        const opcionValida = Array.from(categoria.options).find(
-            (opcion) => opcion.value !== '' && !opcion.disabled
-        );
+    const renderFormulario = (props = {}) => render(
+        <FormularioProducto
+            marcas={marcas}
+            categorias={categorias}
+            {...props}
+        />
+    );
 
-        expect(opcionValida).toBeDefined();
-
-        fireEvent.change(categoria, {
-            target: { value: opcionValida.value }
+    const cambiar = (etiqueta, valor) => {
+        fireEvent.change(screen.getByLabelText(etiqueta), {
+            target: { value: valor }
         });
-
-        return opcionValida.value;
     };
+
+    const completarFormulario = () => {
+        cambiar('Nombre del perfume', 'Polo Blue');
+        cambiar('Categoría del perfume', '1');
+        cambiar('Marca del perfume', '3');
+        cambiar('Precio', '64000');
+        cambiar('Stock disponible', '15');
+    };
+
+    const seleccionarImagen = (archivo) => {
+        fireEvent.change(screen.getByLabelText(/imagen/i), {
+            target: { files: [archivo] }
+        });
+    };
+
+    const enviar = () => {
+        fireEvent.submit(screen.getByRole('button', {
+            name: /Agregar producto|Guardar cambios/
+        }).closest('form'));
+    };
+
 
     it('carga correctamente los datos al editar un producto', () => {
-        render(
-            <FormularioProducto producto={productoEjemplo} />
-        );
+        renderFormulario({ producto: productoEjemplo });
 
-        const titulo = screen.getByText('Editar producto');
-        const nombre = screen.getByLabelText('Nombre del perfume');
-        const marca = screen.getByLabelText('Marca del perfume');
-        const precio = screen.getByLabelText('Precio');
-        const stock = screen.getByLabelText('Stock disponible');
+        expect(screen.getByText('Editar producto')).toBeTruthy();
+        expect(screen.getByLabelText('Nombre del perfume').value).toBe('Polo Blue');
+        expect(screen.getByLabelText('Categoría del perfume').value).toBe('1');
+        expect(screen.getByLabelText('Marca del perfume').value).toBe('3');
+        expect(screen.getByLabelText('Precio').value).toBe('64000');
+        expect(screen.getByLabelText('Volumen en ml (opcional)').value).toBe('125');
 
-        expect(titulo).toBeTruthy();
-        expect(nombre.value).toBe('Polo Blue');
-        expect(marca.value).toBe('Ralph Lauren');
-        expect(precio.value).toBe('64');
-        expect(stock.value).toBe('10');
+        expect(screen.getByText('Imagen actual')).toBeTruthy();
+        expect(screen.getByAltText('Vista previa del perfume').getAttribute('src'))
+            .toBe('https://i.ibb.co/abc/polo-blue.webp');
     });
 
-    it('ejecuta onGuardar con los datos correctos', () => {
+
+    it('muestra las marcas y categorías recibidas', () => {
+        renderFormulario();
+
+        expect(screen.getByRole('option', { name: 'Dior' })).toBeTruthy();
+        expect(screen.getByRole('option', { name: 'Femenino' })).toBeTruthy();
+    });
+
+
+    it('entrega los datos y el archivo seleccionado al guardar', () => {
         const mockGuardar = jasmine.createSpy('onGuardar');
 
-        render(
-            <FormularioProducto onGuardar={mockGuardar} />
-        );
+        renderFormulario({ onGuardar: mockGuardar });
 
-        fireEvent.change(screen.getByLabelText('Nombre del perfume'), {
-            target: { value: 'Polo Blue' }
-        });
+        completarFormulario();
+        cambiar('Precio de oferta (opcional)', '55000');
+        fireEvent.click(screen.getByLabelText('Mostrar como producto destacado'));
 
-        fireEvent.change(screen.getByLabelText('Marca del perfume'), {
-            target: { value: 'Ralph Lauren' }
-        });
+        const archivo = crearArchivo();
+        seleccionarImagen(archivo);
 
-        const categoriaSeleccionada = seleccionarCategoria();
+        expect(screen.getByText('Vista previa')).toBeTruthy();
 
-        fireEvent.change(screen.getByLabelText('Descripción'), {
-            target: { value: 'Perfume para hombre' }
-        });
-
-        fireEvent.change(screen.getByLabelText('Precio'), {
-            target: { value: '64' }
-        });
-
-        fireEvent.change(screen.getByLabelText('Ruta de imagen'), {
-            target: { value: '/imagenes/263-Polo-Blue.webp' }
-        });
-
-        fireEvent.change(screen.getByLabelText('Stock disponible'), {
-            target: { value: '10' }
-        });
-
-        const boton = screen.getByRole('button', {
-            name: 'Agregar producto'
-        });
-
-        fireEvent.submit(boton.closest('form'));
+        enviar();
 
         expect(mockGuardar).toHaveBeenCalledTimes(1);
 
-        expect(mockGuardar).toHaveBeenCalledWith({
+        const [datos, archivoEnviado] = mockGuardar.calls.mostRecent().args;
+
+        expect(datos).toEqual(jasmine.objectContaining({
             nombre: 'Polo Blue',
-            marca: 'Ralph Lauren',
-            categoria: categoriaSeleccionada,
-            descripcion: 'Perfume para hombre',
-            precio: 64,
-            precioAnterior: null,
-            imagen: '/imagenes/263-Polo-Blue.webp',
-            stock: 10
-        });
+            idCategoria: '1',
+            idMarca: '3',
+            precio: '64000',
+            precioOferta: '55000',
+            stock: '15',
+            destacado: true,
+            activo: true
+        }));
+
+        expect(archivoEnviado).toBe(archivo);
     });
+
 
     it('no permite guardar un producto con stock negativo', () => {
         const mockGuardar = jasmine.createSpy('onGuardar');
-        const mockAlert = spyOn(window, 'alert');
 
-        render(
-            <FormularioProducto
-                producto={productoEjemplo}
-                onGuardar={mockGuardar}
-            />
-        );
+        renderFormulario({ onGuardar: mockGuardar });
 
-        seleccionarCategoria();
+        completarFormulario();
+        cambiar('Stock disponible', '-5');
+        seleccionarImagen(crearArchivo());
 
-        const stock = screen.getByLabelText('Stock disponible');
-
-        fireEvent.change(stock, {
-            target: { value: '-1' }
-        });
-
-        const boton = screen.getByRole('button', {
-            name: 'Guardar cambios'
-        });
-
-        fireEvent.submit(boton.closest('form'));
+        enviar();
 
         expect(mockGuardar).not.toHaveBeenCalled();
+        expect(
+            screen.getByText('El stock debe ser un número entero mayor o igual a 0.')
+        ).toBeTruthy();
+    });
 
-        expect(mockAlert).toHaveBeenCalledWith(
-            'El stock no puede ser negativo ni tener decimales.'
-        );
+
+    it('no permite un precio de oferta mayor o igual al precio', () => {
+        const mockGuardar = jasmine.createSpy('onGuardar');
+
+        renderFormulario({ onGuardar: mockGuardar });
+
+        completarFormulario();
+        cambiar('Precio de oferta (opcional)', '64000');
+        seleccionarImagen(crearArchivo());
+
+        enviar();
+
+        expect(mockGuardar).not.toHaveBeenCalled();
+        expect(screen.getByText(/El precio de oferta debe ser/)).toBeTruthy();
+    });
+
+
+    it('exige una imagen al crear un producto', () => {
+        const mockGuardar = jasmine.createSpy('onGuardar');
+
+        renderFormulario({ onGuardar: mockGuardar });
+
+        completarFormulario();
+        enviar();
+
+        expect(mockGuardar).not.toHaveBeenCalled();
+        expect(screen.getByText('Debes seleccionar una imagen del perfume.')).toBeTruthy();
+    });
+
+
+    it('rechaza imágenes con formato no permitido al seleccionarlas', () => {
+        renderFormulario();
+
+        seleccionarImagen(crearArchivo('image/gif', 'animacion.gif'));
+
+        expect(screen.getByText('Formato no permitido. Usa JPG, PNG o WEBP.')).toBeTruthy();
+        expect(screen.queryByText('Vista previa')).toBeNull();
+    });
+
+
+    it('permite editar sin cambiar la imagen', () => {
+        const mockGuardar = jasmine.createSpy('onGuardar');
+
+        renderFormulario({ producto: productoEjemplo, onGuardar: mockGuardar });
+
+        cambiar('Stock disponible', '20');
+        enviar();
+
+        const [datos, archivo] = mockGuardar.calls.mostRecent().args;
+
+        expect(datos.stock).toBe('20');
+        expect(archivo).toBeNull();
+    });
+
+
+    it('muestra el error recibido y bloquea el formulario mientras guarda', () => {
+        renderFormulario({
+            guardando: true,
+            error: 'No se pudo subir la imagen: ImgBB no pudo procesar la imagen'
+        });
+
+        expect(
+            screen.getByText('No se pudo subir la imagen: ImgBB no pudo procesar la imagen')
+        ).toBeTruthy();
+
+        expect(screen.getByRole('button', { name: 'Guardando...' }).disabled).toBeTrue();
+        expect(screen.getByLabelText('Nombre del perfume').disabled).toBeTrue();
     });
 
 });

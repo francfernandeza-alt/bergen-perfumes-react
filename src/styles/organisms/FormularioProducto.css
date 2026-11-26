@@ -70,6 +70,12 @@
     object-fit: contain;
 }
 
+/* MENSAJE DE ERROR */
+
+.formulario-producto .formulario-producto-error {
+    margin: 25px 0 0;
+}
+
 /* BOTONES */
 
 .formulario-producto-acciones {

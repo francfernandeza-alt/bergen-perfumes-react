@@ -7,20 +7,26 @@ import Mensaje from "../atoms/Mensaje";
 
 import "../../styles/organisms/TablaProductosAdmin.css";
 
+function formatearPrecio(valor) {
+    return `$${Number(valor).toLocaleString("es-CL")}`;
+}
+
 function TablaProductosAdmin({
     productos = [],
     onEditar,
-    onEliminar
+    onDesactivar,
+    puedeAdministrar = true,
+    procesandoId = null
 }) {
 
-    const confirmarEliminacion = (producto) => {
+    const confirmarDesactivacion = (producto) => {
 
         const confirmado = window.confirm(
-            `¿Estás seguro de eliminar "${producto.nombre}"?`
+            `¿Desactivar "${producto.nombre}"? Dejará de mostrarse en el catálogo.`
         );
 
         if (confirmado) {
-            onEliminar?.(producto.id);
+            onDesactivar?.(producto);
         }
     };
 
@@ -64,9 +70,11 @@ function TablaProductosAdmin({
                             <tr>
                                 <th>Imagen</th>
                                 <th>Producto</th>
+                                <th>Categoría</th>
                                 <th>Precio</th>
                                 <th>Stock</th>
-                                <th>Acciones</th>
+                                <th>Estado</th>
+                                {puedeAdministrar && <th>Acciones</th>}
                             </tr>
                         </thead>
 
@@ -77,11 +85,20 @@ function TablaProductosAdmin({
                                 <tr key={producto.id}>
 
                                     <td>
-                                        <Imagen
-                                            src={producto.imagen}
-                                            alt={producto.nombre}
-                                            className="tabla-productos-admin-imagen"
-                                        />
+                                        {producto.imagen ? (
+                                            <Imagen
+                                                src={producto.imagen}
+                                                alt={producto.nombre}
+                                                className="tabla-productos-admin-imagen"
+                                            />
+                                        ) : (
+                                            <span
+                                                className="tabla-productos-admin-sin-imagen"
+                                                title="Sin imagen"
+                                            >
+                                                <Icono nombre="image" />
+                                            </span>
+                                        )}
                                     </td>
 
                                     <td>
@@ -89,13 +106,36 @@ function TablaProductosAdmin({
                                             contenido={producto.nombre}
                                             className="tabla-productos-admin-nombre"
                                         />
+
+                                        {producto.marca && (
+                                            <Texto
+                                                contenido={producto.marca}
+                                                className="tabla-productos-admin-marca"
+                                            />
+                                        )}
                                     </td>
 
                                     <td>
-                                        <Texto
-                                            contenido={`$${producto.precio.toLocaleString("es-CL")}`}
-                                            className="tabla-productos-admin-precio"
-                                        />
+                                        {producto.categoria ?? "—"}
+                                    </td>
+
+                                    <td>
+                                        {producto.precioOferta != null ? (
+                                            <>
+                                                <Texto
+                                                    contenido={formatearPrecio(producto.precioOferta)}
+                                                    className="tabla-productos-admin-precio"
+                                                />
+                                                <del className="tabla-productos-admin-precio-normal">
+                                                    {formatearPrecio(producto.precio)}
+                                                </del>
+                                            </>
+                                        ) : (
+                                            <Texto
+                                                contenido={formatearPrecio(producto.precio)}
+                                                className="tabla-productos-admin-precio"
+                                            />
+                                        )}
                                     </td>
 
                                     <td>
@@ -115,28 +155,56 @@ function TablaProductosAdmin({
                                     </td>
 
                                     <td>
-
-                                        <div className="tabla-productos-admin-acciones">
-
-                                            <Boton
-                                                texto="Editar"
-                                                variante="outline-primary"
-                                                onClick={() =>
-                                                    onEditar?.(producto)
+                                        <div className="tabla-productos-admin-estado">
+                                            <span
+                                                className={
+                                                    producto.activo
+                                                        ? "badge bg-secondary"
+                                                        : "badge bg-light text-dark"
                                                 }
-                                            />
+                                            >
+                                                {producto.activo ? "Activo" : "Inactivo"}
+                                            </span>
 
-                                            <Boton
-                                                texto="Eliminar"
-                                                variante="outline-danger"
-                                                onClick={() =>
-                                                    confirmarEliminacion(producto)
-                                                }
-                                            />
-
+                                            {producto.destacado && (
+                                                <span className="badge bg-warning text-dark">
+                                                    Destacado
+                                                </span>
+                                            )}
                                         </div>
-
                                     </td>
+
+                                    {puedeAdministrar && (
+                                        <td>
+
+                                            <div className="tabla-productos-admin-acciones">
+
+                                                <Boton
+                                                    texto="Editar"
+                                                    variante="outline-primary"
+                                                    deshabilitado={procesandoId === producto.id}
+                                                    onClick={() =>
+                                                        onEditar?.(producto)
+                                                    }
+                                                />
+
+                                                <Boton
+                                                    texto={
+                                                        procesandoId === producto.id
+                                                            ? "Desactivando..."
+                                                            : "Desactivar"
+                                                    }
+                                                    variante="outline-danger"
+                                                    deshabilitado={procesandoId === producto.id}
+                                                    onClick={() =>
+                                                        confirmarDesactivacion(producto)
+                                                    }
+                                                />
+
+                                            </div>
+
+                                        </td>
+                                    )}
 
                                 </tr>
 

@@ -8,16 +8,26 @@ describe('TablaProductosAdmin Component', () => {
         {
             id: 1,
             nombre: 'Polo Blue',
-            imagen: '/imagenes/polo-blue.webp',
-            precio: 64,
-            stock: 10
+            marca: 'Ralph Lauren',
+            categoria: 'Masculino',
+            imagen: 'https://i.ibb.co/abc/polo-blue.webp',
+            precio: 64000,
+            precioOferta: null,
+            stock: 10,
+            activo: true,
+            destacado: true
         },
         {
             id: 2,
             nombre: 'Versace Eros',
-            imagen: '/imagenes/versace-eros.webp',
-            precio: 50,
-            stock: 0
+            marca: 'Versace',
+            categoria: 'Masculino',
+            imagen: null,
+            precio: 70000,
+            precioOferta: 50000,
+            stock: 0,
+            activo: true,
+            destacado: false
         }
     ];
 
@@ -25,41 +35,60 @@ describe('TablaProductosAdmin Component', () => {
     it('muestra un mensaje cuando no hay productos registrados', () => {
         render(<TablaProductosAdmin productos={[]} />);
 
-        const mensaje = screen.getByText(
-            'No hay productos registrados.'
-        );
-
-        const total = screen.getByText('Total de productos: 0');
-
-        expect(mensaje).toBeTruthy();
-        expect(total).toBeTruthy();
+        expect(screen.getByText('No hay productos registrados.')).toBeTruthy();
+        expect(screen.getByText('Total de productos: 0')).toBeTruthy();
     });
 
 
-    it('muestra correctamente los productos y su stock', () => {
+    it('muestra nombre, marca, categoría, precio, stock y estado', () => {
         render(
             <TablaProductosAdmin productos={productosEjemplo} />
         );
 
-        const producto1 = screen.getByText('Polo Blue');
-        const producto2 = screen.getByText('Versace Eros');
+        const fila = screen.getByText('Polo Blue').closest('tr');
 
-        const stockDisponible = screen.getByText('10 disponibles');
-        const sinStock = screen.getByText('Sin stock');
+        expect(within(fila).getByText('Ralph Lauren')).toBeTruthy();
+        expect(within(fila).getByText('Masculino')).toBeTruthy();
+        expect(within(fila).getByText('10 disponibles')).toBeTruthy();
+        expect(within(fila).getByText('Activo')).toBeTruthy();
+        expect(within(fila).getByText('Destacado')).toBeTruthy();
 
-        const total = screen.getByText('Total de productos: 2');
-
-        expect(producto1).toBeTruthy();
-        expect(producto2).toBeTruthy();
-        expect(stockDisponible).toBeTruthy();
-        expect(sinStock).toBeTruthy();
-        expect(total).toBeTruthy();
+        expect(screen.getByText('Sin stock')).toBeTruthy();
+        expect(screen.getByText('Total de productos: 2')).toBeTruthy();
     });
 
 
-    it('permite editar y confirmar la eliminación de un producto', () => {
+    it('muestra la imagen alojada externamente o un marcador si no tiene', () => {
+        render(
+            <TablaProductosAdmin productos={productosEjemplo} />
+        );
+
+        const imagen = screen.getByAltText('Polo Blue');
+
+        expect(imagen.getAttribute('src'))
+            .toBe('https://i.ibb.co/abc/polo-blue.webp');
+
+        const filaSinImagen = screen.getByText('Versace Eros').closest('tr');
+
+        expect(within(filaSinImagen).getByTitle('Sin imagen')).toBeTruthy();
+    });
+
+
+    it('muestra el precio de oferta y el precio normal tachado', () => {
+        render(
+            <TablaProductosAdmin productos={productosEjemplo} />
+        );
+
+        const fila = screen.getByText('Versace Eros').closest('tr');
+
+        expect(within(fila).getByText('$50.000')).toBeTruthy();
+        expect(within(fila).getByText('$70.000').tagName).toBe('DEL');
+    });
+
+
+    it('permite editar y pide confirmación antes de desactivar', () => {
         const mockEditar = jasmine.createSpy('onEditar');
-        const mockEliminar = jasmine.createSpy('onEliminar');
+        const mockDesactivar = jasmine.createSpy('onDesactivar');
 
         const mockConfirmar = spyOn(window, 'confirm')
             .and.returnValue(false);
@@ -68,38 +97,72 @@ describe('TablaProductosAdmin Component', () => {
             <TablaProductosAdmin
                 productos={productosEjemplo}
                 onEditar={mockEditar}
-                onEliminar={mockEliminar}
+                onDesactivar={mockDesactivar}
             />
         );
 
         const fila = screen.getByText('Polo Blue').closest('tr');
 
-        const botonEditar = within(fila).getByRole('button', {
-            name: 'Editar'
-        });
-
-        const botonEliminar = within(fila).getByRole('button', {
-            name: 'Eliminar'
-        });
-
-        fireEvent.click(botonEditar);
+        fireEvent.click(
+            within(fila).getByRole('button', { name: 'Editar' })
+        );
 
         expect(mockEditar).toHaveBeenCalledWith(productosEjemplo[0]);
 
-        fireEvent.click(botonEliminar);
+        const botonDesactivar = within(fila).getByRole('button', {
+            name: 'Desactivar'
+        });
 
-        expect(mockEliminar).not.toHaveBeenCalled();
+        fireEvent.click(botonDesactivar);
+
+        expect(mockDesactivar).not.toHaveBeenCalled();
 
         mockConfirmar.and.returnValue(true);
 
-        fireEvent.click(botonEliminar);
+        fireEvent.click(botonDesactivar);
 
         expect(mockConfirmar).toHaveBeenCalledWith(
-            '¿Estás seguro de eliminar "Polo Blue"?'
+            '¿Desactivar "Polo Blue"? Dejará de mostrarse en el catálogo.'
         );
 
-        expect(mockEliminar).toHaveBeenCalledTimes(1);
-        expect(mockEliminar).toHaveBeenCalledWith(1);
+        expect(mockDesactivar).toHaveBeenCalledOnceWith(productosEjemplo[0]);
+    });
+
+
+    it('oculta las acciones cuando el usuario no puede administrar', () => {
+        render(
+            <TablaProductosAdmin
+                productos={productosEjemplo}
+                puedeAdministrar={false}
+            />
+        );
+
+        expect(screen.queryByText('Acciones')).toBeNull();
+        expect(screen.queryByRole('button', { name: 'Editar' })).toBeNull();
+        expect(screen.queryByRole('button', { name: 'Desactivar' })).toBeNull();
+
+        // El listado sigue visible para consulta
+        expect(screen.getByText('Polo Blue')).toBeTruthy();
+    });
+
+
+    it('deshabilita las acciones del producto que se está procesando', () => {
+        render(
+            <TablaProductosAdmin
+                productos={productosEjemplo}
+                procesandoId={1}
+            />
+        );
+
+        const fila = screen.getByText('Polo Blue').closest('tr');
+
+        expect(
+            within(fila).getByRole('button', { name: 'Desactivando...' }).disabled
+        ).toBeTrue();
+
+        expect(
+            within(fila).getByRole('button', { name: 'Editar' }).disabled
+        ).toBeTrue();
     });
 
 });

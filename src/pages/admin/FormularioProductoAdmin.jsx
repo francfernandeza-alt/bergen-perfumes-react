@@ -1,15 +1,24 @@
 
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import FormularioProducto from "../../components/organisms/FormularioProducto";
 import Texto from "../../components/atoms/Texto";
 import Boton from "../../components/atoms/Boton";
+import Mensaje from "../../components/atoms/Mensaje";
 
 import {
-    obtenerProductoPorId,
-    agregarProducto,
-    actualizarProducto
-} from "../../scripts/storage/storage";
+    listarProductosAdmin,
+    obtenerProductoAdmin,
+    crearProducto,
+    actualizarProducto,
+    obtenerOpcionesCatalogo
+} from "../../services/adminProductoService.js";
+
+import {
+    subirImagen,
+    asignarImagenPrincipal
+} from "../../services/imagenService.js";
 
 import "../../styles/pages/FormularioProductoAdmin.css";
 
@@ -20,40 +29,121 @@ function FormularioProductoAdmin() {
 
     // Si existe un ID, estamos editando.
     // Si no existe, estamos agregando.
-
     const esEdicion = id !== undefined;
 
-    // Consultar el producto desde localStorage
+    const [producto, setProducto] = useState(null);
+    const [opciones, setOpciones] = useState({ marcas: [], categorias: [] });
+    const [cargando, setCargando] = useState(true);
+    const [errorCarga, setErrorCarga] = useState("");
+    const [noEncontrado, setNoEncontrado] = useState(false);
+    const [guardando, setGuardando] = useState(false);
+    const [errorGuardar, setErrorGuardar] = useState("");
 
-    const productoSeleccionado = esEdicion
-        ? obtenerProductoPorId(id)
-        : null;
+    // Cargar marcas, categorías y, al editar, el producto seleccionado
+    useEffect(() => {
+        let activo = true;
 
-    // GUARDAR PRODUCTO
+        async function cargar() {
+            setCargando(true);
+            setErrorCarga("");
+            setNoEncontrado(false);
 
-    const guardarProducto = (datosProducto) => {
+            try {
+                const [productos, seleccionado] = await Promise.all([
+                    listarProductosAdmin(),
+                    esEdicion ? obtenerProductoAdmin(id) : Promise.resolve(null)
+                ]);
 
-        if (esEdicion) {
+                if (!activo) {
+                    return;
+                }
 
-            // Actualizar producto existente
+                if (esEdicion && !seleccionado) {
+                    setNoEncontrado(true);
+                    return;
+                }
 
-            const actualizado = actualizarProducto(datosProducto);
+                // Incluir la marca y categoría del producto editado aunque esté inactivo
+                const lista = seleccionado
+                    ? [...productos, seleccionado]
+                    : productos;
 
-            if (!actualizado) {
-                alert("No se pudo actualizar el producto.");
-                return;
+                setOpciones(obtenerOpcionesCatalogo(lista));
+                setProducto(seleccionado);
+
+            } catch (e) {
+                if (activo) {
+                    setErrorCarga(e.message);
+                }
+            } finally {
+                if (activo) {
+                    setCargando(false);
+                }
             }
-
-        } else {
-
-            // Agregar producto nuevo
-
-            agregarProducto(datosProducto);
         }
 
-        // Regresar a la tabla de productos
+        cargar();
 
-        navigate("/admin/productos");
+        return () => {
+            activo = false;
+        };
+    }, [id, esEdicion]);
+
+    // GUARDAR PRODUCTO
+    // 1. Subir la imagen a ImgBB (si se eligió una)
+    // 2. Crear o actualizar el producto
+    // 3. Asociar la URL de ImgBB como imagen principal
+
+    const guardarProducto = async (datos, archivo) => {
+
+        setGuardando(true);
+        setErrorGuardar("");
+
+        let urlImagen = null;
+
+        if (archivo) {
+            try {
+                urlImagen = await subirImagen(archivo);
+            } catch (e) {
+                // No se guardó nada: el formulario conserva los datos para reintentar
+                setErrorGuardar(`No se pudo subir la imagen: ${e.message}`);
+                setGuardando(false);
+                return;
+            }
+        }
+
+        let guardado;
+
+        try {
+            guardado = esEdicion
+                ? await actualizarProducto(id, datos)
+                : await crearProducto(datos);
+        } catch (e) {
+            setErrorGuardar(e.message);
+            setGuardando(false);
+            return;
+        }
+
+        let aviso = {
+            tipo: "success",
+            texto: esEdicion
+                ? `"${guardado.nombre}" se actualizó correctamente.`
+                : `"${guardado.nombre}" se creó correctamente.`
+        };
+
+        if (urlImagen) {
+            try {
+                await asignarImagenPrincipal(guardado.id, urlImagen, guardado.nombre);
+            } catch {
+                aviso = {
+                    tipo: "warning",
+                    texto: `"${guardado.nombre}" se guardó, pero no se pudo asociar la imagen. Edítalo para intentarlo de nuevo.`
+                };
+            }
+        }
+
+        // Regresar a la tabla de productos con el resultado
+        navigate("/admin/productos", { state: { aviso } });
     };
 
     // CANCELAR
@@ -62,9 +152,40 @@ function FormularioProductoAdmin() {
         navigate("/admin/productos");
     };
 
+    // CARGANDO
+
+    if (cargando) {
+        return (
+            <div className="formulario-producto-admin">
+                <Mensaje
+                    texto={esEdicion ? "Cargando producto..." : "Cargando formulario..."}
+                    variante="secondary"
+                />
+            </div>
+        );
+    }
+
+    // ERROR AL CARGAR
+
+    if (errorCarga) {
+        return (
+            <div className="formulario-producto-admin">
+
+                <Mensaje texto={errorCarga} variante="danger" />
+
+                <Boton
+                    texto="Volver a productos"
+                    variante="outline-secondary"
+                    onClick={cancelar}
+                />
+
+            </div>
+        );
+    }
+
     // PRODUCTO NO ENCONTRADO
 
-    if (esEdicion && !productoSeleccionado) {
+    if (noEncontrado) {
         return (
             <div className="formulario-producto-admin">
 
@@ -122,9 +243,13 @@ function FormularioProductoAdmin() {
             <div className="formulario-producto-admin-contenido">
 
                 <FormularioProducto
-                    producto={productoSeleccionado}
+                    producto={producto}
+                    marcas={opciones.marcas}
+                    categorias={opciones.categorias}
                     onGuardar={guardarProducto}
                     onCancelar={cancelar}
+                    guardando={guardando}
+                    error={errorGuardar}
                 />
 
             </div>

@@ -78,6 +78,18 @@
     border-radius: 10px;
 }
 
+.tabla-productos-admin-sin-imagen {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 65px;
+    height: 75px;
+    color: #b5ada0;
+    font-size: 24px;
+    background-color: #f8f6f1;
+    border-radius: 10px;
+}
+
 /* INFORMACIÓN */
 
 .tabla-productos-admin-nombre {
@@ -86,10 +98,27 @@
     font-weight: 700;
 }
 
+.tabla-productos-admin-marca {
+    margin: 2px 0 0;
+    color: #666666;
+    font-size: 13px;
+}
+
 .tabla-productos-admin-precio {
     margin: 0;
     color: var(--bergen-text);
     font-weight: 600;
+}
+
+.tabla-productos-admin-precio-normal {
+    color: #999999;
+    font-size: 13px;
+}
+
+.tabla-productos-admin-estado {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 /* ACCIONES */

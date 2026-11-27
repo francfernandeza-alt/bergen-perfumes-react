@@ -7,7 +7,7 @@ import { obtenerTokenCsrf } from "./autenticacionService.js";
 // productoService.js, que los adapta para el catálogo público.
 
 export const API_URL =
-    import.meta.env?.VITE_API_URL || "http://localhost:8081/api";
+    import.meta.env?.VITE_API_URL || "http://localhost:8081/api/v2";
 
 const URL_PRODUCTOS = `${API_URL}/productos`;
 

@@ -90,7 +90,7 @@ describe('FormularioProductoAdmin Component', () => {
 
     it('carga marcas y categorías desde los productos del backend', async () => {
         simularFetch({
-            'GET /api/productos': productosBackend
+            'GET /api/v2/productos': productosBackend
         });
 
         renderFormulario();
@@ -106,14 +106,14 @@ describe('FormularioProductoAdmin Component', () => {
     it('sube la imagen, crea el producto, asocia la imagen y vuelve al listado', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'GET /api/productos': productosBackend,
-            'POST /api/productos/imagenes/upload': { url: URL_IMGBB },
-            'POST /api/productos': conEstado(201, productoDTO({
+            'GET /api/v2/productos': productosBackend,
+            'POST /api/v2/productos/imagenes/upload': { url: URL_IMGBB },
+            'POST /api/v2/productos': conEstado(201, productoDTO({
                 idProducto: 30,
                 nombre: 'Sauvage',
                 imagenPrincipal: null
             })),
-            'POST /api/productos/30/imagen-principal': productoDTO({
+            'POST /api/v2/productos/30/imagen-principal': productoDTO({
                 idProducto: 30,
                 nombre: 'Sauvage',
                 imagenPrincipal: URL_IMGBB
@@ -133,9 +133,9 @@ describe('FormularioProductoAdmin Component', () => {
         const envios = solicitudes(espia).filter((s) => s.metodo === 'POST');
 
         expect(envios.map((s) => s.ruta)).toEqual([
-            '/api/productos/imagenes/upload',
-            '/api/productos',
-            '/api/productos/30/imagen-principal'
+            '/api/v2/productos/imagenes/upload',
+            '/api/v2/productos',
+            '/api/v2/productos/30/imagen-principal'
         ]);
 
         expect(JSON.parse(envios[1].opciones.body)).toEqual(jasmine.objectContaining({
@@ -153,8 +153,8 @@ describe('FormularioProductoAdmin Component', () => {
     it('no crea el producto si la imagen no se pudo subir', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'GET /api/productos': productosBackend,
-            'POST /api/productos/imagenes/upload': conEstado(502, {
+            'GET /api/v2/productos': productosBackend,
+            'POST /api/v2/productos/imagenes/upload': conEstado(502, {
                 mensaje: 'ImgBB no pudo procesar la imagen'
             })
         });
@@ -174,7 +174,7 @@ describe('FormularioProductoAdmin Component', () => {
         expect(screen.getByLabelText('Nombre del perfume').value).toBe('Sauvage');
 
         expect(
-            solicitudes(espia).some((s) => s.metodo === 'POST' && s.ruta === '/api/productos')
+            solicitudes(espia).some((s) => s.metodo === 'POST' && s.ruta === '/api/v2/productos')
         ).toBeFalse();
     });
 
@@ -182,10 +182,10 @@ describe('FormularioProductoAdmin Component', () => {
     it('avisa si el producto se guardó pero la imagen no se pudo asociar', async () => {
         simularFetch({
             ...RUTA_CSRF,
-            'GET /api/productos': productosBackend,
-            'POST /api/productos/imagenes/upload': { url: URL_IMGBB },
-            'POST /api/productos': conEstado(201, productoDTO({ idProducto: 30, nombre: 'Sauvage' })),
-            'POST /api/productos/30/imagen-principal': conEstado(500)
+            'GET /api/v2/productos': productosBackend,
+            'POST /api/v2/productos/imagenes/upload': { url: URL_IMGBB },
+            'POST /api/v2/productos': conEstado(201, productoDTO({ idProducto: 30, nombre: 'Sauvage' })),
+            'POST /api/v2/productos/30/imagen-principal': conEstado(500)
         });
 
         renderFormulario();
@@ -203,9 +203,9 @@ describe('FormularioProductoAdmin Component', () => {
     it('muestra el mensaje de validación del backend al crear', async () => {
         simularFetch({
             ...RUTA_CSRF,
-            'GET /api/productos': productosBackend,
-            'POST /api/productos/imagenes/upload': { url: URL_IMGBB },
-            'POST /api/productos': conEstado(404, { mensaje: 'Marca no encontrada: 5' })
+            'GET /api/v2/productos': productosBackend,
+            'POST /api/v2/productos/imagenes/upload': { url: URL_IMGBB },
+            'POST /api/v2/productos': conEstado(404, { mensaje: 'Marca no encontrada: 5' })
         });
 
         renderFormulario();
@@ -223,9 +223,9 @@ describe('FormularioProductoAdmin Component', () => {
     it('carga el producto al editar y lo actualiza sin cambiar la imagen', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'GET /api/productos': productosBackend,
-            'GET /api/productos/1': productoDTO(),
-            'PUT /api/productos/1': productoDTO({ stock: 30 })
+            'GET /api/v2/productos': productosBackend,
+            'GET /api/v2/productos/1': productoDTO(),
+            'PUT /api/v2/productos/1': productoDTO({ stock: 30 })
         });
 
         renderFormulario('/admin/productos/editar/1');
@@ -240,8 +240,8 @@ describe('FormularioProductoAdmin Component', () => {
 
         const metodos = solicitudes(espia).map((s) => `${s.metodo} ${s.ruta}`);
 
-        expect(metodos).toContain('PUT /api/productos/1');
-        expect(metodos).not.toContain('POST /api/productos/imagenes/upload');
+        expect(metodos).toContain('PUT /api/v2/productos/1');
+        expect(metodos).not.toContain('POST /api/v2/productos/imagenes/upload');
         expect(JSON.parse(
             solicitudes(espia).find((s) => s.metodo === 'PUT').opciones.body
         ).stock).toBe(30);
@@ -250,8 +250,8 @@ describe('FormularioProductoAdmin Component', () => {
 
     it('muestra un mensaje cuando el producto no existe y permite volver', async () => {
         simularFetch({
-            'GET /api/productos': productosBackend,
-            'GET /api/productos/999': conEstado(404, { mensaje: 'Producto no encontrado: 999' })
+            'GET /api/v2/productos': productosBackend,
+            'GET /api/v2/productos/999': conEstado(404, { mensaje: 'Producto no encontrado: 999' })
         });
 
         renderFormulario('/admin/productos/editar/999');

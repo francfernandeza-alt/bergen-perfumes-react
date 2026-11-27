@@ -23,7 +23,7 @@ import {
 describe('ProductosAdmin Component', () => {
 
     const sesion = (rol = 'ADMIN') => ({
-        'GET /api/autenticacion/sesion': {
+        'GET /api/v2/autenticacion/sesion': {
             idUsuario: 1,
             correo: 'admin@bergen.com',
             rol
@@ -70,7 +70,7 @@ describe('ProductosAdmin Component', () => {
     it('muestra un indicador de carga y luego los productos del backend', async () => {
         simularFetch({
             ...sesion(),
-            'GET /api/productos': productosBackend
+            'GET /api/v2/productos': productosBackend
         });
 
         renderPagina();
@@ -89,7 +89,7 @@ describe('ProductosAdmin Component', () => {
 
         simularFetch({
             ...sesion(),
-            'GET /api/productos': () => {
+            'GET /api/v2/productos': () => {
                 intentos++;
                 return intentos === 1
                     ? conEstado(500)
@@ -115,10 +115,10 @@ describe('ProductosAdmin Component', () => {
         const espia = simularFetch({
             ...sesion(),
             ...RUTA_CSRF,
-            'GET /api/productos': () => desactivado
+            'GET /api/v2/productos': () => desactivado
                 ? [productosBackend[1]]
                 : productosBackend,
-            'DELETE /api/productos/1': () => {
+            'DELETE /api/v2/productos/1': () => {
                 desactivado = true;
                 return conEstado(204);
             }
@@ -147,7 +147,7 @@ describe('ProductosAdmin Component', () => {
         expect(screen.getByText('Total de productos: 1')).toBeTruthy();
 
         expect(
-            solicitudes(espia).some((s) => s.metodo === 'DELETE' && s.ruta === '/api/productos/1')
+            solicitudes(espia).some((s) => s.metodo === 'DELETE' && s.ruta === '/api/v2/productos/1')
         ).toBeTrue();
     });
 
@@ -156,8 +156,8 @@ describe('ProductosAdmin Component', () => {
         simularFetch({
             ...sesion(),
             ...RUTA_CSRF,
-            'GET /api/productos': productosBackend,
-            'DELETE /api/productos/1': conEstado(403)
+            'GET /api/v2/productos': productosBackend,
+            'DELETE /api/v2/productos/1': conEstado(403)
         });
 
         spyOn(window, 'confirm').and.returnValue(true);
@@ -181,7 +181,7 @@ describe('ProductosAdmin Component', () => {
     it('permite navegar al formulario para agregar productos', async () => {
         simularFetch({
             ...sesion(),
-            'GET /api/productos': productosBackend
+            'GET /api/v2/productos': productosBackend
         });
 
         renderPagina();
@@ -197,7 +197,7 @@ describe('ProductosAdmin Component', () => {
     it('muestra el aviso recibido después de guardar un producto', async () => {
         simularFetch({
             ...sesion(),
-            'GET /api/productos': productosBackend
+            'GET /api/v2/productos': productosBackend
         });
 
         renderPagina({
@@ -213,7 +213,7 @@ describe('ProductosAdmin Component', () => {
     it('un usuario sin rol ADMIN solo puede consultar', async () => {
         const espia = simularFetch({
             ...sesion('VENDEDOR'),
-            'GET /api/productos': productosBackend
+            'GET /api/v2/productos': productosBackend
         });
 
         renderPagina();

@@ -6,7 +6,7 @@
 export const TOKEN_PRUEBA = 'token-prueba';
 
 export const RUTA_CSRF = {
-    'GET /api/autenticacion/csrf': { token: TOKEN_PRUEBA }
+    'GET /api/v2/autenticacion/csrf': { token: TOKEN_PRUEBA }
 };
 
 export function conEstado(status, cuerpo = null) {
@@ -56,7 +56,7 @@ export function solicitudes(espia) {
             ruta: new URL(url, 'http://localhost').pathname,
             opciones
         }))
-        .filter((s) => s.ruta !== '/api/autenticacion/csrf');
+        .filter((s) => s.ruta !== '/api/v2/autenticacion/csrf');
 }
 
 // ProductoDTO de ejemplo tal como lo devuelve el backend

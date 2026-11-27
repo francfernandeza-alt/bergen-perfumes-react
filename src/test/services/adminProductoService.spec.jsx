@@ -35,7 +35,7 @@ describe('adminProductoService', () => {
 
     it('lista productos y los adapta al formato del panel', async () => {
         simularFetch({
-            'GET /api/productos': [
+            'GET /api/v2/productos': [
                 productoDTO({ precioOferta: 55000 })
             ]
         });
@@ -57,7 +57,7 @@ describe('adminProductoService', () => {
 
     it('devuelve null cuando el producto no existe', async () => {
         simularFetch({
-            'GET /api/productos/99': conEstado(404, { mensaje: 'Producto no encontrado: 99' })
+            'GET /api/v2/productos/99': conEstado(404, { mensaje: 'Producto no encontrado: 99' })
         });
 
         expect(await obtenerProductoAdmin(99)).toBeNull();
@@ -66,7 +66,7 @@ describe('adminProductoService', () => {
     it('crea un producto enviando el DTO, la sesión y el token CSRF', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'POST /api/productos': conEstado(201, productoDTO({ idProducto: 20 }))
+            'POST /api/v2/productos': conEstado(201, productoDTO({ idProducto: 20 }))
         });
 
         const creado = await crearProducto(datosFormulario);
@@ -95,7 +95,7 @@ describe('adminProductoService', () => {
     it('actualiza un producto con PUT', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'PUT /api/productos/1': productoDTO({ stock: 3 })
+            'PUT /api/v2/productos/1': productoDTO({ stock: 3 })
         });
 
         const actualizado = await actualizarProducto(1, { ...datosFormulario, stock: '3' });
@@ -107,7 +107,7 @@ describe('adminProductoService', () => {
     it('desactiva un producto con DELETE', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'DELETE /api/productos/1': conEstado(204)
+            'DELETE /api/v2/productos/1': conEstado(204)
         });
 
         await desactivarProducto(1);
@@ -121,7 +121,7 @@ describe('adminProductoService', () => {
     it('muestra el mensaje de validación del backend', async () => {
         simularFetch({
             ...RUTA_CSRF,
-            'POST /api/productos': conEstado(400, {
+            'POST /api/v2/productos': conEstado(400, {
                 mensaje: 'El precio de oferta debe estar entre cero y el precio normal'
             })
         });
@@ -133,7 +133,7 @@ describe('adminProductoService', () => {
     it('informa cuando el usuario no tiene permisos', async () => {
         simularFetch({
             ...RUTA_CSRF,
-            'DELETE /api/productos/1': conEstado(403)
+            'DELETE /api/v2/productos/1': conEstado(403)
         });
 
         await expectAsync(desactivarProducto(1))

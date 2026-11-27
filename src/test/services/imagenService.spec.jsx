@@ -49,7 +49,7 @@ describe('imagenService', () => {
     it('sube la imagen al backend y devuelve la URL de ImgBB', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'POST /api/productos/imagenes/upload': { url: URL_IMGBB }
+            'POST /api/v2/productos/imagenes/upload': { url: URL_IMGBB }
         });
 
         const archivo = crearArchivo();
@@ -70,7 +70,7 @@ describe('imagenService', () => {
     it('nunca contacta a ImgBB directamente desde el navegador', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'POST /api/productos/imagenes/upload': { url: URL_IMGBB }
+            'POST /api/v2/productos/imagenes/upload': { url: URL_IMGBB }
         });
 
         await subirImagen(crearArchivo());
@@ -92,7 +92,7 @@ describe('imagenService', () => {
     it('muestra el error cuando ImgBB falla', async () => {
         simularFetch({
             ...RUTA_CSRF,
-            'POST /api/productos/imagenes/upload': conEstado(502, {
+            'POST /api/v2/productos/imagenes/upload': conEstado(502, {
                 mensaje: 'ImgBB no pudo procesar la imagen'
             })
         });
@@ -104,7 +104,7 @@ describe('imagenService', () => {
     it('asocia la URL como imagen principal del producto', async () => {
         const espia = simularFetch({
             ...RUTA_CSRF,
-            'POST /api/productos/7/imagen-principal': productoDTO({
+            'POST /api/v2/productos/7/imagen-principal': productoDTO({
                 idProducto: 7,
                 imagenPrincipal: URL_IMGBB
             })
